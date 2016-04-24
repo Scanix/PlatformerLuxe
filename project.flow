@@ -1,0 +1,41 @@
+{
+  luxe:{
+    window: {
+      width:1280,
+      height:720,
+      title:'NectoProject',
+      fullscreen:false,
+      if : {
+        ios : {
+          borderless:true
+        },
+        "!ios": {
+          borderless:false
+        }
+      }
+    }
+  },
+
+  project : {
+    name : 'empty',
+    version : '1.0.0',
+    author : 'luxeengine',
+
+    app : {
+      name : 'luxe_empty',
+      package : 'com.luxeengine.empty',
+      main : 'ch.nectoria.Main'
+    },
+
+    build : {
+      dependencies : {
+        luxe : '*',
+      }
+    },
+
+    files : {
+      config : 'config.json',
+      assets : 'assets/'
+    }
+  }
+}

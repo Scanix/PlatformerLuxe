@@ -1,0 +1,12 @@
+{
+    "textures" : [
+        { "id" : "assets/graphics/entity/player32.png" },
+        { "id" : "assets/graphics/entity/npc1.png" },
+        { "id" : "assets/graphics/entity/enemy_shadow.png" },
+        { "id" : "assets/graphics/splash/scanixgames.png" }
+    ],
+    "texts" : [
+        { "id" : "assets/maps/corcelles/level.tmx" },
+        { "id" : "assets/maps/house01/level.tmx" }
+    ]
+}

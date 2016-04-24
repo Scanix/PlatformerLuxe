@@ -1,0 +1,32 @@
+{
+    "idle" : {
+        "frame_size":{ "x":"16", "y":"32" },
+        "frameset": ["9"],
+        "loop": "false",
+        "speed": "0"
+    },
+    "walk" : {
+        "frame_size":{ "x":"16", "y":"32" },
+        "frameset": ["1-8"],
+        "loop": "true",
+        "speed": "10"
+    },
+    "jump" : {
+        "frame_size":{ "x":"16", "y":"32" },
+        "frameset": ["2"],
+        "loop": "false",
+        "speed": "0"
+    },
+    "fall" : {
+        "frame_size":{ "x":"16", "y":"32" },
+        "frameset": ["4"],
+        "loop": "false",
+        "speed": "0"
+    },
+    "hurt" : {
+        "frame_size":{ "x":"16", "y":"32" },
+        "frameset": ["5"],
+        "loop": "false",
+        "speed": "0"
+    }
+}
