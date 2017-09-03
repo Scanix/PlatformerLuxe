@@ -7,9 +7,10 @@ import luxe.collision.shapes.Polygon;
 import luxe.collision.Collision;
 import luxe.utils.Maths;
 
-class Physics extends Sprite {
+class Physics extends Sprite
+{
 
-  public var vx:Float = 0.0;
+	public var vx:Float = 0.0;
 	public var vy:Float = 0.0;
 	public var maxVx:Float = 10.0;
 	public var maxVy:Float = 10.0;
@@ -23,130 +24,145 @@ class Physics extends Sprite {
 	public var hasCollideLeft:Bool = false;
 	public var gravity:Float = 0.5;
 
-  public var hitBox:Shape;
+	public var hitBox:Shape;
 
-  public function new(pos:Vector) {
-    previousPosition_ = pos;
-    hitBox = Polygon.rectangle(pos.x,pos.y,8,23);
-
-    super({
-      pos: pos
-    });
-
-    texture = Luxe.resources.texture('assets/graphics/entity/player32.png');
-
-    NP.actor_list.push(this.hitBox);
-  }
-
-  override function update(dt:Float)
+	public function new(pos:Vector)
 	{
-    trace(Collision.shapeWithShapes(this.hitBox,NP.level_shape_list).length);
-    var c_array = Collision.shapeWithShapes(this.hitBox,NP.level_shape_list);
+		previousPosition_ = pos;
+		hitBox = Polygon.rectangle(pos.x,pos.y,8,23);
 
-    trace( collideAbove+" " + collideBelow+" " + collideRight+" " + collideLeft );
-    trace(previousPosition_.x);
+		super(
+		{
+			pos: pos
+		});
 
-    if(c_array.length == 0) {
-      collideRight = false;
-      collideLeft = false;
-      inAir = true;
-      collideAbove = false;
-      collideBelow = false;
-    }
+		texture = Luxe.resources.texture('assets/graphics/entity/player32.png');
 
-    for(c in c_array) {
-      hitBox.position = hitBox.position.add(c.separation);
+		NP.actor_list.push(this.hitBox);
+	}
 
-            if(c.unitVector.x < 0) {
-                //vx = 0;
-                collideRight = true;
-                collideLeft = false;
-            }
+	override function update(dt:Float)
+	{
+		trace(Collision.shapeWithShapes(this.hitBox,NP.level_shape_list).length);
+		var c_array = Collision.shapeWithShapes(this.hitBox,NP.level_shape_list);
 
-            if(c.unitVector.x > 0) {
-                //vx = 0;
-                collideLeft = true;
-                collideRight = false;
-            }
+		trace( collideAbove+" " + collideBelow+" " + collideRight+" " + collideLeft );
+		trace(previousPosition_.x);
 
-            if(c.unitVector.y != 0 && Maths.sign(c.unitVector.y) != Maths.sign(vy)) {
-                vy = 0;
-                if(c.unitVector.y < 0) {
-                    inAir = false;
-                    collideBelow = true;
-                }
-            } else {
-              inAir = true;
-            }
+		if (c_array.length == 0)
+		{
+			collideRight = false;
+			collideLeft = false;
+			inAir = true;
+			collideAbove = false;
+			collideBelow = false;
+		}
 
-    }
+		for (c in c_array)
+		{
+			hitBox.position.x += c.separationX;
+			hitBox.position.y += c.separationY;
 
-		if(vx > maxVx)
+			if (c.unitVectorX < 0)
+			{
+				//vx = 0;
+				collideRight = true;
+				collideLeft = false;
+			}
+
+			if (c.unitVectorX > 0)
+			{
+				//vx = 0;
+				collideLeft = true;
+				collideRight = false;
+			}
+
+			if (c.unitVectorY != 0 && Maths.sign(c.unitVectorY) != Maths.sign(vy))
+			{
+				vy = 0;
+				if (c.unitVectorY < 0)
+				{
+					inAir = false;
+					collideBelow = true;
+				}
+			}
+			else
+			{
+				inAir = true;
+			}
+
+		}
+
+		if (vx > maxVx)
 		{
 			vx = maxVx;
 		}
-		if(vx < -maxVx)
+		if (vx < -maxVx)
 		{
 			vx = -maxVx;
 		}
-		if(vy > maxVy)
+		if (vy > maxVy)
 		{
 			vy = maxVy;
 		}
-		if(vy < -maxVy)
+		if (vy < -maxVy)
 		{
 			vy = -maxVy;
 		}
-		if( (vx > 0 && vx < 0.1) || ( vx < 0 && vx > -0.1))
+		if ( (vx > 0 && vx < 0.1) || ( vx < 0 && vx > -0.1))
 		{
 			vx = 0.0;
 		}
-		if( (vy > 0 && vy < 0.2) || ( vy < 0 && vy > -0.2) )
+		if ( (vy > 0 && vy < 0.2) || ( vy < 0 && vy > -0.2) )
 		{
 			vy = 0.0;
 		}
 
 		vx *= friction;
 		var i:Int = 0;
-		while(i < Math.abs(vx))
+		while (i < Math.abs(vx))
 		{
 			var offsetX:Int;
-			if(vx > 0)
+			if (vx > 0)
 			{
 				offsetX = 1;
-			}else if(vx < 0)
+			}
+			else if (vx < 0)
 			{
 				offsetX = -1;
-			}else
+			}
+			else
 			{
 				offsetX = 0;
 			}
-      this.hitBox.position.x += offsetX;
+			this.hitBox.position.x += offsetX;
 			i ++;
 		}
 		var i2:Int = 0;
-		while(i2 < Math.abs(vy))
+		while (i2 < Math.abs(vy))
 		{
 			var offsetY:Int;
-			if(vy > 0)
+			if (vy > 0)
 			{
 				offsetY = 1;
-			}else if(vy < 0)
+			}
+			else if (vy < 0)
 			{
 				offsetY = -1;
-			}else
+			}
+			else
 			{
 				offsetY = 0;
 			}
-      this.hitBox.position.y += offsetY;
-      i2++;
+			this.hitBox.position.y += offsetY;
+			i2++;
 		}
-		if(inAir)
+		if (inAir)
 		{
 			vy += gravity;
 		}
-    this.pos.x = this.hitBox.position.x;
-    this.pos.y = this.hitBox.position.y - 4;
+		this.pos.x = this.hitBox.position.x;
+		this.pos.y = this.hitBox.position.y - 4;
 	}
 
 	private var previousPosition_:Vector;

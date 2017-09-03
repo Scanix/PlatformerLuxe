@@ -30,24 +30,27 @@ class NP
 	public static var actor_list:Array<luxe.collision.shapes.Shape> = [];
 	public static var level_shape_list:Array<luxe.collision.shapes.Shape> = [];
 
-	public static function drawDebug():Void {
-		for(shape in level_shape_list)   draw_collider_polygon(cast shape);
-		for(shape in actor_list)   draw_collider_polygon(cast shape);
+	public static function drawDebug():Void
+	{
+		for (shape in level_shape_list)   draw_collider_polygon(cast shape);
+		for (shape in actor_list)   draw_collider_polygon(cast shape);
 	}
 
-	public static function draw_collider_polygon(poly:Polygon) {
+	public static function draw_collider_polygon(poly:Polygon)
+	{
 
-			var geom = Luxe.draw.poly({
-					solid:false,
-					close:true,
-					depth:100,
-					points:poly.vertices,
-					immediate:true
-			});
+		var geom = Luxe.draw.poly(
+		{
+			solid:false,
+			close:true,
+			depth:100,
+			points:poly.vertices,
+			immediate:true
+		});
 
-			geom.transform.pos.copy_from(poly.position);
+		geom.transform.pos.copy_from(poly.position);
 
-	} //draw_collider_polygon
+	}
 
 	//global access
 	//public static var objectsSprite:Spritemap = new Spritemap("graphics/tilemap.png", 16, 16);

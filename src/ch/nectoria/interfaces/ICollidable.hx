@@ -1,6 +1,7 @@
 package ch.nectoria.interfaces;
 
-interface ICollidable {
+interface ICollidable
+{
 
 	public var pos(get,set):luxe.Vector;
 	public var shape:luxe.collision.shapes.Shape;
