@@ -15,6 +15,20 @@ class Main extends luxe.Game
 
 	public static var machine : States;
 	public static var fade:Fader;
+	
+	override function config(config:luxe.GameConfig) {
+
+        config.preload.textures.push({ id:'assets/shaders/level.png' });
+        config.preload.textures.push({ id:'assets/shaders/luxe.png' });
+        config.preload.textures.push({ id:'assets/shaders/distort.png' });
+
+        config.preload.shaders.push({ id:'hue', frag_id:'assets/shaders/huechange.glsl', vert_id:'default' });
+        config.preload.shaders.push({ id:'gray-tilt', frag_id:'assets/shaders/gray_tilt_shift.glsl', vert_id:'default' });
+        config.preload.shaders.push({ id:'distort', frag_id:'assets/shaders/distort.glsl', vert_id:'default' });
+
+        return config;
+
+    } //config
 
 	override function ready()
 	{
