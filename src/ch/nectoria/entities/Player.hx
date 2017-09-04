@@ -3,6 +3,7 @@ package ch.nectoria.entities;
 import luxe.Sprite;
 import luxe.Vector;
 import luxe.components.sprite.SpriteAnimation;
+import phoenix.Texture.FilterType;
 import ch.nectoria.states.GameState;
 import luxe.collision.shapes.Polygon;
 
@@ -21,7 +22,10 @@ class Player extends Physics
 		super(pos);
 
 		texture = Luxe.resources.texture('assets/graphics/entity/player32.png');
-		size = new Vector(16,32);
+		texture.filter_min = texture.filter_mag = FilterType.nearest;
+		size = new Vector(16, 32);
+		depth = 2.0;
+		hitBox = Polygon.rectangle(pos.x,pos.y,8,24);
 
 		var anim_object = Luxe.resources.json('assets/anim.json');
 		anim = this.add(new SpriteAnimation({ name: 'SpriteAnimation' }));

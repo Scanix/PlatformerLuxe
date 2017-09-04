@@ -91,8 +91,7 @@ class GameState extends State
 
 		spawn_pos = new Vector(100, 100);
 
-		var textPlayer = Luxe.resources.texture('assets/graphics/entity/player32.png');
-		textPlayer.filter_min = textPlayer.filter_mag = FilterType.nearest;
+		spawn_pos = new Vector(120, 100);
 
 		//And create the visual
 		player = new Player(spawn_pos.clone());
