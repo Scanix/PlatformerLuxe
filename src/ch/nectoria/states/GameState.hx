@@ -4,10 +4,12 @@ import luxe.States;
 import luxe.Scene;
 import luxe.Sprite;
 import ch.nectoria.NP;
+import ch.nectoria.entities.*;
 import luxe.importers.tiled.TiledMap;
+import luxe.importers.tiled.TiledMapData;
+import luxe.importers.tiled.TiledObjectGroup.TiledObject;
 import phoenix.Texture.FilterType;
 import ch.nectoria.components.LazyCameraFollow;
-import ch.nectoria.entities.Player;
 import luxe.collision.shapes.*;
 import luxe.collision.data.ShapeCollision;
 import luxe.Vector;
@@ -21,6 +23,7 @@ class GameState extends State
 	private var gameScene:Scene;
 	private var player:Player;
 	private var tilemap:TiledMap;
+	private var tilemapFront:TiledMap;
 	private var map_scale: Int = 1;
 	private var spawn_pos:Vector;
 
@@ -85,11 +88,36 @@ class GameState extends State
 			tiled_file_data: Luxe.resources.text(level).asset.text
 		});
 
-		//Luxe.camera.bounds = tilemap.bounds;
+		tilemapFront = new TiledMap({
+			format: 'tmx',
+			tiled_file_data: Luxe.resources.text(level).asset.text
+		});
 
+		//Luxe.camera.bounds = tilemap.bounds;
 		tilemap.display({ scale:map_scale, filter:FilterType.nearest });
 
-		spawn_pos = new Vector(100, 100);
+		// Load for objects
+		for (_group in tilemap.tiledmap_data.object_groups)
+		{
+			for (_object in _group.objects)
+			{
+				switch (_object.gid)
+				{
+					case 254:
+					//add(new Coin(object.x, object.y));
+					case 107:
+					gameScene.add(new Door(_object));
+					case 35:
+					//add(new Chest(object));
+					case 39:
+					//add(new Sign(object));
+					case 240:
+					//entityList.addEntity(object);
+					default:
+						trace("unknow type: " + _object.type);
+				}
+			}
+		}
 
 		spawn_pos = new Vector(120, 100);
 
@@ -97,6 +125,13 @@ class GameState extends State
 		player = new Player(spawn_pos.clone());
 
 		player.add(new LazyCameraFollow());
+
+		//Create seconde part of the map
+		tilemapFront.remove_layer("background");
+		tilemapFront.remove_layer("collide");
+		tilemapFront.remove_layer("between");
+		tilemapFront.remove_layer("objects");
+		tilemapFront.display({ scale:map_scale, filter:FilterType.nearest });
 
 		Main.fade.up();
 	}//loadLevel
@@ -110,7 +145,7 @@ class GameState extends State
 
 	override function update(dt:Float)
 	{
-		NP.drawDebug();
+		//NP.drawDebug();
 	} //update
 
 }
