@@ -41,7 +41,9 @@ class Main extends luxe.Game
 			{ id : "assets/graphics/entity/enemy_shadow.png" },
 			{ id : "assets/graphics/splash/scanixgames.png" },
 			{ id : "assets/graphics/tilemap.png" },
-			{ id : "assets/tilemap.png" }
+			{ id : "assets/tilemap.png" },
+			{ id : "assets/graphics/object/door_0.png" },
+			{ id : "assets/graphics/props/house_0.png" }
 			],
 			texts : [
 			{ id : "assets/maps/corcelles/level.tmx" },

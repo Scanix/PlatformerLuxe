@@ -145,7 +145,7 @@ class GameState extends State
 
 	override function update(dt:Float)
 	{
-		//NP.drawDebug();
+		NP.drawDebug();
 	} //update
 
 }

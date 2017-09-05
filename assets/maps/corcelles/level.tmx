@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="70" height="20" tilewidth="16" tileheight="16" nextobjectid="56">
- <tileset firstgid="1" name="tilemap" tilewidth="16" tileheight="16" tilecount="256">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="70" height="20" tilewidth="16" tileheight="16" nextobjectid="57">
+ <tileset firstgid="1" name="tilemap" tilewidth="16" tileheight="16" tilecount="256" columns="16">
   <image source="tilemap.png" width="256" height="256"/>
   <tile id="106">
    <properties>
@@ -768,7 +768,7 @@
    <tile gid="88"/>
    <tile gid="89"/>
    <tile gid="90"/>
-   <tile gid="91"/>
+   <tile gid="0"/>
    <tile gid="92"/>
    <tile gid="93"/>
    <tile gid="94"/>
@@ -1414,6 +1414,9 @@
    <tile gid="0"/>
   </data>
  </layer>
+ <imagelayer name="background_img" offsetx="238" offsety="113">
+  <image source="../../graphics/props/house_0.png" width="128" height="79"/>
+ </imagelayer>
  <layer name="between" width="70" height="20">
   <data>
    <tile gid="0"/>
@@ -5658,6 +5661,13 @@
   <object id="55" name="mrMoustache" gid="240" x="112" y="160" width="16" height="16">
    <properties>
     <property name="text" value="I'm an error... Kill me ;W;"/>
+   </properties>
+  </object>
+  <object id="56" gid="107" x="294" y="192" width="16" height="16">
+   <properties>
+    <property name="level" value="house01"/>
+    <property name="xTo" value="5"/>
+    <property name="yTo" value="5"/>
    </properties>
   </object>
  </objectgroup>
