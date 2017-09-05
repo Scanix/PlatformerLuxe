@@ -1,6 +1,5 @@
 package ch.nectoria;
 
-import luxe.Color;
 import luxe.Vector;
 import luxe.collision.shapes.Polygon;
 
@@ -33,11 +32,11 @@ class NP
 
 	public static function drawDebug():Void
 	{
-		for (shape in level_shape_list)   draw_collider_polygon(cast shape, new Color(0,1,0,1));
-		for (shape in actor_list)   draw_collider_polygon(cast shape, new Color(1,0,0,1));
+		for (shape in level_shape_list)   draw_collider_polygon(cast shape);
+		for (shape in actor_list)   draw_collider_polygon(cast shape);
 	}
 
-	public static function draw_collider_polygon(poly:Polygon, col:Color)
+	public static function draw_collider_polygon(poly:Polygon)
 	{
 
 		var geom = Luxe.draw.poly(
@@ -46,8 +45,7 @@ class NP
 			close:true,
 			depth:100,
 			points:poly.vertices,
-			immediate:true,
-			color:col
+			immediate:true
 		});
 
 		geom.transform.pos.copy_from(poly.position);
