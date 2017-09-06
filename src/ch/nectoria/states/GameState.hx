@@ -25,7 +25,8 @@ class GameState extends State
 	private var tilemap:TiledMap;
 	private var tilemapFront:TiledMap;
 	private var map_scale: Int = 1;
-	private var spawn_pos:Vector;
+	
+	private var currentLvl:String;
 
 	var anim : SpriteAnimation;
 
@@ -39,13 +40,15 @@ class GameState extends State
 
 	private function getLevelData(id:String):String
 	{
+		trace(id);
 		var level:String = "assets/maps/" + id + "/level.tmx";
-		if (level != null)
+		if (id != null)
 		{
+			trace("mince");
 			return level;
 		}
 		else {
-			return 'can\'t load level';
+			return "assets/maps/corcelles/level.tmx";
 		}
 	}//getLevelData
 
@@ -55,8 +58,7 @@ class GameState extends State
 
 		Luxe.events.listen('simulation.triggers.collide', ontrigger);
 
-		loadLevel();
-		levelColision();
+		loadLevel(currentLvl);
 	}//onenter
 
 	function levelColision()
@@ -74,13 +76,15 @@ class GameState extends State
 
 	} //create_map_collision
 
-	private function loadLevel():Void
+	private function loadLevel(id:String):Void
 	{
 		for (a in NP.actor_list) a.destroy();
+		for (a in NP.entity_shape_list) cast(a, Sprite).destroy();
 		NP.actor_list = [];
+		NP.entity_shape_list = [];
 		NP.level_shape_list = [];
 
-		var level:String = getLevelData(NP.currentLvl);
+		var level:String = getLevelData(id);
 		trace("Loading level: " + level);
 
 		tilemap = new TiledMap({
@@ -119,24 +123,39 @@ class GameState extends State
 			}
 		}
 
-		spawn_pos = new Vector(120, 100);
-
 		//And create the visual
-		player = new Player(spawn_pos.clone());
-
-		player.add(new LazyCameraFollow());
+		player = new Player(NP.posPlayer.clone());
+		NP.player = player;
 
 		//Create seconde part of the map
 		tilemapFront.remove_layer("background");
 		tilemapFront.remove_layer("collide");
 		tilemapFront.remove_layer("between");
 		tilemapFront.remove_layer("objects");
-		tilemapFront.display({ scale:map_scale, filter:FilterType.nearest });
-
+		tilemapFront.display({ scale:map_scale, filter:FilterType.nearest, depth:3 });
+		
+		trace(NP.entity_shape_list);
+		
+		levelColision();
 		Main.fade.up();
+		NP.frozenPlayer = false;
 	}//loadLevel
 
 	var teleport_disabled: Bool = false;
+	
+	public function switchLevel(xTo:Int, yTo:Int, levelTo:String):Void {
+		if (currentLvl == levelTo) {
+			player.pos.x = xTo;
+			player.pos.y = yTo;
+		} else {
+			currentLvl = levelTo;
+			NP.posPlayer.x = xTo;
+			NP.posPlayer.y = yTo;
+			NP.frozenPlayer = true;
+			tilemap.destroy();
+			Main.fade.out(.5, function() {loadLevel(currentLvl); });
+		}
+	}
 
 	function ontrigger(collisions:Array<ShapeCollision>)
 	{

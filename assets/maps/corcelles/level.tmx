@@ -1414,9 +1414,6 @@
    <tile gid="0"/>
   </data>
  </layer>
- <imagelayer name="background_img" offsetx="238" offsety="113">
-  <image source="../../graphics/props/house_0.png" width="128" height="79"/>
- </imagelayer>
  <layer name="between" width="70" height="20">
   <data>
    <tile gid="0"/>
@@ -5665,7 +5662,7 @@
   </object>
   <object id="56" gid="107" x="294" y="192" width="16" height="16">
    <properties>
-    <property name="level" value="house01"/>
+    <property name="level" value="house02"/>
     <property name="xTo" value="5"/>
     <property name="yTo" value="5"/>
    </properties>

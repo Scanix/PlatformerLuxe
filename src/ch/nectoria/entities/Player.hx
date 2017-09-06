@@ -1,5 +1,7 @@
 package ch.nectoria.entities;
 
+import ch.nectoria.components.ColliderComp;
+import ch.nectoria.components.LazyCameraFollow;
 import luxe.Sprite;
 import luxe.Vector;
 import luxe.components.sprite.SpriteAnimation;
@@ -14,30 +16,40 @@ class Player extends Physics
 	public var jumpSpeed:Float = 7.0;
 	public var climbing:Bool = false;
 	public var hasKey:Bool = false;
+	public var interactWith:Bool = false;
 
 	private var anim:SpriteAnimation;
 
 	public function new(pos:Vector):Void
 	{
 		super(pos);
-
+		
 		texture = Luxe.resources.texture('assets/graphics/entity/player32.png');
 		texture.filter_min = texture.filter_mag = FilterType.nearest;
 		size = new Vector(16, 32);
-		depth = 2.0;
-		hitBox = Polygon.rectangle(pos.x,pos.y,8,24);
+		depth = 3.0;
+		hitBox = Polygon.rectangle(pos.x, pos.y, 8, 24);
 
 		var anim_object = Luxe.resources.json('assets/anim.json');
 		anim = this.add(new SpriteAnimation({ name: 'SpriteAnimation' }));
 		anim.add_from_json_object( anim_object.asset.json );
+		
+		name = 'player';
 
 		anim.animation = 'idle';
 		anim.play();
+		
+		add(new LazyCameraFollow({ name: 'lazyCamera'}));
+		add(new ColliderComp({ name: 'collision handler'}));
+		
+		NP.actor_list.push(this);
 	}
 
 	override function update(dt:Float)
 	{
-		apply_input(dt);
+		if (!NP.frozenPlayer) {
+			apply_input(dt);	
+		}
 
 		if (vx != 0)
 		{
@@ -64,7 +76,7 @@ class Player extends Physics
 
 	function apply_input(dt:Float)
 	{
-		if ( Luxe.input.inputdown('jump') && !inAir /*&& /*collideBelow*/)
+		if ( Luxe.input.inputdown('jump') && !inAir && !interactWith /*&& /*collideBelow*/)
 		{
 			this.jump();
 		}
@@ -77,6 +89,11 @@ class Player extends Physics
 			this.moveRight();
 		}
 	} //update_input
+	
+	public function playWalk():Void
+	{
+		anim.animation = 'walk';
+	}
 
 	public function jump():Void
 	{

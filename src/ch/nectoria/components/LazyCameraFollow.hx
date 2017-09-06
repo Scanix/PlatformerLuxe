@@ -16,9 +16,7 @@ class LazyCameraFollow extends Component
 	override public function update(dt:Float):Void
 	{
 		var camX = entity.pos.x;
-		var camY = entity.pos.y;
-
-		trace(entity.pos.y);
+		var camY = 180 - 40;
 
 		Luxe.camera.focus(new Vector(camX, camY), dt);
 		/*Luxe.camera.rotation = Luxe.camera.rotation.multiply(new luxe.Quaternion().setFromEuler(new luxe.Vector(0, 0, 5).radians()));

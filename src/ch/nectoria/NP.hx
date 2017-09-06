@@ -1,5 +1,7 @@
 package ch.nectoria;
 
+import ch.nectoria.entities.Player;
+import ch.nectoria.interfaces.ICollidable;
 import luxe.Color;
 import luxe.Vector;
 import luxe.collision.shapes.Polygon;
@@ -22,19 +24,22 @@ class NP
 	public static var deadPlayer:Bool = false;
 	public static var posPlayer:Vector = new Vector(100, 100);
 	public static var frozenPlayer:Bool = false;
+	public static var player:Player;
 
 	//HUD
 	public static var currentCoinsCount:Int = 0;
 	public static var displayingMessage:Bool = false;
 
 	//Collisions
-	public static var actor_list:Array<luxe.collision.shapes.Shape> = [];
+	public static var actor_list:Array<Physics> = [];
 	public static var level_shape_list:Array<luxe.collision.shapes.Shape> = [];
+	public static var entity_shape_list:Array<ICollidable> = [];
 
 	public static function drawDebug():Void
 	{
-		for (shape in level_shape_list)   draw_collider_polygon(cast shape, new Color(0,1,0,1));
-		for (shape in actor_list)   draw_collider_polygon(cast shape, new Color(1,0,0,1));
+		for (shape in level_shape_list)   draw_collider_polygon(cast shape, new Color(0, 1, 0, 1));
+		for (shape in entity_shape_list)   draw_collider_polygon(cast shape.hitBox, new Color(0,0,1,1));
+		for (shape in actor_list)   draw_collider_polygon(cast shape.hitBox, new Color(1,0,0,1));
 	}
 
 	public static function draw_collider_polygon(poly:Polygon, col:Color)

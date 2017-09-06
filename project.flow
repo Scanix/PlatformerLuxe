@@ -17,13 +17,13 @@
   },
 
   project : {
-    name : 'empty',
-    version : '1.0.0',
-    author : 'luxeengine',
+    name : 'NectoProject',
+    version : 'Alpha 0.3',
+    author : 'Alexandre (Scanix) Bianchi',
 
     app : {
-      name : 'luxe_empty',
-      package : 'com.luxeengine.empty',
+      name : 'NectoProject',
+      package : 'ch.nectoria',
       main : 'ch.nectoria.Main'
     },
 

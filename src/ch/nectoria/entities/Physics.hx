@@ -1,5 +1,6 @@
 package ch.nectoria.entities;
 
+import ch.nectoria.interfaces.ICollidable;
 import luxe.Sprite;
 import luxe.Vector;
 import luxe.collision.shapes.Shape;
@@ -7,7 +8,7 @@ import luxe.collision.shapes.Polygon;
 import luxe.collision.Collision;
 import luxe.utils.Maths;
 
-class Physics extends Sprite
+class Physics extends Sprite implements ICollidable
 {
 
 	public var vx:Float = 0.0;
@@ -37,17 +38,11 @@ class Physics extends Sprite
 		});
 
 		texture = Luxe.resources.texture('assets/graphics/entity/player32.png');
-
-		NP.actor_list.push(this.hitBox);
 	}
 
 	override function update(dt:Float)
 	{
-		trace(Collision.shapeWithShapes(this.hitBox,NP.level_shape_list).length);
 		var c_array = Collision.shapeWithShapes(this.hitBox,NP.level_shape_list);
-
-		trace( collideAbove+" " + collideBelow+" " + collideRight+" " + collideLeft );
-		trace(previousPosition_.x);
 
 		if (c_array.length == 0)
 		{
@@ -163,6 +158,9 @@ class Physics extends Sprite
 		}
 		this.pos.x = this.hitBox.position.x;
 		this.pos.y = this.hitBox.position.y - 4;
+	}
+	
+	public function on_player_collision(is_pc:Bool):Void {
 	}
 
 	private var previousPosition_:Vector;

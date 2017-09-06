@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="12" height="7" tilewidth="16" tileheight="16" nextobjectid="5">
- <tileset firstgid="1" name="tilemap" tilewidth="16" tileheight="16" tilecount="256">
-  <image source="../../graphics/tilemap.png" width="256" height="256"/>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="12" height="7" tilewidth="16" tileheight="16" nextobjectid="5">
+ <tileset firstgid="1" name="tilemap" tilewidth="16" tileheight="16" tilecount="256" columns="16">
+  <image source="tilemap.png" width="256" height="256"/>
  </tileset>
  <layer name="background" width="12" height="7">
   <data>
@@ -58,7 +58,7 @@
    <tile gid="49"/>
    <tile gid="49"/>
    <tile gid="49"/>
-   <tile gid="49"/>
+   <tile gid="0"/>
    <tile gid="49"/>
    <tile gid="49"/>
    <tile gid="49"/>
@@ -146,7 +146,7 @@
    <tile gid="36"/>
    <tile gid="37"/>
    <tile gid="0"/>
-   <tile gid="91"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -356,13 +356,6 @@
   </data>
  </layer>
  <objectgroup name="objects">
-  <object id="2" gid="107" x="80" y="96" width="16" height="16">
-   <properties>
-    <property name="level" value="corcelles"/>
-    <property name="xTo" value="56"/>
-    <property name="yTo" value="11"/>
-   </properties>
-  </object>
   <object id="4" gid="35" x="160" y="96" width="16" height="16"/>
  </objectgroup>
 </map>

@@ -17,6 +17,11 @@ class Main extends luxe.Game
 	public static var fade:Fader;
 	
 	override function config(config:luxe.GameConfig) {
+		
+		config.window.title = 'LuxePlatformer';
+        config.window.width = 1280;
+        config.window.height = 720;
+        config.window.fullscreen = false;
 
         config.preload.textures.push({ id:'assets/shaders/level.png' });
         config.preload.textures.push({ id:'assets/shaders/luxe.png' });
@@ -82,7 +87,7 @@ class Main extends luxe.Game
 		Luxe.camera.zoom = 1;
 		fade = Luxe.camera.add(new Fader({ name:'fade' }));
 
-		fade.out( function()
+		fade.out( 0.5, function()
 		{
 			machine.set('splash_state');
 		});
