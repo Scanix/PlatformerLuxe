@@ -4,6 +4,10 @@
     <head>
 
         <link rel="icon" href="favicon.png"/>
+		<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
         <meta charset="utf-8">
 
         <style>
@@ -48,12 +52,17 @@
 		<h1>PlatformerLuxe</h1>
 
         <script type="text/javascript" src="./NectoProject.js"></script>
-		<canvas width="1280" height="720" id="app" style="width: 1280px; height: 720px; background: rgb(0, 0, 0);"></canvas>
 		
 		<footer>
         <p>© Scanix | Alexandre Bianchi | 2017 | <a href="https://github.com/Scanix/PlatformerLuxe">See on GitHub</a></p>
         <p><a href="https://github.com/Scanix/PlatformerLuxe/issues">Signal an issue</a></p>
         </footer>
+		
+		<script>
+		$( document ).ready(function() {
+			$('#app').after($('footer'));
+		});
+		</script>
 
     </body>
 
