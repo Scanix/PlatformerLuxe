@@ -15,25 +15,26 @@ class Main extends luxe.Game
 
 	public static var machine : States;
 	public static var fade:Fader;
-	
-	override function config(config:luxe.GameConfig) {
-		
+
+	override function config(config:luxe.GameConfig)
+	{
+
 		config.window.title = 'LuxePlatformer';
-        config.window.width = 1280;
-        config.window.height = 720;
-        config.window.fullscreen = false;
+		config.window.width = 1280;
+		config.window.height = 720;
+		config.window.fullscreen = false;
 
-        config.preload.textures.push({ id:'assets/shaders/level.png' });
-        config.preload.textures.push({ id:'assets/shaders/luxe.png' });
-        config.preload.textures.push({ id:'assets/shaders/distort.png' });
+		config.preload.textures.push({ id:'assets/shaders/level.png' });
+		config.preload.textures.push({ id:'assets/shaders/luxe.png' });
+		config.preload.textures.push({ id:'assets/shaders/distort.png' });
 
-        config.preload.shaders.push({ id:'hue', frag_id:'assets/shaders/huechange.glsl', vert_id:'default' });
-        config.preload.shaders.push({ id:'gray-tilt', frag_id:'assets/shaders/gray_tilt_shift.glsl', vert_id:'default' });
-        config.preload.shaders.push({ id:'distort', frag_id:'assets/shaders/distort.glsl', vert_id:'default' });
+		config.preload.shaders.push({ id:'hue', frag_id:'assets/shaders/huechange.glsl', vert_id:'default' });
+		config.preload.shaders.push({ id:'gray-tilt', frag_id:'assets/shaders/gray_tilt_shift.glsl', vert_id:'default' });
+		config.preload.shaders.push({ id:'distort', frag_id:'assets/shaders/distort.glsl', vert_id:'default' });
 
-        return config;
+		return config;
 
-    } //config
+	} //config
 
 	override function ready()
 	{
@@ -48,7 +49,8 @@ class Main extends luxe.Game
 			{ id : "assets/graphics/tilemap.png" },
 			{ id : "assets/tilemap.png" },
 			{ id : "assets/graphics/object/door_0.png" },
-			{ id : "assets/graphics/props/house_0.png" }
+			{ id : "assets/graphics/props/house_0.png" },
+			{ id : "assets/graphics/entity/interactionSign.png" }
 			],
 			texts : [
 			{ id : "assets/maps/corcelles/level.tmx" },
