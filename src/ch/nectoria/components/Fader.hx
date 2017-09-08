@@ -2,19 +2,28 @@ package ch.nectoria.components;
 
 import luxe.Sprite;
 import luxe.Color;
+import phoenix.Batcher;
+import phoenix.Camera;
 
 class Fader extends luxe.Component
 {
 
-	var overlay: Sprite;
+	public var overlay: Sprite;
+	public static var faderBatcher:Batcher;
 
 	override function init()
 	{
+		faderBatcher = new Batcher(Luxe.renderer,'fader_batcher');
+		faderBatcher.view = new Camera();
+		faderBatcher.layer = 10;
+		Luxe.renderer.add_batch(faderBatcher);
+		
 		overlay = new Sprite(
 		{
 			size: Luxe.screen.size,
 			color: new Color(0,0,0,0),
 			centered: false,
+			batcher: faderBatcher,
 			depth:99
 		});
 	}
