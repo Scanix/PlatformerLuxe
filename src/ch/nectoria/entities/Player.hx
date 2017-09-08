@@ -17,6 +17,7 @@ class Player extends Physics
 	public var climbing:Bool = false;
 	public var hasKey:Bool = false;
 	public var interactWith:Bool = false;
+	private var interactionSign:Sprite;
 
 	private var anim:SpriteAnimation;
 
@@ -38,6 +39,19 @@ class Player extends Physics
 
 		anim.animation = 'idle';
 		anim.play();
+		
+		//InteractionSign
+		var image = Luxe.resources.texture('assets/graphics/entity/interactionSign.png');
+		image.filter_min = image.filter_mag = FilterType.nearest;
+		
+		_add_child(interactionSign = new Sprite({
+			name: 'interactionSign',
+			texture: image,
+			pos: new Vector(this.pos.x, this.pos.y),
+			size: new Vector(16, 16),
+			depth: 5,
+			visible: false
+		}));
 		
 		add(new ColliderComp({ name: 'collision handler'}));
 		
@@ -68,6 +82,15 @@ class Player extends Physics
 		else
 		{
 			anim.animation = "idle";
+		}
+		
+		interactionSign.pos.x = this.pos.x;
+		interactionSign.pos.y = this.pos.y - 16;
+		
+		if (interactWith) {
+			interactionSign.visible = true;
+		} else {
+			interactionSign.visible = false;
 		}
 
 		super.update(dt);

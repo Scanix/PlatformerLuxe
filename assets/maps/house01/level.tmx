@@ -356,6 +356,13 @@
   </data>
  </layer>
  <objectgroup name="objects">
+  <object id="2" gid="107" x="80" y="96" width="16" height="16">
+   <properties>
+    <property name="level" value="corcelles"/>
+    <property name="xTo" value="56"/>
+    <property name="yTo" value="11"/>
+   </properties>
+  </object>
   <object id="4" gid="35" x="160" y="96" width="16" height="16"/>
  </objectgroup>
 </map>
