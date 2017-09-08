@@ -33,8 +33,8 @@ class Door extends Sprite implements ICollidable
 		hitBox = Polygon.rectangle(pos.x - 16, pos.y, 16, 32, false);
 
 		levelTo = object.properties["level"];
-		xTo = Std.parseInt(object.properties["xTo"])*16;
-		yTo = Std.parseInt(object.properties["yTo"]) * 16 - 16;
+		xTo = Std.parseInt(object.properties["xTo"])*16 + 8;
+		yTo = Std.parseInt(object.properties["yTo"]) * 16;
 
 		depth = 2.0;
 
