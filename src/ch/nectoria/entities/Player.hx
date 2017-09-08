@@ -39,7 +39,6 @@ class Player extends Physics
 		anim.animation = 'idle';
 		anim.play();
 		
-		add(new LazyCameraFollow({ name: 'lazyCamera'}));
 		add(new ColliderComp({ name: 'collision handler'}));
 		
 		NP.actor_list.push(this);

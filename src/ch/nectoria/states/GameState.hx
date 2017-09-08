@@ -126,6 +126,12 @@ class GameState extends State
 		//And create the visual
 		player = new Player(NP.posPlayer.clone());
 		NP.player = player;
+		
+		if (tilemap.total_width > Luxe.screen.h) {
+			player.add(new LazyCameraFollow("lazyCamera", "static", "follow", new Vector(tilemap.total_width, tilemap.total_height)));
+		} else {
+			player.add(new LazyCameraFollow("lazyCamera", "static", "static", new Vector(tilemap.total_width, tilemap.total_height)));
+		}
 
 		//Create seconde part of the map
 		tilemapFront.remove_layer("background");
@@ -137,8 +143,7 @@ class GameState extends State
 		trace(NP.entity_shape_list);
 		
 		levelColision();
-		Main.fade.up();
-		NP.frozenPlayer = false;
+		Main.fade.up(.5, function() {NP.frozenPlayer = false;});
 	}//loadLevel
 
 	var teleport_disabled: Bool = false;
@@ -153,6 +158,7 @@ class GameState extends State
 			NP.posPlayer.y = yTo;
 			NP.frozenPlayer = true;
 			tilemap.destroy();
+			tilemapFront.destroy();
 			Main.fade.out(.5, function() {loadLevel(currentLvl); });
 		}
 	}
@@ -164,7 +170,7 @@ class GameState extends State
 
 	override function update(dt:Float)
 	{
-		NP.drawDebug();
+		//NP.drawDebug();
 	} //update
 
 }
