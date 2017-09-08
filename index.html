@@ -59,7 +59,7 @@
         </footer>
 		
 		<script>
-		$( document ).ready(function() {
+		$(document).on('DOMNodeInserted', function(e) {
 			$('#app').after($('footer'));
 		});
 		</script>
