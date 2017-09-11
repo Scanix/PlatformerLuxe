@@ -1,0 +1,14 @@
+{
+	"idle" : {
+		"frame_size":{ "x":"256", "y":"48" },
+        "frameset": ["1"],
+        "loop": "false",
+        "speed": "6"
+    },
+	"callToAction" : {
+		"frame_size":{ "x":"256", "y":"48" },
+        "frameset": ["1-2"],
+        "loop": "true",
+        "speed": "6"
+    }
+}

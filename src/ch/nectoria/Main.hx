@@ -50,13 +50,19 @@ class Main extends luxe.Game
 			{ id : "assets/tilemap.png" },
 			{ id : "assets/graphics/object/door_0.png" },
 			{ id : "assets/graphics/props/house_0.png" },
-			{ id : "assets/graphics/entity/interactionSign.png" }
+			{ id : "assets/graphics/entity/interactionSign.png" },
+			{ id : "assets/graphics/object/sign.png" },
+			{ id : "assets/graphics/ui/messagebox.png" },
 			],
 			texts : [
 			{ id : "assets/maps/corcelles/level.tmx" },
 			{ id : "assets/maps/house01/level.tmx" }
 			],
-			jsons:[ { id:'assets/anim.json' } ]
+			jsons:[ 
+			{ id:'assets/anim.json' },
+			{ id:'assets/graphics/object/chest.json' },
+			{ id:'assets/graphics/ui/messagebox.json' }
+			]
 		});
 
 		// show a loading bar

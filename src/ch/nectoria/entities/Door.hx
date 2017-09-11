@@ -47,7 +47,6 @@ class Door extends Sprite implements ICollidable
 
 		origin = new Vector(16, 0);
 		
-		trace(this);
 		NP.entity_shape_list.push(this);
 	}
 
@@ -56,9 +55,9 @@ class Door extends Sprite implements ICollidable
 		super.update(dt);
 	} //update
 
-	public function on_player_collision(is_pc:Bool):Void
+	public function on_player_collision(is_player:Bool):Void
 	{
-		if (is_pc)
+		if (is_player)
 		{
 			if (Luxe.input.inputdown('jump'))
 			{

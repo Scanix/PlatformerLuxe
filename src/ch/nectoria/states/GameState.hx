@@ -1,5 +1,7 @@
 package ch.nectoria.states;
 
+import ch.nectoria.ui.MessageBox;
+import luxe.Entity;
 import luxe.States;
 import luxe.Scene;
 import luxe.Sprite;
@@ -27,6 +29,8 @@ class GameState extends State
 	private var map_scale: Int = 1;
 	
 	private var currentLvl:String;
+	
+	public var messageBox:Entity;
 
 	var anim : SpriteAnimation;
 
@@ -57,6 +61,8 @@ class GameState extends State
 		Luxe.camera.zoom = 5;
 
 		Luxe.events.listen('simulation.triggers.collide', ontrigger);
+		
+		messageBox = new MessageBox();
 
 		loadLevel(currentLvl);
 	}//onenter
@@ -114,7 +120,7 @@ class GameState extends State
 					case 35:
 					//add(new Chest(object));
 					case 39:
-					//add(new Sign(object));
+					gameScene.add(new Sign(_object));
 					case 240:
 					//entityList.addEntity(object);
 					default:
@@ -170,7 +176,7 @@ class GameState extends State
 
 	override function update(dt:Float)
 	{
-		//NP.drawDebug();
+		NP.drawDebug();
 	} //update
 
 }
