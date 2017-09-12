@@ -19,7 +19,16 @@ class MessageBox extends Entity
 	private var boxSprite:Sprite;
 	private var boxAnim:SpriteAnimation;
 	private var textSprite:Text;
+	private var typewriter:String = "";
+	private var message:String;
+	private var characterIndex:UInt = 0;
+	private var positionText:Int = 0;
+	private var numberLine:UInt = 1;
 	public var isShown:Bool = false;
+	private var paused:Bool = false;
+	
+	private var textTick:UInt = 0;
+	private static inline var TEXT_SPEED:UInt = 1;
 
 	public function new() 
 	{
@@ -64,7 +73,7 @@ class MessageBox extends Entity
 	{
 		isShown = true;
 		
-		textSprite.text = text;
+		message = text;
 		textSprite.visible = true;
 		boxSprite.visible = true;
 		
@@ -76,13 +85,74 @@ class MessageBox extends Entity
 		super.update(dt);
 		
 		if (isShown) {
-			trace("salut");
+			Luxe.next(function() {typewriterEffect(); });
 			if (Luxe.input.inputpressed('jump'))
+			{
+				this.resume();
+			}
+		}
+	}
+	
+	private function typewriterEffect():Void {
+		
+			textSprite.text = typewriter;
+			var char:String = message.charAt(positionText);
+			
+			if (textTick == 0 && !paused && positionText < message.length)
+			{
+				textTick = TEXT_SPEED;
+				trace(char);
+				if (char == '*')
+				{
+					// New line.
+					if (numberLine == 4)
+					{
+						// There is more dialog. Show the indicator and wait.
+						paused = true;
+					}
+					else
+					{
+						typewriter = typewriter.substring(0, positionText);
+						typewriter += '\n';
+						numberLine++;
+						positionText++;
+					}
+				}
+				else
+				{
+					if (positionText < message.length)
+					{
+						typewriter += message.charAt(positionText);
+						positionText++;
+					}
+				}
+			}
+			else if (positionText >= message.length)
+			{
+				paused = true;
+			}
+			else
+			{
+				textTick--;
+			}
+	}
+	
+	public function resume():Void
+	{
+		if (paused)
+		{
+			if (positionText >= message.length)
 			{
 				this.close();
 			}
-		} else {
-			trace("pas là");
+			else
+			{
+				typewriter = "";
+				positionText++;
+				numberLine = 0;
+				paused = false;
+				textTick = 0;
+			}
 		}
 	}
 	
@@ -91,8 +161,13 @@ class MessageBox extends Entity
 		Luxe.next(function() {isShown = false; });
 		
 		textSprite.text = "";
+		typewriter = "";
+		characterIndex = 0;
+		positionText = 0;
+		numberLine = 1;
 		textSprite.visible = false;
 		boxSprite.visible = false;
+		paused = false;
 		
 		NP.frozenPlayer = false;
 	}
