@@ -77,7 +77,7 @@ class MessageBox extends Entity
 		
 		if (isShown) {
 			trace("salut");
-			if (Luxe.input.inputreleased('jump'))
+			if (Luxe.input.inputpressed('jump'))
 			{
 				this.close();
 			}
@@ -88,7 +88,7 @@ class MessageBox extends Entity
 	
 	public function close():Void
 	{
-		isShown = false;
+		Luxe.next(function() {isShown = false; });
 		
 		textSprite.text = "";
 		textSprite.visible = false;
