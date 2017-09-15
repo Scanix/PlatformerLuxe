@@ -28,5 +28,11 @@
         "frameset": ["5"],
         "loop": "false",
         "speed": "0"
+    },
+	"talk" : {
+        "frame_size":{ "x":"16", "y":"32" },
+        "frameset": ["9-10"],
+        "loop": "true",
+        "speed": "5"
     }
 }
