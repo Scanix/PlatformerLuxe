@@ -1,0 +1,14 @@
+{
+	"close" : {
+		"frame_size":{ "x":"16", "y":"16" },
+        "frameset": ["1"],
+        "loop": "false",
+        "speed": "6"
+    },
+	"open" : {
+		"frame_size":{ "x":"16", "y":"16" },
+        "frameset": ["2"],
+        "loop": "false",
+        "speed": "6"
+    }
+}
