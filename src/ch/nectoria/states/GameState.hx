@@ -84,7 +84,7 @@ class GameState extends State
 
 	private function loadLevel(id:String):Void
 	{
-		for (a in NP.actor_list) a.destroy();
+		//for (a in NP.actor_list) a.destroy();
 		for (a in NP.entity_shape_list) cast(a, Sprite).destroy();
 		NP.actor_list = [];
 		NP.entity_shape_list = [];
@@ -114,18 +114,17 @@ class GameState extends State
 				switch (_object.gid)
 				{
 					case 254:
-					//add(new Coin(object.x, object.y));
+						//add(new Coin(object.x, object.y));
 					case 107:
-					gameScene.add(new Door(_object));
+						gameScene.add(new Door(_object));
 					case 35:
-					//add(new Chest(object));
+						//add(new Chest(object));
 					case 39:
-					gameScene.add(new Sign(_object));
+						gameScene.add(new Sign(_object));
 					case 240:
-					//entityList.addEntity(object);
 						EntityManager.addEntity(_object);
 					default:
-						trace("unknow type: " + _object.type);
+							trace("unknow type: " + _object.type);
 				}
 			}
 		}
