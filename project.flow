@@ -3,7 +3,7 @@
     window: {
       width:1280,
       height:720,
-      title:'NectoProject',
+      title:'PlatformerLuxe',
       fullscreen:false,
       if : {
         ios : {
@@ -17,8 +17,8 @@
   },
 
   project : {
-    name : 'NectoProject',
-    version : 'Alpha 0.3',
+    name : 'PlatformerLuxe',
+    version : 'Alpha 0.5.2',
     author : 'Alexandre (Scanix) Bianchi',
 
     app : {
