@@ -8,11 +8,11 @@ import luxe.components.sprite.SpriteAnimation;
 import phoenix.Texture.FilterType;
 import ch.nectoria.states.GameState;
 import luxe.collision.shapes.Polygon;
+import luxe.collision.shapes.Shape;
 
 class Player extends Physics
 {
 
-	public var speed:Float = 1.0;
 	public var jumpSpeed:Float = 7.0;
 	public var climbing:Bool = false;
 	public var hasKey:Bool = false;
@@ -29,7 +29,8 @@ class Player extends Physics
 		texture.filter_min = texture.filter_mag = FilterType.nearest;
 		size = new Vector(16, 32);
 		depth = 3.0;
-		hitBox = Polygon.rectangle(pos.x, pos.y, 8, 24);
+		hitBox = Polygon.rectangle(pos.x, pos.y, 15, 24);
+		hitBoxPhys = Polygon.rectangle(pos.x, pos.y, 8, 24);
 
 		var anim_object = Luxe.resources.json('assets/anim.json');
 		anim = this.add(new SpriteAnimation({ name: 'SpriteAnimation' }));
@@ -54,8 +55,6 @@ class Player extends Physics
 		}));
 		
 		add(new ColliderComp({ name: 'collision handler'}));
-		
-		NP.actor_list.push(this);
 	}
 
 	override function update(dt:Float)

@@ -22,7 +22,7 @@ class NP
 	public static var currentPlayerHealth:Int = 1;
 	public static var maxPlayerHealth:Int = 3;
 	public static var deadPlayer:Bool = false;
-	public static var posPlayer:Vector = new Vector(100, 100);
+	public static var posPlayer:Vector = new Vector(120, 100);
 	public static var frozenPlayer:Bool = false;
 	public static var player:Player;
 
@@ -39,7 +39,7 @@ class NP
 	{
 		for (shape in level_shape_list)   draw_collider_polygon(cast shape, new Color(0, 1, 0, 1));
 		for (shape in entity_shape_list)   draw_collider_polygon(cast shape.hitBox, new Color(0,0,1,1));
-		for (shape in actor_list)   draw_collider_polygon(cast shape.hitBox, new Color(1,0,0,1));
+		for (shape in actor_list)   draw_collider_polygon(cast shape.hitBoxPhys, new Color(1,0,0,1));
 	}
 
 	public static function draw_collider_polygon(poly:Polygon, col:Color)

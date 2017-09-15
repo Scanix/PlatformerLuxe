@@ -13,6 +13,7 @@ class Physics extends Sprite implements ICollidable
 
 	public var vx:Float = 0.0;
 	public var vy:Float = 0.0;
+	public var speed:Float = 1.0;
 	public var maxVx:Float = 10.0;
 	public var maxVy:Float = 10.0;
 	public var friction:Float = 0.70;
@@ -26,11 +27,13 @@ class Physics extends Sprite implements ICollidable
 	public var gravity:Float = 0.5;
 
 	public var hitBox:Shape;
+	public var hitBoxPhys:Shape;
 
 	public function new(pos:Vector)
 	{
 		previousPosition_ = pos;
 		hitBox = Polygon.rectangle(pos.x,pos.y,8,23);
+		hitBoxPhys = Polygon.rectangle(pos.x,pos.y,8,23);
 
 		super(
 		{
@@ -38,11 +41,14 @@ class Physics extends Sprite implements ICollidable
 		});
 
 		texture = Luxe.resources.texture('assets/graphics/entity/player32.png');
+		
+		NP.actor_list.push(this);
+		NP.entity_shape_list.push(this);
 	}
 
 	override function update(dt:Float)
 	{
-		var c_array = Collision.shapeWithShapes(this.hitBox,NP.level_shape_list);
+		var c_array = Collision.shapeWithShapes(this.hitBoxPhys,NP.level_shape_list);
 
 		if (c_array.length == 0)
 		{
@@ -55,14 +61,16 @@ class Physics extends Sprite implements ICollidable
 
 		for (c in c_array)
 		{
-			hitBox.position.x += c.separationX;
-			hitBox.position.y += c.separationY;
+			hitBoxPhys.position.x += c.separationX;
+			hitBoxPhys.position.y += c.separationY;
 
 			if (c.unitVectorX < 0)
 			{
 				//vx = 0;
 				collideRight = true;
 				collideLeft = false;
+				hasCollideRight = true;
+				hasCollideLeft = false;
 			}
 
 			if (c.unitVectorX > 0)
@@ -70,6 +78,8 @@ class Physics extends Sprite implements ICollidable
 				//vx = 0;
 				collideLeft = true;
 				collideRight = false;
+				hasCollideRight = false;
+				hasCollideLeft = true;
 			}
 
 			if (c.unitVectorY != 0 && Maths.sign(c.unitVectorY) != Maths.sign(vy))
@@ -130,7 +140,7 @@ class Physics extends Sprite implements ICollidable
 			{
 				offsetX = 0;
 			}
-			this.hitBox.position.x += offsetX;
+			this.hitBoxPhys.position.x += offsetX;
 			i ++;
 		}
 		var i2:Int = 0;
@@ -149,15 +159,17 @@ class Physics extends Sprite implements ICollidable
 			{
 				offsetY = 0;
 			}
-			this.hitBox.position.y += offsetY;
+			this.hitBoxPhys.position.y += offsetY;
 			i2++;
 		}
 		if (inAir)
 		{
 			vy += gravity;
 		}
-		this.pos.x = this.hitBox.position.x;
-		this.pos.y = this.hitBox.position.y - 4;
+		this.pos.x = this.hitBoxPhys.position.x;
+		this.pos.y = this.hitBoxPhys.position.y - 4;
+		this.hitBox.x = this.pos.x;
+		this.hitBox.y = this.pos.y;
 	}
 	
 	public function on_player_collision(is_pc:Bool):Void {
