@@ -59,7 +59,7 @@ class Door extends Sprite implements ICollidable
 	{
 		if (is_player)
 		{
-			if (Luxe.input.inputdown('jump'))
+			if (Luxe.input.inputpressed('jump'))
 			{
 				NP.frozenPlayer = true;
 				Actuate.tween(this.rotation, .5, {y: (Math.PI / 3)}).onComplete(switchLevel);
