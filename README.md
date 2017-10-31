@@ -10,4 +10,4 @@ Feel free to reuse my code :smile:
 
 ## License
 
-MIT [(LICENSE.md)](LICENSE.md).
+MIT ([LICENSE.md](LICENSE.md)).
