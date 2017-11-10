@@ -1,6 +1,7 @@
 package ch.nectoria.entities;
 
 import luxe.importers.tiled.TiledObjectGroup.TiledObject;
+import luxe.Sprite;
 
 /**
  * ...
@@ -8,7 +9,7 @@ import luxe.importers.tiled.TiledObjectGroup.TiledObject;
  */
 class EntityManager
 {
-	private var entityList:Array<Dynamic> = [];
+	private var entityList:Array<Sprite> = [];
 
 	public function new() 
 	{
