@@ -28,6 +28,7 @@ class Sign extends Sprite implements ICollidable
 		texture = Luxe.resources.texture('assets/graphics/object/sign.png');
 		texture.filter_min = texture.filter_mag = FilterType.nearest;
 		texture.width = 16;
+		depth = 2.0;
 		
 		size = new Vector(16, 16);
 		centered = false;
