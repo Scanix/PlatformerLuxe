@@ -1,5 +1,6 @@
-package ch.nectoria.entities;
+package ch.nectoria.manager;
 
+import ch.nectoria.entities.*;
 import luxe.importers.tiled.TiledObjectGroup.TiledObject;
 import luxe.Sprite;
 

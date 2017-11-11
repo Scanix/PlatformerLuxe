@@ -36,7 +36,7 @@ class LazyCameraFollow extends Component
 			camY = _tilemapSize.y / 2;//Luxe.screen.height / 2;
 		} else {
 			camX = entity.pos.x;
-			camY = entity.pos.y;//180 - 40;
+			camY = 180 - 40;
 		}
 		
 		if (_state == "revelation") {

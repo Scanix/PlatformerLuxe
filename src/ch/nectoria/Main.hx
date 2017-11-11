@@ -30,6 +30,10 @@ class Main extends luxe.Game
 
 	override function ready()
 	{
+		//FIX FRAMERATE
+		Luxe.core.fixed_frame_time = 1 / 60;
+		Luxe.fixed_frame_time = 1 / 60;
+		
 		// load the parcel
 		var parcel = new Parcel(
 		{
@@ -40,6 +44,7 @@ class Main extends luxe.Game
 			{ id : "assets/graphics/splash/scanixgames.png" },
 			{ id : "assets/graphics/tilemap.png" },
 			{ id : "assets/tilemap.png" },
+			{ id : "assets/graphics/bg.png" },
 			{ id : "assets/graphics/object/door_0.png" },
 			{ id : "assets/graphics/props/house_0.png" },
 			{ id : "assets/graphics/entity/interactionSign.png" },
@@ -97,6 +102,10 @@ class Main extends luxe.Game
 	{
 		if (e.keycode == Key.escape)
 			Luxe.shutdown();
+		#if debug
+		if (e.keycode == Key.key_p)
+			Luxe.showConsole(!Luxe.debug.visible);
+		#end
 	}
 
 	override function update(dt:Float)

@@ -1,5 +1,7 @@
 package ch.nectoria.states;
 
+import ch.nectoria.manager.BackgroundManager;
+import ch.nectoria.manager.EntityManager;
 import ch.nectoria.ui.MessageBox;
 import luxe.Entity;
 import luxe.States;
@@ -26,7 +28,9 @@ class GameState extends State
 	private var player:Player;
 	private var tilemap:TiledMap;
 	private var tilemapFront:TiledMap;
+	private var background:Sprite;
 	private var map_scale: Int = 1;
+	private var backgroundManager:BackgroundManager;
 	
 	private var currentLvl:String;
 	
@@ -58,7 +62,7 @@ class GameState extends State
 
 	override function onenter<T>(_value:T)
 	{
-		Luxe.camera.zoom = 5;
+		Luxe.camera.zoom = 1;
 
 		Luxe.events.listen('simulation.triggers.collide', ontrigger);
 		
@@ -146,6 +150,9 @@ class GameState extends State
 		tilemapFront.remove_layer("objects");
 		tilemapFront.display({ scale:map_scale, filter:FilterType.nearest, depth:3 });
 		
+		//Create BackGround
+		backgroundManager = new BackgroundManager();
+		
 		trace(NP.entity_shape_list);
 		
 		levelColision();
@@ -179,6 +186,7 @@ class GameState extends State
 		#if debug
 		NP.drawDebug();
 		#end
+		backgroundManager.update();
 	} //update
 
 }
