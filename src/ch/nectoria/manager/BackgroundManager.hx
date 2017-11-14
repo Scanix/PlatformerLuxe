@@ -2,14 +2,13 @@ package ch.nectoria.manager;
 
 import luxe.Sprite;
 import luxe.Vector;
-import luxe.Vector.Vec;
 import luxe.Color;
 import luxe.Text.TextAlign;
 import phoenix.Texture.FilterType;
 
 /**
  * ...
- * @author Alexandre Bianchi, Scanix
+ * 	@author Alexandre Bianchi, Scanix
  */
 class BackgroundManager
 {
@@ -66,13 +65,14 @@ class BackgroundManager
 		if (Luxe.camera.world_point_to_screen(backgroundsList[1].pos).x < 0)
 		{
 			offset++;
-		} else if (Luxe.camera.world_point_to_screen(backgroundsList[1].pos).x + Luxe.screen.width - backgroundsList[1].size.x > Luxe.screen.width) {
+		} else if (Luxe.camera.world_point_to_screen(backgroundsList[2].pos).x > Luxe.screen.width) {
 			offset--;
 		}
 		for (background in backgroundsList)
 		{
 			background.pos.x = (offset * (background.size.x)) + (backgroundsList.indexOf(background) * background.size.x) + (NP.player.pos.x * 0.3);
-			
+		
+		#if debug
 			Luxe.draw.rectangle(
 			{
 				depth:100,
@@ -84,12 +84,15 @@ class BackgroundManager
 			});
 			Luxe.draw.text(
 			{
+				depth:102,
 				color : new Color(1,1,1,1),
-				pos : background.pos,
-				point_size : 24,
+				pos : new Vector().copy_from(background.pos),
+				point_size : 10,
 				align : TextAlign.center,
-				text : "some text \n indeed"
+				immediate: true,
+				text : background.name
 			});
+		#end
 		}
 	}
 }
