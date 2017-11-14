@@ -62,7 +62,7 @@ class GameState extends State
 
 	override function onenter<T>(_value:T)
 	{
-		Luxe.camera.zoom = 1;
+		Luxe.camera.zoom = 5;
 
 		Luxe.events.listen('simulation.triggers.collide', ontrigger);
 		
@@ -93,6 +93,15 @@ class GameState extends State
 		NP.actor_list = [];
 		NP.entity_shape_list = [];
 		NP.level_shape_list = [];
+		
+		if (tilemap != null) {
+			tilemap.destroy();
+			tilemapFront.destroy();
+		}
+		
+		if (backgroundManager != null) {
+			backgroundManager.destroy();
+		}
 
 		var level:String = getLevelData(id);
 		trace("Loading level: " + level);
@@ -170,8 +179,6 @@ class GameState extends State
 			NP.posPlayer.x = xTo;
 			NP.posPlayer.y = yTo;
 			NP.frozenPlayer = true;
-			tilemap.destroy();
-			tilemapFront.destroy();
 			Main.fade.out(.5, function() {loadLevel(currentLvl); });
 		}
 	}

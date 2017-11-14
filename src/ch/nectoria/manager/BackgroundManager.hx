@@ -3,6 +3,8 @@ package ch.nectoria.manager;
 import luxe.Sprite;
 import luxe.Vector;
 import luxe.Vector.Vec;
+import luxe.Color;
+import luxe.Text.TextAlign;
 import phoenix.Texture.FilterType;
 
 /**
@@ -11,14 +13,20 @@ import phoenix.Texture.FilterType;
  */
 class BackgroundManager
 {
+	/**
+	 * @
+	 */
 	private var backgroundsList:Array<Sprite>;
+	private var parallaxEffect:Float;
+	private var offset:Int;
 	
-	public function new() 
+	public function new(/*parEffect:Float*/) 
 	{
 		backgroundsList = new Array<Sprite>();
+		offset = 0;
 		
 		var initialPos = new Vector();
-		initialPos.copy_from(new Vector(Luxe.camera.pos.x - 50, Luxe.camera.pos.y));
+		initialPos.copy_from(new Vector(0, 0));
 		
 		for (i in 0...3)
 		{
@@ -46,24 +54,42 @@ class BackgroundManager
 		return sprite;
 	}
 	
-	public function update()
-	{
+	public function destroy() {
 		for (background in backgroundsList)
 		{
-			if (Luxe.camera.world_point_to_screen(background.pos).x + background.size.x < 0)
+			background.destroy();
+		}
+	}
+	
+	public function update()
+	{ 
+		if (Luxe.camera.world_point_to_screen(backgroundsList[1].pos).x < 0)
+		{
+			offset++;
+		} else if (Luxe.camera.world_point_to_screen(backgroundsList[1].pos).x + Luxe.screen.width - backgroundsList[1].size.x > Luxe.screen.width) {
+			offset--;
+		}
+		for (background in backgroundsList)
+		{
+			background.pos.x = (offset * (background.size.x)) + (backgroundsList.indexOf(background) * background.size.x) + (NP.player.pos.x * 0.3);
+			
+			Luxe.draw.rectangle(
 			{
-				var furthestBackgroundX:Float = background.pos.x;
-				
-				for (_b in backgroundsList)
-				{
-					if (background != _b)
-					{
-						furthestBackgroundX = Math.max(furthestBackgroundX, _b.pos.x);
-					}
-				}
-				
-				background.pos.x = furthestBackgroundX + background.size.x;
-			}
+				depth:100,
+				x : background.pos.x, y : background.pos.y,
+				w : background.size.x,
+				h : background.size.y,
+				immediate:true,
+				color:new Color(1,1,0,1)
+			});
+			Luxe.draw.text(
+			{
+				color : new Color(1,1,1,1),
+				pos : background.pos,
+				point_size : 24,
+				align : TextAlign.center,
+				text : "some text \n indeed"
+			});
 		}
 	}
 }

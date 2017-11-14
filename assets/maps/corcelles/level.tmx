@@ -768,7 +768,7 @@
    <tile gid="88"/>
    <tile gid="89"/>
    <tile gid="90"/>
-   <tile gid="0"/>
+   <tile gid="49"/>
    <tile gid="92"/>
    <tile gid="93"/>
    <tile gid="94"/>
@@ -838,7 +838,7 @@
    <tile gid="104"/>
    <tile gid="105"/>
    <tile gid="106"/>
-   <tile gid="0"/>
+   <tile gid="49"/>
    <tile gid="108"/>
    <tile gid="109"/>
    <tile gid="110"/>
@@ -2230,7 +2230,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="251"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
