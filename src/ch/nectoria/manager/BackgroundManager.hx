@@ -30,7 +30,7 @@ class BackgroundManager
 		for (i in 0...3)
 		{
 			backgroundsList.push(createBackground(initialPos));
-			initialPos.x += backgroundsList[0].size.x;
+			initialPos.x += backgroundsList[0].size.x-1;
 		}
 	}
 	
@@ -70,7 +70,7 @@ class BackgroundManager
 		}
 		for (background in backgroundsList)
 		{
-			background.pos.x = (offset * (background.size.x)) + (backgroundsList.indexOf(background) * background.size.x) + (NP.player.pos.x * 0.3);
+			background.pos.x = (offset * (background.size.x)) + (backgroundsList.indexOf(background) * background.size.x) + (Luxe.camera.pos.x * 0.3);
 		
 		#if debug
 			Luxe.draw.rectangle(
