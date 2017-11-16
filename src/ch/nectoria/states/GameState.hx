@@ -28,7 +28,6 @@ class GameState extends State
 	private var player:Player;
 	private var tilemap:TiledMap;
 	private var tilemapFront:TiledMap;
-	private var background:Sprite;
 	private var map_scale: Int = 1;
 	private var backgroundManager:BackgroundManager;
 	
@@ -160,7 +159,7 @@ class GameState extends State
 		tilemapFront.display({ scale:map_scale, filter:FilterType.nearest, depth:3 });
 		
 		//Create BackGround
-		backgroundManager = new BackgroundManager();
+		backgroundManager = new BackgroundManager(tilemap.tiledmap_data.properties["background"]);
 		
 		trace(NP.entity_shape_list);
 		
