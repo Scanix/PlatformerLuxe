@@ -24,6 +24,7 @@ class Fader extends luxe.Component
 			color: new Color(0,0,0,0),
 			centered: false,
 			batcher: faderBatcher,
+			name: "FaderEntity",
 			depth:99
 		});
 	}
@@ -36,11 +37,6 @@ class Fader extends luxe.Component
 	public function up(?t=0.15,?fn:Void->Void)
 	{
 		overlay.color.tween(t, {a:0}).onComplete(fn);
-	}
-
-	override function ondestroy()
-	{
-		overlay.destroy( );
 	}
 
 }

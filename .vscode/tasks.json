@@ -1,0 +1,6 @@
+{
+    "version": "2.0.0",
+    "command": "flow",
+    "args": ["run", "web", "--debug"],
+    "problemMatcher": "$haxe"
+}

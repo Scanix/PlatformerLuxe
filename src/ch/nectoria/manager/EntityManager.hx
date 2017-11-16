@@ -1,6 +1,9 @@
-package ch.nectoria.entities;
+package ch.nectoria.manager;
 
+import ch.nectoria.entities.*;
 import luxe.importers.tiled.TiledObjectGroup.TiledObject;
+import luxe.Sprite;
+import luxe.Scene;
 
 /**
  * ...
@@ -8,18 +11,18 @@ import luxe.importers.tiled.TiledObjectGroup.TiledObject;
  */
 class EntityManager
 {
-	private var entityList:Array<Dynamic> = [];
+	private var entityList:Array<Sprite> = [];
 
 	public function new() 
 	{
 		
 	}
 	
-	public static function addEntity(obj:TiledObject){
+	public static function addEntity(scene:Scene, obj:TiledObject):Void {
 		trace(obj.name);
         switch (obj.name) {
             case 'mrMoustache':
-                Luxe.scene.add(new NPC(obj));
+                scene.add(new NPC(obj));
             case 'Shadow':
                 //Luxe.scene.add(new Enemy(obj));
             default :

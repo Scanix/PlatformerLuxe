@@ -63,6 +63,8 @@ class Player extends Physics
 			apply_input(dt);	
 		}
 
+		super.update(dt);
+
 		if (vx != 0)
 		{
 			if (anim.animation != 'walk')
@@ -91,8 +93,6 @@ class Player extends Physics
 		} else {
 			interactionSign.visible = false;
 		}
-
-		super.update(dt);
 	} //update
 
 	function apply_input(dt:Float)

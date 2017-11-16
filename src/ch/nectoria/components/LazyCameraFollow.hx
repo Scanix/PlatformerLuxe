@@ -38,14 +38,16 @@ class LazyCameraFollow extends Component
 			camX = entity.pos.x;
 			camY = 180 - 40;
 		}
+		
+		if (_state == "revelation") {
+			Luxe.camera.rotation = Luxe.camera.rotation.multiply(new luxe.Quaternion().setFromEuler(new luxe.Vector(0, 0, 5).radians()));
+			Luxe.camera.zoom = 9 + 2 * Math.cos(Luxe.time * 12);
+			camX = entity.pos.x;
+			camY = entity.pos.y;
+		} else if (_state == "shake") {
+			Luxe.camera.shake(0.2);
+		}
 
 		Luxe.camera.focus(new Vector(camX, camY), dt);
-		/*Luxe.camera.rotation = Luxe.camera.rotation.multiply(new luxe.Quaternion().setFromEuler(new luxe.Vector(0, 0, 5).radians()));
-		
-		if (Luxe.camera.zoom < 50) {
-			Luxe.camera.zoom += 2;
-		} else if (Luxe.camera.zoom > 50) {
-			Luxe.camera.zoom -= 2;
-		}*/
 	}
 }
