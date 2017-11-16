@@ -47,11 +47,9 @@ class GameState extends State
 
 	private function getLevelData(id:String):String
 	{
-		trace(id);
 		var level:String = "assets/maps/" + id + "/level.tmx";
 		if (id != null)
 		{
-			trace("mince");
 			return level;
 		}
 		else {
@@ -136,7 +134,7 @@ class GameState extends State
 					case 240:
 						EntityManager.addEntity(gameScene, _object);
 					default:
-							trace("unknow type: " + _object.type);
+						trace("unknow type: " + _object.type);
 				}
 			}
 		}
