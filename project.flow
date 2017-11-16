@@ -30,6 +30,10 @@
     build : {
       dependencies : {
         luxe : '*',
+        gif : '*',
+        gifcapture : '*',
+        luxe_gifcapture : '*',
+        linc_dialogs : '*'
       }
     },
 
