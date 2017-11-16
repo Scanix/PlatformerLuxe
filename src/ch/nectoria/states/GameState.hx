@@ -1,5 +1,7 @@
 package ch.nectoria.states;
 
+import ch.nectoria.manager.BackgroundManager;
+import ch.nectoria.manager.EntityManager;
 import ch.nectoria.ui.MessageBox;
 import luxe.Entity;
 import luxe.States;
@@ -27,6 +29,7 @@ class GameState extends State
 	private var tilemap:TiledMap;
 	private var tilemapFront:TiledMap;
 	private var map_scale: Int = 1;
+	private var backgroundManager:BackgroundManager;
 	
 	private var currentLvl:String;
 	
@@ -44,11 +47,9 @@ class GameState extends State
 
 	private function getLevelData(id:String):String
 	{
-		trace(id);
 		var level:String = "assets/maps/" + id + "/level.tmx";
 		if (id != null)
 		{
-			trace("mince");
 			return level;
 		}
 		else {
@@ -89,6 +90,15 @@ class GameState extends State
 		NP.actor_list = [];
 		NP.entity_shape_list = [];
 		NP.level_shape_list = [];
+		
+		if (tilemap != null) {
+			tilemap.destroy();
+			tilemapFront.destroy();
+		}
+		
+		if (backgroundManager != null) {
+			backgroundManager.destroy();
+		}
 
 		var level:String = getLevelData(id);
 		trace("Loading level: " + level);
@@ -122,9 +132,9 @@ class GameState extends State
 					case 39:
 						gameScene.add(new Sign(_object));
 					case 240:
-						EntityManager.addEntity(_object);
+						EntityManager.addEntity(gameScene, _object);
 					default:
-							trace("unknow type: " + _object.type);
+						trace("unknow type: " + _object.type);
 				}
 			}
 		}
@@ -146,6 +156,9 @@ class GameState extends State
 		tilemapFront.remove_layer("objects");
 		tilemapFront.display({ scale:map_scale, filter:FilterType.nearest, depth:3 });
 		
+		//Create BackGround
+		backgroundManager = new BackgroundManager(tilemap.tiledmap_data.properties["background"]);
+		
 		trace(NP.entity_shape_list);
 		
 		levelColision();
@@ -163,8 +176,6 @@ class GameState extends State
 			NP.posPlayer.x = xTo;
 			NP.posPlayer.y = yTo;
 			NP.frozenPlayer = true;
-			tilemap.destroy();
-			tilemapFront.destroy();
 			Main.fade.out(.5, function() {loadLevel(currentLvl); });
 		}
 	}
@@ -179,6 +190,7 @@ class GameState extends State
 		#if debug
 		NP.drawDebug();
 		#end
+		backgroundManager.update();
 	} //update
 
 }
