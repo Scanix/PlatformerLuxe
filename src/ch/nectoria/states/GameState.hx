@@ -135,7 +135,7 @@ class GameState extends State
 					case 39:
 						gameScene.add(new Sign(_object));
 					case 240:
-						EntityManager.addEntity(_object);
+						EntityManager.addEntity(gameScene, _object);
 					default:
 							trace("unknow type: " + _object.type);
 				}
