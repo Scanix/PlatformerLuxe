@@ -1,6 +1,5 @@
 package ch.nectoria.manager;
 
-import luxe.resource.Resource.JSONResource;
 import luxe.importers.tiled.TiledObjectGroup.TiledObject;
 import luxe.options.ParticleOptions.ParticleEmitterOptions;
 import phoenix.Color.ColorHSV;
@@ -84,4 +83,8 @@ class ParticlesManager
 
         addParticlesByJSON(loaded,new Vector(obj.pos.x + 8,obj.pos.y));
 	} // loadFromJSON
+
+	public function destroy() {
+		particlesSys.destroy();
+	}
 }

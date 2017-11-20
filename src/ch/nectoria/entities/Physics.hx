@@ -138,8 +138,8 @@ class Physics extends Sprite implements ICollidable
 			if (c.unitVectorX < 0)
 			{
 				//vx = 0;
-				collideRight = true;
 				collideLeft = false;
+				collideRight = true;
 				hasCollideRight = true;
 				hasCollideLeft = false;
 			}
