@@ -105,7 +105,7 @@ class Player extends Physics
 		{
 			this.moveLeft();
 		}
-		if ( Luxe.input.inputdown('right') && !collideRight)
+		if ( Luxe.input.inputdown('right') /*&& !collideRight*/)
 		{
 			this.moveRight();
 		}
