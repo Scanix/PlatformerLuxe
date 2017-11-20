@@ -77,7 +77,8 @@ class Main extends luxe.Game
 			jsons:[ 
 			{ id:'assets/anim.json' },
 			{ id:'assets/graphics/object/chest.json' },
-			{ id:'assets/graphics/ui/messagebox.json' }
+			{ id:'assets/graphics/ui/messagebox.json' },
+			{ id:'assets/graphics/particles/smoke.json' }
 			]
 		});
 
@@ -129,7 +130,7 @@ class Main extends luxe.Game
 
 		fade.out( 0.5, function()
 		{
-			machine.set('splash_state');
+			machine.set('game_state');
 		});
 	}//assetsLoaded
 
