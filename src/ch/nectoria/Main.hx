@@ -47,6 +47,7 @@ class Main extends luxe.Game
 
 		//Create DebugBatcher
 		#if debug
+		new debugger.HaxeRemote(true, "localhost");
 		debugBatcher = new Batcher(Luxe.renderer,'debug_batcher');
 		debugBatcher.view = new Camera();
 		debugBatcher.layer = 11;
