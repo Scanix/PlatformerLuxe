@@ -7,7 +7,7 @@
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"compilePath=${workspaceRoot}",
-				"compileCommand=haxelib run flow run windows --debug",
+				"compileCommand=haxelib run flow build windows --debug",
 				"runPath=${workspaceRoot}/bin/windows/",
 				"runCommand=NectoProject.exe",
 				"runInTerminal=false"

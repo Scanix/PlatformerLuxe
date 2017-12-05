@@ -45,9 +45,13 @@ class Main extends luxe.Game
 		Luxe.core.fixed_frame_time = 1 / 60;
 		Luxe.fixed_frame_time = 1 / 60;
 
+		//Debug Hxcpp
+		#if (debug && windows)
+		new debugger.HaxeRemote(true, "localhost");
+		#end
+
 		//Create DebugBatcher
 		#if debug
-		new debugger.HaxeRemote(true, "localhost");
 		debugBatcher = new Batcher(Luxe.renderer,'debug_batcher');
 		debugBatcher.view = new Camera();
 		debugBatcher.layer = 11;
