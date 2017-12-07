@@ -28,7 +28,6 @@
     },
 
     build : {
-      defines : ['HXCPP_DEBUGGER'],
       dependencies : {
         luxe : '*',
         gif : '*',
@@ -42,6 +41,13 @@
     files : {
       config : 'config.json',
       assets : 'assets/'
+    }
+  },
+  if : {
+    "(mac || windows || linux) && debug" : {
+      build : {
+        defines : ['HXCPP_DEBUGGER'],
+      }
     }
   }
 }
