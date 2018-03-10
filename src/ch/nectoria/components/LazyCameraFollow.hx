@@ -9,7 +9,7 @@ class LazyCameraFollow extends Component
 	public var _behaviour:String;
 	public var _tilemapSize:Vector;
 
-	public function new(name:String, state:String, behaviour:String, tilemapSize:Vector)
+	public function new (name:String, state:String, behaviour:String, tilemapSize:Vector)
 	{
 		super({ name: name });
 
@@ -28,7 +28,7 @@ class LazyCameraFollow extends Component
 		var camX;
 		var camY;
 
-		if(_behaviour == "static") {
+		if (_behaviour == "static") {
 			camX = _tilemapSize.x /2;//Luxe.screen.width / 2;
 			camY = _tilemapSize.y / 2;//Luxe.screen.height / 2;
 		} else {
@@ -36,12 +36,12 @@ class LazyCameraFollow extends Component
 			camY = 180 - 40;
 		}
 
-		if(_state == "revelation") {
+		if (_state == "revelation") {
 			Luxe.camera.rotation = Luxe.camera.rotation.multiply(new luxe.Quaternion().setFromEuler(new luxe.Vector(0, 0, 5).radians()));
 			Luxe.camera.zoom = 9 + 2 * Math.cos(Luxe.time * 12);
 			camX = entity.pos.x;
 			camY = entity.pos.y;
-		} else if(_state == "shake") {
+		} else if (_state == "shake") {
 			Luxe.camera.shake(0.2);
 		}
 

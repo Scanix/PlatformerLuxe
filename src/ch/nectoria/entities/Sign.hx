@@ -20,7 +20,7 @@ class Sign extends Sprite implements ICollidable
 	public var hitBox:Shape;
 	public var text:String;
 
-	public function new(object:TiledObject)
+	public function new (object:TiledObject)
 	{
 		super({pos: new Vector(object.pos.x, object.pos.y-16)});
 
@@ -40,14 +40,14 @@ class Sign extends Sprite implements ICollidable
 
 	public function on_player_collision(is_player:Bool):Void
 	{
-		if(is_player)
+		if (is_player)
 		{
-			if(Luxe.input.inputpressed('jump'))
+			if (Luxe.input.inputpressed('jump'))
 			{
 				var game:GameState = cast(Main.machine.current_state, GameState);
 				var e:MessageBox = cast(game.messageBox, MessageBox);
 
-				if(!e.isShown) {
+				if (!e.isShown) {
 					e.show(text);
 				}
 			}

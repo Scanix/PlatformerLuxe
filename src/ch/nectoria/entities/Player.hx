@@ -19,7 +19,7 @@ class Player extends Physics
 
 	private var anim:SpriteAnimation;
 
-	public function new(pos:Vector):Void
+	public function new (pos:Vector):Void
 	{
 		super(pos);
 
@@ -57,24 +57,24 @@ class Player extends Physics
 
 	override function update(dt:Float)
 	{
-		if(!NP.frozenPlayer) {
+		if (!NP.frozenPlayer) {
 			apply_input(dt);
 		}
 
 		super.update(dt);
 
-		if(vx != 0)
+		if (vx != 0)
 		{
-			if(anim.animation != 'walk')
+			if (anim.animation != 'walk')
 			{
 				anim.animation = 'walk';
 			}
 		}
-		else if(vy > 1)
+		else if (vy > 1)
 		{
 			//spPlayer.play("fall");
 		}
-		else if(vy < -1)
+		else if (vy < -1)
 		{
 			anim.animation = "jump";
 		}
@@ -86,7 +86,7 @@ class Player extends Physics
 		interactionSign.pos.x = this.pos.x;
 		interactionSign.pos.y = this.pos.y - 16;
 
-		if(interactWith) {
+		if (interactWith) {
 			interactionSign.visible = true;
 		} else {
 			interactionSign.visible = false;
@@ -95,17 +95,17 @@ class Player extends Physics
 
 	function apply_input(dt:Float)
 	{
-		if(Luxe.input.inputdown('jump') && !inAir && !interactWith /*&& /*collideBelow*/)
+		if (Luxe.input.inputdown('jump') && !inAir && !interactWith /*&& /*collideBelow*/)
 		{
 			this.jump();
 		}
 
-		if(Luxe.input.inputdown('left') && !collideLeft)
+		if (Luxe.input.inputdown('left') && !collideLeft)
 		{
 			this.moveLeft();
 		}
 
-		if(Luxe.input.inputdown('right') /*&& !collideRight*/)
+		if (Luxe.input.inputdown('right') /*&& !collideRight*/)
 		{
 			this.moveRight();
 		}
@@ -125,7 +125,7 @@ class Player extends Physics
 	{
 		vx -= speed;
 
-		if(collideRight)
+		if (collideRight)
 		{
 			collideRight = false;
 		}
@@ -136,7 +136,7 @@ class Player extends Physics
 	{
 		vx += speed;
 
-		if(collideLeft)
+		if (collideLeft)
 		{
 			collideLeft = false;
 		}

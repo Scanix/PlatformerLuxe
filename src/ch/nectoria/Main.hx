@@ -103,7 +103,7 @@ class Main extends luxe.Game
 			oncomplete: function(_bytes:haxe.io.Bytes) {
 				var path = Dialogs.save('Save GIF');
 
-				if(path != '') sys.io.File.saveBytes(path, _bytes);
+				if (path != '') sys.io.File.saveBytes(path, _bytes);
 			}
 		});
 #end
@@ -134,11 +134,11 @@ class Main extends luxe.Game
 
 	override function onkeyup(e:KeyEvent)
 	{
-		if(e.keycode == Key.escape)
+		if (e.keycode == Key.escape)
 			Luxe.shutdown();
 
-		if(e.keycode == Key.key_o) {
-			switch(Luxe.camera.size_mode) {
+		if (e.keycode == Key.key_o) {
+			switch (Luxe.camera.size_mode) {
 				case fit:
 					Luxe.camera.size_mode = SizeMode.cover;
 
@@ -152,7 +152,7 @@ class Main extends luxe.Game
 
 #if debug
 
-		if(e.keycode == Key.key_p)
+		if (e.keycode == Key.key_p)
 			Luxe.showConsole(!Luxe.debug.visible);
 
 #end
@@ -161,12 +161,12 @@ class Main extends luxe.Game
 	override public function onkeydown(event:KeyEvent) {
 #if windows
 
-		switch(event.keycode) {
+		switch (event.keycode) {
 			case Key.key_0:
-				if(capture.state == CaptureState.Paused) {
+				if (capture.state == CaptureState.Paused) {
 					capture.record();
 					trace('recording: active');
-				} else if(capture.state == CaptureState.Recording) {
+				} else if (capture.state == CaptureState.Recording) {
 					capture.pause();
 					trace('recording: paused');
 				}

@@ -27,20 +27,20 @@ class MessageBox extends Entity
 	private var numberLine:UInt = 1;
 	public var isShown:Bool = false;
 	private var paused:Bool = false;
-	
+
 	private var textTick:UInt = 0;
 	private static inline var TEXT_SPEED:UInt = 1;
 
-	public function new() 
+	public function new ()
 	{
 		super();
 		batcher = new Batcher(Luxe.renderer, 'messageBox_batcher');
 		batcher.view = new Camera();
 		batcher.layer = 12;
-		
+
 		boxAnim = new SpriteAnimation({name: "anim"});
 		var anim_data = Luxe.resources.json('assets/graphics/ui/messagebox.json');
-		
+
 		boxSprite = new Sprite({
 			batcher: batcher,
 			size: new Vector(Luxe.screen.width, Luxe.screen.width * (48/256)),
@@ -48,15 +48,15 @@ class MessageBox extends Entity
 			centered: false,
 			visible: false
 		});
-		
+
 		boxSprite.texture.filter_min = boxSprite.texture.filter_mag = FilterType.nearest;
-		
+
 		boxSprite.add(boxAnim);
-		
-		boxAnim.add_from_json_object( anim_data.asset.json );
+
+		boxAnim.add_from_json_object(anim_data.asset.json);
 		boxAnim.animation = 'callToAction';
 		boxAnim.play();
-		
+
 		textSprite = new Text({
 			text : "No Text",
 			point_size : 24,
@@ -66,78 +66,82 @@ class MessageBox extends Entity
 			batcher: batcher,
 			visible: false
 		});
-		
+
 		Luxe.renderer.add_batch(batcher);
 	}
-	
+
 	public function show(text:String):Void
 	{
 		isShown = true;
-		
+
 		message = text;
 		textSprite.visible = true;
 		boxSprite.visible = true;
-		
+
 		NP.frozenPlayer = true;
 	}
-	
-	override public function update(dt:Float) 
+
+	override public function update(dt:Float)
 	{
 		super.update(dt);
-		
+
 		if (isShown) {
-			Luxe.next(function() {typewriterEffect(); });
+			Luxe.next(function() {
+				typewriterEffect();
+			});
+
 			if (Luxe.input.inputpressed('jump'))
 			{
 				this.resume();
 			}
 		}
 	}
-	
+
 	private function typewriterEffect():Void {
-		
-			textSprite.text = typewriter;
-			var char:String = message.charAt(positionText);
-			
-			if (textTick == 0 && !paused && positionText < message.length)
+
+		textSprite.text = typewriter;
+		var char:String = message.charAt(positionText);
+
+		if (textTick == 0 && !paused && positionText < message.length)
+		{
+			textTick = TEXT_SPEED;
+			trace(char);
+
+			if (char == '*')
 			{
-				textTick = TEXT_SPEED;
-				trace(char);
-				if (char == '*')
+				// New line.
+				if (numberLine == 4)
 				{
-					// New line.
-					if (numberLine == 4)
-					{
-						// There is more dialog. Show the indicator and wait.
-						paused = true;
-					}
-					else
-					{
-						typewriter = typewriter.substring(0, positionText);
-						typewriter += '\n';
-						numberLine++;
-						positionText++;
-					}
+					// There is more dialog. Show the indicator and wait.
+					paused = true;
 				}
 				else
 				{
-					if (positionText < message.length)
-					{
-						typewriter += message.charAt(positionText);
-						positionText++;
-					}
+					typewriter = typewriter.substring(0, positionText);
+					typewriter += '\n';
+					numberLine++;
+					positionText++;
 				}
-			}
-			else if (positionText >= message.length)
-			{
-				paused = true;
 			}
 			else
 			{
-				textTick--;
+				if (positionText < message.length)
+				{
+					typewriter += message.charAt(positionText);
+					positionText++;
+				}
 			}
+		}
+		else if (positionText >= message.length)
+		{
+			paused = true;
+		}
+		else
+		{
+			textTick--;
+		}
 	}
-	
+
 	public function resume():Void
 	{
 		if (paused)
@@ -156,11 +160,13 @@ class MessageBox extends Entity
 			}
 		}
 	}
-	
+
 	public function close():Void
 	{
-		Luxe.next(function() {isShown = false; });
-		
+		Luxe.next(function() {
+			isShown = false;
+		});
+
 		textSprite.text = "";
 		typewriter = "";
 		characterIndex = 0;
@@ -169,8 +175,8 @@ class MessageBox extends Entity
 		textSprite.visible = false;
 		boxSprite.visible = false;
 		paused = false;
-		
+
 		NP.frozenPlayer = false;
 	}
-	
+
 }

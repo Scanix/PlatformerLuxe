@@ -6,7 +6,9 @@ import ch.nectoria.manager.EntityManager;
 import ch.nectoria.ui.MessageBox;
 import ch.nectoria.manager.ParticlesManager;
 import ch.nectoria.components.LazyCameraFollow;
-import ch.nectoria.entities.*;
+import ch.nectoria.entities.Player;
+import ch.nectoria.entities.Door;
+import ch.nectoria.entities.Sign;
 
 import luxe.Entity;
 import luxe.States;
@@ -14,7 +16,7 @@ import luxe.Scene;
 import luxe.Sprite;
 import luxe.Vector;
 import luxe.importers.tiled.TiledMap;
-import luxe.collision.shapes.*;
+import luxe.collision.shapes.Polygon;
 import luxe.collision.data.ShapeCollision;
 import luxe.components.sprite.SpriteAnimation;
 import phoenix.Texture.FilterType;
@@ -36,7 +38,7 @@ class GameState extends State
 
 	var anim : SpriteAnimation;
 
-	public function new(_name:String)
+	public function new (_name:String)
 	{
 
 		super({ name:_name });
@@ -48,7 +50,7 @@ class GameState extends State
 	{
 		var level:String = "assets/maps/" + id + "/level.tmx";
 
-		if(id != null)
+		if (id != null)
 		{
 			return level;
 		}
@@ -73,7 +75,7 @@ class GameState extends State
 		var bounds = tilemap.layer('collide').bounds_fitted();
 		var tris = tilemap.layer('collideSlope').bounds_fitted();
 
-		for(bound in bounds)
+		for (bound in bounds)
 		{
 			bound.x *= tilemap.tile_width;
 			bound.y *= tilemap.tile_height;
@@ -82,7 +84,7 @@ class GameState extends State
 			NP.level_shape_list.push(Polygon.rectangle(bound.x, bound.y, bound.w, bound.h, false));
 		}
 
-		for(bound in tris)
+		for (bound in tris)
 		{
 			var vertices:Array<Vector> = new Array<Vector>();
 
@@ -103,23 +105,23 @@ class GameState extends State
 	private function loadLevel(id:String):Void
 	{
 		//for (a in NP.actor_list) a.destroy();
-		for(a in NP.entity_shape_list) cast(a, Sprite).destroy();
+		for (a in NP.entity_shape_list) cast(a, Sprite).destroy();
 
 		NP.actor_list = [];
 		NP.entity_shape_list = [];
 		NP.level_shape_list = [];
 
 		//Destroy Manager
-		if(tilemap != null) {
+		if (tilemap != null) {
 			tilemap.destroy();
 			tilemapFront.destroy();
 		}
 
-		if(backgroundManager != null) {
+		if (backgroundManager != null) {
 			backgroundManager.destroy();
 		}
 
-		if(particlesManager != null) {
+		if (particlesManager != null) {
 			particlesManager.destroy();
 		}
 
@@ -144,11 +146,11 @@ class GameState extends State
 		particlesManager = new ParticlesManager();
 
 		// Load for objects
-		for(_group in tilemap.tiledmap_data.object_groups)
+		for (_group in tilemap.tiledmap_data.object_groups)
 		{
-			for(_object in _group.objects)
+			for (_object in _group.objects)
 			{
-				switch(_object.gid)
+				switch (_object.gid)
 				{
 					case 254:
 
@@ -178,7 +180,7 @@ class GameState extends State
 		player = new Player(NP.posPlayer.clone());
 		NP.player = player;
 
-		if(tilemap.total_width > Luxe.screen.h) {
+		if (tilemap.total_width > Luxe.screen.h) {
 			player.add(new LazyCameraFollow("lazyCamera", "static", "follow", new Vector(tilemap.total_width, tilemap.total_height)));
 		} else {
 			player.add(new LazyCameraFollow("lazyCamera", "static", "static", new Vector(tilemap.total_width, tilemap.total_height)));
@@ -198,7 +200,7 @@ class GameState extends State
 	}//loadLevel
 
 	public function switchLevel(xTo:Int, yTo:Int, levelTo:String):Void {
-		if(currentLvl == levelTo) {
+		if (currentLvl == levelTo) {
 			player.pos.x = xTo;
 			player.pos.y = yTo;
 		} else {
