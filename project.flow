@@ -40,7 +40,8 @@
 
     files : {
       config : 'config.json',
-      assets : 'assets/'
+      assets : 'assets/',
+      index : { path:'index.html => index.html', template:'project', not_listed:true }
     }
   },
   if : {
