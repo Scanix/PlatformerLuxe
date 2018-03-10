@@ -1,0 +1,33 @@
+{
+	"version": "0.1.0",
+	"configurations": [
+
+		{
+			"name": "Windows: Build and Debug",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"compilePath=${workspaceRoot}",
+				"compileCommand=haxelib run flow build windows --debug",
+				"runPath=${workspaceRoot}/bin/windows/",
+				"runCommand=NectoProject.exe",
+				"runInTerminal=false"
+			],
+			"type": "hxcpp",
+			"request": "launch",
+			"stopOnEntry": true
+		},
+		{
+			"name": "Windows: Debug",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"runPath=${workspaceRoot}/bin/windows/",
+				"runCommand=NectoProject.exe",
+				"runInTerminal=false"
+			],
+			"type": "hxcpp",
+			"request": "launch",
+			"stopOnEntry": false
+		}
+
+	]
+}
