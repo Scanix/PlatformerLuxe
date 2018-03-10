@@ -1,25 +1,22 @@
 package ch.nectoria.states;
 
+import ch.nectoria.NP;
 import ch.nectoria.manager.BackgroundManager;
 import ch.nectoria.manager.EntityManager;
 import ch.nectoria.ui.MessageBox;
+import ch.nectoria.manager.ParticlesManager;
+import ch.nectoria.components.LazyCameraFollow;
+import ch.nectoria.entities.*;
 import luxe.Entity;
 import luxe.States;
 import luxe.Scene;
 import luxe.Sprite;
-import ch.nectoria.NP;
-import ch.nectoria.entities.*;
+import luxe.Vector;
 import luxe.importers.tiled.TiledMap;
-import luxe.importers.tiled.TiledMapData;
-import luxe.importers.tiled.TiledObjectGroup.TiledObject;
-import phoenix.Texture.FilterType;
-import ch.nectoria.components.LazyCameraFollow;
 import luxe.collision.shapes.*;
 import luxe.collision.data.ShapeCollision;
-import luxe.Vector;
-import luxe.utils.Maths;
 import luxe.components.sprite.SpriteAnimation;
-import luxe.Quaternion;
+import phoenix.Texture.FilterType;
 
 class GameState extends State
 {
@@ -30,6 +27,7 @@ class GameState extends State
 	private var tilemapFront:TiledMap;
 	private var map_scale: Int = 1;
 	private var backgroundManager:BackgroundManager;
+	private var particlesManager:ParticlesManager;
 	
 	private var currentLvl:String;
 	
@@ -70,8 +68,9 @@ class GameState extends State
 
 	function levelColision()
 	{
-
 		var bounds = tilemap.layer('collide').bounds_fitted();
+		var tris = tilemap.layer('collideSlope').bounds_fitted();
+
 		for (bound in bounds)
 		{
 			bound.x *= tilemap.tile_width;
@@ -79,6 +78,22 @@ class GameState extends State
 			bound.w *= tilemap.tile_width;
 			bound.h *= tilemap.tile_height;
 			NP.level_shape_list.push(Polygon.rectangle(bound.x, bound.y, bound.w, bound.h, false));
+		}
+
+		for (bound in tris)
+		{
+			var vertices:Array<Vector> = new Array<Vector>();
+
+			bound.x *= tilemap.tile_width;
+			bound.y *= tilemap.tile_height;
+			bound.w *= tilemap.tile_width;
+			bound.h *= tilemap.tile_height;
+
+			vertices.push( new Vector( 0, 16 ) );
+			vertices.push( new Vector( 16, 0 ) );
+			vertices.push( new Vector( 16, 16 ) );
+
+			NP.level_shape_list.push(new Polygon(bound.x, bound.y, vertices));
 		}
 
 	} //create_map_collision
@@ -91,13 +106,16 @@ class GameState extends State
 		NP.entity_shape_list = [];
 		NP.level_shape_list = [];
 		
+		//Destroy Manager
 		if (tilemap != null) {
 			tilemap.destroy();
 			tilemapFront.destroy();
 		}
-		
 		if (backgroundManager != null) {
 			backgroundManager.destroy();
+		}
+		if (particlesManager != null) {
+			particlesManager.destroy();
 		}
 
 		var level:String = getLevelData(id);
@@ -113,8 +131,12 @@ class GameState extends State
 			tiled_file_data: Luxe.resources.text(level).asset.text
 		});
 
-		//Luxe.camera.bounds = tilemap.bounds;
-		tilemap.display({ scale:map_scale, filter:FilterType.nearest });
+		tilemap.display({ scale:map_scale, filter:FilterType.nearest, depth:2 });
+
+		//Create BackGround
+		backgroundManager = new BackgroundManager(tilemap.tiledmap_data.properties["background"]);
+		//Particles
+		particlesManager = new ParticlesManager();
 
 		// Load for objects
 		for (_group in tilemap.tiledmap_data.object_groups)
@@ -133,8 +155,10 @@ class GameState extends State
 						gameScene.add(new Sign(_object));
 					case 240:
 						EntityManager.addEntity(gameScene, _object);
+					case 241:
+						particlesManager.addParticlesByName(gameScene, _object);
 					default:
-						trace("unknow type: " + _object.type);
+						trace("unknow type: " + _object.gid + " , name : " + _object.name);
 				}
 			}
 		}
@@ -156,16 +180,9 @@ class GameState extends State
 		tilemapFront.remove_layer("objects");
 		tilemapFront.display({ scale:map_scale, filter:FilterType.nearest, depth:3 });
 		
-		//Create BackGround
-		backgroundManager = new BackgroundManager(tilemap.tiledmap_data.properties["background"]);
-		
-		trace(NP.entity_shape_list);
-		
 		levelColision();
 		Main.fade.up(.5, function() {NP.frozenPlayer = false;});
 	}//loadLevel
-
-	var teleport_disabled: Bool = false;
 	
 	public function switchLevel(xTo:Int, yTo:Int, levelTo:String):Void {
 		if (currentLvl == levelTo) {

@@ -33,13 +33,22 @@
         gif : '*',
         gifcapture : '*',
         luxe_gifcapture : '*',
-        linc_dialogs : '*'
+        linc_dialogs : '*',
+        "hxcpp-debugger" : '*',
       }
     },
 
     files : {
       config : 'config.json',
-      assets : 'assets/'
+      assets : 'assets/',
+      index : { path:'index.html => index.html', template:'project', not_listed:true }
+    }
+  },
+  if : {
+    "(mac || windows || linux) && debug" : {
+      build : {
+        defines : ['HXCPP_DEBUGGER'],
+      }
     }
   }
 }

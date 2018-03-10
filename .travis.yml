@@ -1,0 +1,33 @@
+language: haxe
+
+haxe:
+  - 3.4.7
+
+sudo: false
+
+install:
+  - haxelib install snowfall > log.txt || cat log.txt
+  - haxelib run snowfall update luxe > log.txt || cat log.txt
+  - haxelib git gif https://github.com/snowkit/gif > log.txt || cat log.txt
+  - haxelib git gifcapture https://github.com/snowkit/gifcapture > log.txt || cat log.txt
+  - haxelib git luxe_gifcapture https://github.com/underscorediscovery/luxe-gifcapture > log.txt || cat log.txt
+  - haxelib git linc_dialogs https://github.com/snowkit/linc_dialogs.git > log.txt || cat log.txt
+  - haxelib install hxcpp-debugger  > log.txt || cat log.txt
+  - haxelib list > log.txt || cat log.txt
+
+script:
+  - haxelib run flow build web > log.txt || cat log.txt
+
+deploy:
+  provider: pages
+  local-dir: /bin/web/
+  email: $email
+  name: $name
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN 
+  keep-history: true
+  on:
+    branch: master
+cache:
+  directories:
+   - $HOME/haxe/lib

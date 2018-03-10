@@ -36,7 +36,7 @@ class Door extends Sprite implements ICollidable
 		xTo = Std.parseInt(object.properties["xTo"])*16 + 8;
 		yTo = Std.parseInt(object.properties["yTo"]) * 16;
 
-		depth = 2.0;
+		depth = 2.5;
 
 		texture = Luxe.resources.texture('assets/graphics/object/door_0.png');
 		texture.filter_min = texture.filter_mag = FilterType.nearest;
