@@ -15,45 +15,38 @@ class SplashState extends State
 
 	public function new(_name:String)
 	{
-
 		super({ name:_name });
-
 	}//new
 
 	override function init()
 	{
-
 	}//init
 
 	override function onenter<T>(_value:T)
 	{
 		var image = Luxe.resources.texture('assets/graphics/splash/scanixgames.png');
-
 		background = new Sprite(
 		{
 			name : 'background',
 			centered : false,
 			size : Luxe.screen.size,
-			color : new Color(1,1,1,1)
+			color : new Color(1, 1, 1, 1)
 		});
-
 		versionText = new Text(
 		{
 			text : "Version Alpha 0.6.0\nNectoProject on Luxe Engine",
 			point_size : 18,
 			pos : new Vector(0, 0),
 			sdf : true,
-			color : new Color(0,0,0,1).rgb(0x000000)
+			color : new Color(0, 0, 0, 1).rgb(0x000000)
 		});
-
 		splashImage = new Sprite(
 		{
 			name: 'splashImage',
 			texture: image,
-			pos : new Vector(Luxe.screen.mid.x,Luxe.screen.mid.y),
-			color : new Color(1,1,1,1)
+			pos : new Vector(Luxe.screen.mid.x, Luxe.screen.mid.y),
+			color : new Color(1, 1, 1, 1)
 		});
-
 		Main.fade.up(2.5, function()
 		{
 			Main.fade.out(1, function()
