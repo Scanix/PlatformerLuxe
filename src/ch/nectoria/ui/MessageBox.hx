@@ -1,13 +1,14 @@
 package ch.nectoria.ui;
+
 import luxe.Entity;
 import luxe.Sprite;
 import luxe.Text;
 import luxe.Vector;
+import luxe.Color;
 import luxe.components.sprite.SpriteAnimation;
 import phoenix.Batcher;
 import phoenix.Camera;
 import phoenix.Texture.FilterType;
-import luxe.Color;
 
 /**
  * ...

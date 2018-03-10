@@ -2,18 +2,15 @@ package ch.nectoria.entities;
 
 import ch.nectoria.interfaces.ICollidable;
 import ch.nectoria.states.GameState;
+
 import luxe.Vector;
 import luxe.importers.tiled.TiledObjectGroup.TiledObject;
-import luxe.options.SpriteOptions;
 import luxe.Sprite;
 import luxe.tilemaps.Tilemap.Tileset;
-import phoenix.Texture.FilterType;
-import phoenix.Texture.ClampType;
-import phoenix.Shader;
-import luxe.collision.Collision;
 import luxe.collision.shapes.Shape;
 import luxe.collision.shapes.Polygon;
 import luxe.tween.Actuate;
+import phoenix.Texture.FilterType;
 
 /**
  * ...
@@ -23,9 +20,9 @@ class Door extends Sprite implements ICollidable
 {
 	public var tileset:Tileset;
 	public var hitBox:Shape;
-	public var levelTo(default,null):String;
-	public var xTo(default,null):Int;
-	public var yTo(default,null):Int;
+	public var levelTo(default, null):String;
+	public var xTo(default, null):Int;
+	public var yTo(default, null):Int;
 
 	public function new(object:TiledObject)
 	{
@@ -46,7 +43,7 @@ class Door extends Sprite implements ICollidable
 		centered = false;
 
 		origin = new Vector(16, 0);
-		
+
 		NP.entity_shape_list.push(this);
 	}
 
@@ -57,9 +54,9 @@ class Door extends Sprite implements ICollidable
 
 	public function on_player_collision(is_player:Bool):Void
 	{
-		if (is_player)
+		if(is_player)
 		{
-			if (Luxe.input.inputpressed('jump') && !NP.frozenPlayer)
+			if(Luxe.input.inputpressed('jump') && !NP.frozenPlayer)
 			{
 				NP.frozenPlayer = true;
 				Actuate.tween(this.rotation, .5, {y: (Math.PI / 3)}).onComplete(switchLevel);
@@ -67,7 +64,7 @@ class Door extends Sprite implements ICollidable
 			}
 		}
 	}
-	
+
 	public function switchLevel():Void {
 		var game:GameState = cast(Main.machine.current_state, GameState);
 		game.switchLevel(xTo, yTo, levelTo);

@@ -1,12 +1,12 @@
 package ch.nectoria;
 
 import ch.nectoria.entities.Player;
+import ch.nectoria.entities.Physics;
 import ch.nectoria.interfaces.ICollidable;
+
 import luxe.Color;
 import luxe.Vector;
 import luxe.collision.shapes.Polygon;
-
-import ch.nectoria.entities.Physics;
 
 /**
  * ...
@@ -37,14 +37,15 @@ class NP
 
 	public static function drawDebug():Void
 	{
-		for (shape in level_shape_list)   draw_collider_polygon(cast shape, new Color(0, 1, 0, 1));
-		for (shape in entity_shape_list)   draw_collider_polygon(cast shape.hitBox, new Color(0,0,1,1));
-		for (shape in actor_list)   draw_collider_polygon(cast shape.hitBoxPhys, new Color(1,0,0,1));
+		for(shape in level_shape_list)   draw_collider_polygon(cast shape, new Color(0, 1, 0, 1));
+
+		for(shape in entity_shape_list)   draw_collider_polygon(cast shape.hitBox, new Color(0, 0, 1, 1));
+
+		for(shape in actor_list)   draw_collider_polygon(cast shape.hitBoxPhys, new Color(1, 0, 0, 1));
 	}
 
 	public static function draw_collider_polygon(poly:Polygon, col:Color)
 	{
-
 		var geom = Luxe.draw.poly(
 		{
 			solid:false,
@@ -54,9 +55,7 @@ class NP
 			immediate:true,
 			color:col
 		});
-
 		geom.transform.pos.copy_from(poly.position);
-
 	}
 
 	//global access

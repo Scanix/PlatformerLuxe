@@ -1,6 +1,5 @@
 {
-	"astyle.additional_languages": ["haxe"],
-    "astyle.cmd_options": [ "--mode=cs", "-f", "-U", "-Y", "-o", "-xe", "-xg", "-xL", "-S", "-t", "-xj", "-xt1", "-xW", "-z2" ],
+    "astyle.cmd_options": [ "--mode=cs", "-f", "-U", "-Y", "-o", "-xg", "-xL", "-S", "-t", "-xt1", "-xW", "-z2" ],
     "haxe.displayConfigurations": [
         ["bin/windows.build/build.hxml"], //windows build
         ["bin/web.build/build.hxml"]    //web target
