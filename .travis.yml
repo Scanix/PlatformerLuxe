@@ -20,6 +20,8 @@ script:
 
 deploy:
   provider: pages
+  edge:
+    branch: pages-ivar-set
   local-dir: /bin/web/
   email: $email
   name: $name
