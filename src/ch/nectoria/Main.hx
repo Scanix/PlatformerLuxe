@@ -1,11 +1,15 @@
 package ch.nectoria;
 
-import luxe.GameConfig;
-import luxe.Input;
-import luxe.States;
 import ch.nectoria.states.SplashState;
 import ch.nectoria.states.GameState;
 import ch.nectoria.components.Fader;
+
+import luxe.Screen.WindowEvent;
+import luxe.Camera.SizeMode;
+import luxe.Vector;
+import luxe.GameConfig;
+import luxe.Input;
+import luxe.States;
 import luxe.Parcel;
 import luxe.ParcelProgress;
 import luxe.Color;
@@ -44,6 +48,9 @@ class Main extends luxe.Game
 		//FIX FRAMERATE
 		Luxe.core.fixed_frame_time = 1 / 60;
 		Luxe.fixed_frame_time = 1 / 60;
+
+		Luxe.camera.size = new Vector(1280, 720);
+		Luxe.camera.size_mode = SizeMode.fit;
 
 		//Debug Hxcpp
 		#if (debug && windows)
@@ -135,7 +142,7 @@ class Main extends luxe.Game
 
 		fade.out( 0.5, function()
 		{
-			machine.set('game_state');
+			machine.set('splash_state');
 		});
 	}//assetsLoaded
 
@@ -143,6 +150,17 @@ class Main extends luxe.Game
 	{
 		if (e.keycode == Key.escape)
 			Luxe.shutdown();
+
+		if(e.keycode == Key.key_o) {
+            switch(Luxe.camera.size_mode) {
+                case fit:
+                    Luxe.camera.size_mode = SizeMode.cover;
+                case cover:
+                    Luxe.camera.size_mode = SizeMode.contain;
+                case contain:
+                    Luxe.camera.size_mode = SizeMode.fit;
+            }
+        }
 		#if debug
 		if (e.keycode == Key.key_p)
 			Luxe.showConsole(!Luxe.debug.visible);
