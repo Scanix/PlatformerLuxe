@@ -13,10 +13,10 @@ install:
   - haxelib git luxe_gifcapture https://github.com/underscorediscovery/luxe-gifcapture > log.txt || cat log.txt
   - haxelib git linc_dialogs https://github.com/snowkit/linc_dialogs.git > log.txt || cat log.txt
   - haxelib install hxcpp-debugger  > log.txt || cat log.txt
-  - haxelib list > log.txt || cat log.txt
+  - haxelib list
 
 script:
-  - haxelib run flow build web > log.txt || cat log.txt
+  - haxelib run flow build web
 
 deploy:
   provider: pages
