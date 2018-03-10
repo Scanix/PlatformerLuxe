@@ -24,13 +24,13 @@ class ParticlesManager
 	var blend_src:Int;
 	var blend_dst:Int;
 
-	public function new()
+	public function new ()
 	{
 		particlesSys = new ParticleSystem({name: 'particles'});
 	}
 
 	public function addParticlesByName(scene:Scene, obj:TiledObject):Void {
-		switch(obj.name) {
+		switch (obj.name) {
 			case 'smoke':
 				loadFromJSON(obj, Luxe.resources.json('assets/graphics/particles/smoke.json'));
 

@@ -19,7 +19,7 @@ class NPC extends Physics
 
 	private var anim:SpriteAnimation;
 
-	public function new(object:TiledObject)
+	public function new (object:TiledObject)
 	{
 		super(new Vector(object.pos.x + 16, object.pos.y - 32));
 
@@ -44,14 +44,14 @@ class NPC extends Physics
 
 	override public function on_player_collision(is_player:Bool):Void
 	{
-		if(is_player)
+		if (is_player)
 		{
-			if(Luxe.input.inputpressed('jump'))
+			if (Luxe.input.inputpressed('jump'))
 			{
 				var game:GameState = cast(Main.machine.current_state, GameState);
 				var e:MessageBox = cast(game.messageBox, MessageBox);
 
-				if(!e.isShown) {
+				if (!e.isShown) {
 					e.show(text);
 				}
 			}
@@ -62,33 +62,33 @@ class NPC extends Physics
 		var game:GameState = cast(Main.machine.current_state, GameState);
 		var e:MessageBox = cast(game.messageBox, MessageBox);
 
-		if(!e.isShown) {
+		if (!e.isShown) {
 			e.show(text);
 		}
 	}
 
 	override function update(dt:Float)
 	{
-		if(!NP.frozenPlayer) {
-			if(!hasCollideRight) {
+		if (!NP.frozenPlayer) {
+			if (!hasCollideRight) {
 				moveRight();
-			} else if(!hasCollideLeft) {
+			} else if (!hasCollideLeft) {
 				moveLeft();
 			}
 		}
 
-		if(vx != 0)
+		if (vx != 0)
 		{
-			if(anim.animation != 'walk')
+			if (anim.animation != 'walk')
 			{
 				anim.animation = 'walk';
 			}
 		}
-		else if(vy > 1)
+		else if (vy > 1)
 		{
 			//spPlayer.play("fall");
 		}
-		else if(vy < -1)
+		else if (vy < -1)
 		{
 			anim.animation = 'jump';
 		}
@@ -104,7 +104,7 @@ class NPC extends Physics
 	{
 		vx -= speed;
 
-		if(collideRight)
+		if (collideRight)
 		{
 			collideRight = false;
 		}
@@ -115,7 +115,7 @@ class NPC extends Physics
 	{
 		vx += speed;
 
-		if(collideLeft)
+		if (collideLeft)
 		{
 			collideLeft = false;
 		}

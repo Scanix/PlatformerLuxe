@@ -15,7 +15,7 @@ class BackgroundManager
 	private var offset:Int;
 	private var backgroundImage:String;
 
-	public function new(_backgroundImage:String)
+	public function new (_backgroundImage:String)
 	{
 		backgroundImage = _backgroundImage;
 		backgroundsList = new Array<Sprite>();
@@ -24,8 +24,8 @@ class BackgroundManager
 		var initialPos = new Vector();
 		initialPos.copy_from(new Vector(0, 0));
 
-		if(backgroundImage != "none") {
-			for(i in 0...3)
+		if (backgroundImage != "none") {
+			for (i in 0...3)
 			{
 				backgroundsList.push(createBackground(initialPos));
 				initialPos.x += backgroundsList[0].size.x-1;
@@ -52,7 +52,7 @@ class BackgroundManager
 	}
 
 	public function destroy() {
-		for(background in backgroundsList)
+		for (background in backgroundsList)
 		{
 			background.destroy();
 		}
@@ -62,15 +62,15 @@ class BackgroundManager
 
 	public function update()
 	{
-		if(backgroundsList.length > 0) {
-			if(Luxe.camera.world_point_to_screen(backgroundsList[1].pos).x < 0)
+		if (backgroundsList.length > 0) {
+			if (Luxe.camera.world_point_to_screen(backgroundsList[1].pos).x < 0)
 			{
 				offset++;
-			} else if(Luxe.camera.world_point_to_screen(backgroundsList[2].pos).x > Luxe.screen.width) {
+			} else if (Luxe.camera.world_point_to_screen(backgroundsList[2].pos).x > Luxe.screen.width) {
 				offset--;
 			}
 
-			for(background in backgroundsList)
+			for (background in backgroundsList)
 			{
 				background.pos.x = (offset * (background.size.x)) + (backgroundsList.indexOf(background) * background.size.x) + (Luxe.camera.pos.x * 0.3);
 

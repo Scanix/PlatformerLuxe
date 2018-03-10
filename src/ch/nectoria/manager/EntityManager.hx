@@ -1,6 +1,6 @@
 package ch.nectoria.manager;
 
-import ch.nectoria.entities.*;
+import ch.nectoria.entities.NPC;
 
 import luxe.Sprite;
 import luxe.Scene;
@@ -14,7 +14,7 @@ class EntityManager
 {
 	private var entityList:Array<Sprite> = [];
 
-	public function new()
+	public function new ()
 	{
 
 	}
@@ -22,7 +22,7 @@ class EntityManager
 	public static function addEntity(scene:Scene, obj:TiledObject):Void {
 		trace(obj.name);
 
-		switch(obj.name) {
+		switch (obj.name) {
 			case 'mrMoustache':
 				scene.add(new NPC(obj));
 

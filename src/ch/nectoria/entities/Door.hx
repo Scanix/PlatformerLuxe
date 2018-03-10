@@ -24,7 +24,7 @@ class Door extends Sprite implements ICollidable
 	public var xTo(default, null):Int;
 	public var yTo(default, null):Int;
 
-	public function new(object:TiledObject)
+	public function new (object:TiledObject)
 	{
 		super({pos: new Vector(object.pos.x + 16, object.pos.y - 32)});
 		hitBox = Polygon.rectangle(pos.x - 16, pos.y, 16, 32, false);
@@ -54,9 +54,9 @@ class Door extends Sprite implements ICollidable
 
 	public function on_player_collision(is_player:Bool):Void
 	{
-		if(is_player)
+		if (is_player)
 		{
-			if(Luxe.input.inputpressed('jump') && !NP.frozenPlayer)
+			if (Luxe.input.inputpressed('jump') && !NP.frozenPlayer)
 			{
 				NP.frozenPlayer = true;
 				Actuate.tween(this.rotation, .5, {y: (Math.PI / 3)}).onComplete(switchLevel);

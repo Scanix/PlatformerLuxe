@@ -13,7 +13,7 @@ class SplashState extends State
 	private var versionText:Text;
 	private var background:Sprite;
 
-	public function new(_name:String)
+	public function new (_name:String)
 	{
 		super({ name:_name });
 	}//new
