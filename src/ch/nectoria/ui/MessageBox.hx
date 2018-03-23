@@ -22,12 +22,13 @@ class MessageBox extends Entity
 	private var textSprite:Text;
 	private var typewriter:String = "";
 	private var message:String;
+	private var lines:Array<String>;
 	private var characterIndex:UInt = 0;
 	private var positionText:Int = 0;
 	private var numberLine:UInt = 1;
+	private var page:UInt = 0;
 	public var isShown:Bool = false;
 	private var paused:Bool = false;
-
 	private var textTick:UInt = 0;
 	private static inline var TEXT_SPEED:UInt = 1;
 
@@ -75,6 +76,7 @@ class MessageBox extends Entity
 		isShown = true;
 
 		message = text;
+		lines = text.split('*');
 		textSprite.visible = true;
 		boxSprite.visible = true;
 
@@ -90,7 +92,7 @@ class MessageBox extends Entity
 				typewriterEffect();
 			});
 
-			if (Luxe.input.inputpressed('jump'))
+			if (Luxe.input.inputpressed('interact'))
 			{
 				this.resume();
 			}
@@ -105,7 +107,7 @@ class MessageBox extends Entity
 		if (textTick == 0 && !paused && positionText < message.length)
 		{
 			textTick = TEXT_SPEED;
-			trace(char);
+			//trace(char);
 
 			if (char == '*')
 			{
@@ -155,9 +157,39 @@ class MessageBox extends Entity
 				typewriter = "";
 				positionText++;
 				numberLine = 0;
+				page++;
 				paused = false;
 				textTick = 0;
 			}
+		}
+		else
+		{
+			//Skip typewriter effect
+			var size = 0;
+			typewriter = "";
+
+			for (i in 0...lines.length)
+			{
+				if (lines[i] != null)
+				{
+					if (i <= 3+4*page)
+					{
+						size += lines[i].length + 1;
+
+						if (i >= 0+4*page)
+						{
+							typewriter += lines[i];
+							typewriter += '\n';
+							trace(lines[i]);
+						}
+					}
+				}
+			}
+
+			positionText = --size;
+			numberLine = 0;
+			paused = true;
+			textTick = 0;
 		}
 	}
 
@@ -171,6 +203,7 @@ class MessageBox extends Entity
 		typewriter = "";
 		characterIndex = 0;
 		positionText = 0;
+		page = 0;
 		numberLine = 1;
 		textSprite.visible = false;
 		boxSprite.visible = false;
