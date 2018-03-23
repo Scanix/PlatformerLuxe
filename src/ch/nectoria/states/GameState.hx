@@ -6,14 +6,17 @@ import ch.nectoria.manager.EntityManager;
 import ch.nectoria.ui.MessageBox;
 import ch.nectoria.manager.ParticlesManager;
 import ch.nectoria.components.LazyCameraFollow;
-import ch.nectoria.entities.*;
+import ch.nectoria.entities.Player;
+import ch.nectoria.entities.Door;
+import ch.nectoria.entities.Sign;
+
 import luxe.Entity;
 import luxe.States;
 import luxe.Scene;
 import luxe.Sprite;
 import luxe.Vector;
 import luxe.importers.tiled.TiledMap;
-import luxe.collision.shapes.*;
+import luxe.collision.shapes.Polygon;
 import luxe.collision.data.ShapeCollision;
 import luxe.components.sprite.SpriteAnimation;
 import phoenix.Texture.FilterType;
@@ -28,14 +31,14 @@ class GameState extends State
 	private var map_scale: Int = 1;
 	private var backgroundManager:BackgroundManager;
 	private var particlesManager:ParticlesManager;
-	
+
 	private var currentLvl:String;
-	
+
 	public var messageBox:Entity;
 
 	var anim : SpriteAnimation;
 
-	public function new(_name:String)
+	public function new (_name:String)
 	{
 
 		super({ name:_name });
@@ -46,6 +49,7 @@ class GameState extends State
 	private function getLevelData(id:String):String
 	{
 		var level:String = "assets/maps/" + id + "/level.tmx";
+
 		if (id != null)
 		{
 			return level;
@@ -60,7 +64,7 @@ class GameState extends State
 		Luxe.camera.zoom = 5;
 
 		Luxe.events.listen('simulation.triggers.collide', ontrigger);
-		
+
 		messageBox = new MessageBox();
 
 		loadLevel(currentLvl);
@@ -89,9 +93,9 @@ class GameState extends State
 			bound.w *= tilemap.tile_width;
 			bound.h *= tilemap.tile_height;
 
-			vertices.push( new Vector( 0, 16 ) );
-			vertices.push( new Vector( 16, 0 ) );
-			vertices.push( new Vector( 16, 16 ) );
+			vertices.push(new Vector(0, 16));
+			vertices.push(new Vector(16, 0));
+			vertices.push(new Vector(16, 16));
 
 			NP.level_shape_list.push(new Polygon(bound.x, bound.y, vertices));
 		}
@@ -102,18 +106,21 @@ class GameState extends State
 	{
 		//for (a in NP.actor_list) a.destroy();
 		for (a in NP.entity_shape_list) cast(a, Sprite).destroy();
+
 		NP.actor_list = [];
 		NP.entity_shape_list = [];
 		NP.level_shape_list = [];
-		
+
 		//Destroy Manager
 		if (tilemap != null) {
 			tilemap.destroy();
 			tilemapFront.destroy();
 		}
+
 		if (backgroundManager != null) {
 			backgroundManager.destroy();
 		}
+
 		if (particlesManager != null) {
 			particlesManager.destroy();
 		}
@@ -146,17 +153,23 @@ class GameState extends State
 				switch (_object.gid)
 				{
 					case 254:
-						//add(new Coin(object.x, object.y));
+
+					//add(new Coin(object.x, object.y));
 					case 107:
 						gameScene.add(new Door(_object));
+
 					case 35:
-						//add(new Chest(object));
+
+					//add(new Chest(object));
 					case 39:
 						gameScene.add(new Sign(_object));
+
 					case 240:
 						EntityManager.addEntity(gameScene, _object);
+
 					case 241:
 						particlesManager.addParticlesByName(gameScene, _object);
+
 					default:
 						trace("unknow type: " + _object.gid + " , name : " + _object.name);
 				}
@@ -166,7 +179,7 @@ class GameState extends State
 		//And create the visual
 		player = new Player(NP.posPlayer.clone());
 		NP.player = player;
-		
+
 		if (tilemap.total_width > Luxe.screen.h) {
 			player.add(new LazyCameraFollow("lazyCamera", "static", "follow", new Vector(tilemap.total_width, tilemap.total_height)));
 		} else {
@@ -179,11 +192,13 @@ class GameState extends State
 		tilemapFront.remove_layer("between");
 		tilemapFront.remove_layer("objects");
 		tilemapFront.display({ scale:map_scale, filter:FilterType.nearest, depth:3 });
-		
+
 		levelColision();
-		Main.fade.up(.5, function() {NP.frozenPlayer = false;});
+		Main.fade.up(.5, function() {
+			NP.frozenPlayer = false;
+		});
 	}//loadLevel
-	
+
 	public function switchLevel(xTo:Int, yTo:Int, levelTo:String):Void {
 		if (currentLvl == levelTo) {
 			player.pos.x = xTo;
@@ -193,7 +208,9 @@ class GameState extends State
 			NP.posPlayer.x = xTo;
 			NP.posPlayer.y = yTo;
 			NP.frozenPlayer = true;
-			Main.fade.out(.5, function() {loadLevel(currentLvl); });
+			Main.fade.out(.5, function() {
+				loadLevel(currentLvl);
+			});
 		}
 	}
 
@@ -204,9 +221,9 @@ class GameState extends State
 
 	override function update(dt:Float)
 	{
-		#if debug
+#if debug
 		NP.drawDebug();
-		#end
+#end
 		backgroundManager.update();
 	} //update
 

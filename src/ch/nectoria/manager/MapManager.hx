@@ -7,9 +7,9 @@ package ch.nectoria.manager;
 class MapManager
 {
 
-	public function new() 
+	public function new ()
 	{
-		
+
 	}
-	
+
 }

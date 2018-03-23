@@ -1,9 +1,8 @@
 package ch.nectoria.components;
 
 import ch.nectoria.interfaces.ICollidable;
-import luxe.Component;
-import luxe.Input;
 
+import luxe.Component;
 import luxe.collision.Collision;
 
 class ColliderComp extends Component
@@ -23,7 +22,7 @@ class ColliderComp extends Component
 		for (col_entity in NP.entity_shape_list)
 		{
 			if (col_entity == collidable) continue;
-			
+
 			var c = Collision.shapeWithShape(collidable.hitBox, col_entity.hitBox);
 
 			if (c != null)
@@ -32,6 +31,7 @@ class ColliderComp extends Component
 					NP.player.interactWith = true;
 					col_entity.on_player_collision(entity == NP.player);
 				}
+
 				break;
 			} else {
 				NP.player.interactWith = false;

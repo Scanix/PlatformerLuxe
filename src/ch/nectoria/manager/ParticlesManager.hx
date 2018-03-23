@@ -1,12 +1,12 @@
 package ch.nectoria.manager;
 
+import luxe.Particles;
+import luxe.Scene;
+import luxe.Sprite;
 import luxe.importers.tiled.TiledObjectGroup.TiledObject;
 import luxe.options.ParticleOptions.ParticleEmitterOptions;
 import phoenix.Color.ColorHSV;
 import phoenix.Vector;
-import luxe.Particles;
-import luxe.Scene;
-import luxe.Sprite;
 
 /**
  * ...
@@ -15,44 +15,45 @@ import luxe.Sprite;
 class ParticlesManager
 {
 	private var emitterList:Array<Sprite> = [];
-    private var particlesSys:ParticleSystem;
+	private var particlesSys:ParticleSystem;
 	private var emitter:ParticleEmitter;
 
-    var startColour:ColorHSV = new ColorHSV(60, 1, 0.5, 1);
+	var startColour:ColorHSV = new ColorHSV(60, 1, 0.5, 1);
 	var endColour:ColorHSV = new ColorHSV(0, 1, 0.5, 0);
 
-    var blend_src:Int;
+	var blend_src:Int;
 	var blend_dst:Int;
 
-	public function new() 
+	public function new ()
 	{
 		particlesSys = new ParticleSystem({name: 'particles'});
 	}
-	
+
 	public function addParticlesByName(scene:Scene, obj:TiledObject):Void {
-        switch (obj.name) {
-            case 'smoke':
-               loadFromJSON(obj, Luxe.resources.json('assets/graphics/particles/smoke.json'));
-            default :
-                trace("unknow type: " + obj.name);
-        }
+		switch (obj.name) {
+			case 'smoke':
+				loadFromJSON(obj, Luxe.resources.json('assets/graphics/particles/smoke.json'));
 
-    }
+			default :
+				trace("unknow type: " + obj.name);
+		}
 
-    public function addParticlesByJSON(particles:ParticleEmitterOptions, pos:Vector):Void {
-        particlesSys.add_emitter(particles);
-        emitter = particlesSys.get('prototyping');
+	}
+
+	public function addParticlesByJSON(particles:ParticleEmitterOptions, pos:Vector):Void {
+		particlesSys.add_emitter(particles);
+		emitter = particlesSys.get('prototyping');
 		emitter.init();
-        emitter.pos.copy_from(pos);
-    }
+		emitter.pos.copy_from(pos);
+	}
 
-    public function loadFromJSON(obj:TiledObject, json:Dynamic) {
+	public function loadFromJSON(obj:TiledObject, json:Dynamic) {
 		// grab loaded particle values
-        json = json.asset.json;
+		json = json.asset.json;
 		startColour = new ColorHSV(json.start_color.h, json.start_color.s, json.start_color.v, json.start_color.a);
 		endColour = new ColorHSV(json.end_color.h, json.end_color.s, json.end_color.v, json.end_color.a);
 		var loaded:ParticleEmitterOptions = {
-            name: "prototyping",
+			name: "prototyping",
 			emit_time: json.emit_time,
 			emit_count: json.emit_count,
 			direction: json.direction,
@@ -76,12 +77,12 @@ class ParticlesManager
 			end_size_random: new Vector(json.end_size_random.x, json.end_size_random.y),
 			start_color: startColour,
 			end_color: endColour,
-            depth: 1
+			depth: 1
 		};
 		blend_src = json.blend_src;
 		blend_dst = json.blend_dst;
 
-        addParticlesByJSON(loaded,new Vector(obj.pos.x + 8,obj.pos.y));
+		addParticlesByJSON(loaded, new Vector(obj.pos.x + 8, obj.pos.y));
 	} // loadFromJSON
 
 	public function destroy() {

@@ -13,15 +13,15 @@ class Fader extends luxe.Component
 
 	override function init()
 	{
-		faderBatcher = new Batcher(Luxe.renderer,'fader_batcher');
+		faderBatcher = new Batcher(Luxe.renderer, 'fader_batcher');
 		faderBatcher.view = new Camera();
 		faderBatcher.layer = 10;
 		Luxe.renderer.add_batch(faderBatcher);
-		
+
 		overlay = new Sprite(
 		{
 			size: Luxe.screen.size,
-			color: new Color(0,0,0,0),
+			color: new Color(0, 0, 0, 0),
 			centered: false,
 			batcher: faderBatcher,
 			name: "FaderEntity",
@@ -29,12 +29,12 @@ class Fader extends luxe.Component
 		});
 	}
 
-	public function out(?t=0.15,?fn:Void->Void)
+	public function out(?t=0.15, ?fn:Void->Void)
 	{
 		overlay.color.tween(t, {a:1}).onComplete(fn);
 	}
 
-	public function up(?t=0.15,?fn:Void->Void)
+	public function up(?t=0.15, ?fn:Void->Void)
 	{
 		overlay.color.tween(t, {a:0}).onComplete(fn);
 	}

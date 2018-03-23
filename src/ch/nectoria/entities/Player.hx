@@ -1,14 +1,12 @@
 package ch.nectoria.entities;
 
 import ch.nectoria.components.ColliderComp;
-import ch.nectoria.components.LazyCameraFollow;
+
 import luxe.Sprite;
 import luxe.Vector;
 import luxe.components.sprite.SpriteAnimation;
-import phoenix.Texture.FilterType;
-import ch.nectoria.states.GameState;
 import luxe.collision.shapes.Polygon;
-import luxe.collision.shapes.Shape;
+import phoenix.Texture.FilterType;
 
 class Player extends Physics
 {
@@ -21,10 +19,10 @@ class Player extends Physics
 
 	private var anim:SpriteAnimation;
 
-	public function new(pos:Vector):Void
+	public function new (pos:Vector):Void
 	{
 		super(pos);
-		
+
 		texture = Luxe.resources.texture('assets/graphics/entity/player32.png');
 		texture.filter_min = texture.filter_mag = FilterType.nearest;
 		size = new Vector(16, 32);
@@ -34,17 +32,17 @@ class Player extends Physics
 
 		var anim_object = Luxe.resources.json('assets/anim.json');
 		anim = this.add(new SpriteAnimation({ name: 'SpriteAnimation' }));
-		anim.add_from_json_object( anim_object.asset.json );
-		
+		anim.add_from_json_object(anim_object.asset.json);
+
 		name = 'player';
 
 		anim.animation = 'idle';
 		anim.play();
-		
+
 		//InteractionSign
 		var image = Luxe.resources.texture('assets/graphics/entity/interactionSign.png');
 		image.filter_min = image.filter_mag = FilterType.nearest;
-		
+
 		_add_child(interactionSign = new Sprite({
 			name: 'interactionSign',
 			texture: image,
@@ -53,14 +51,14 @@ class Player extends Physics
 			depth: 5,
 			visible: false
 		}));
-		
+
 		add(new ColliderComp({ name: 'collision handler'}));
 	}
 
 	override function update(dt:Float)
 	{
 		if (!NP.frozenPlayer) {
-			apply_input(dt);	
+			apply_input(dt);
 		}
 
 		super.update(dt);
@@ -84,10 +82,10 @@ class Player extends Physics
 		{
 			anim.animation = "idle";
 		}
-		
+
 		interactionSign.pos.x = this.pos.x;
 		interactionSign.pos.y = this.pos.y - 16;
-		
+
 		if (interactWith) {
 			interactionSign.visible = true;
 		} else {
@@ -97,20 +95,22 @@ class Player extends Physics
 
 	function apply_input(dt:Float)
 	{
-		if ( Luxe.input.inputdown('jump') && !inAir && !interactWith /*&& /*collideBelow*/)
+		if (Luxe.input.inputdown('jump') && !inAir && !interactWith /*&& /*collideBelow*/)
 		{
 			this.jump();
 		}
-		if ( Luxe.input.inputdown('left') && !collideLeft)
+
+		if (Luxe.input.inputdown('left') && !collideLeft)
 		{
 			this.moveLeft();
 		}
-		if ( Luxe.input.inputdown('right') /*&& !collideRight*/)
+
+		if (Luxe.input.inputdown('right') /*&& !collideRight*/)
 		{
 			this.moveRight();
 		}
 	} //update_input
-	
+
 	public function playWalk():Void
 	{
 		anim.animation = 'walk';
@@ -124,19 +124,23 @@ class Player extends Physics
 	public function moveLeft():Void
 	{
 		vx -= speed;
+
 		if (collideRight)
 		{
 			collideRight = false;
 		}
+
 		this.flipx = true;
 	}
 	public function moveRight():Void
 	{
 		vx += speed;
+
 		if (collideLeft)
 		{
 			collideLeft = false;
 		}
+
 		this.flipx = false;
 	}
 }

@@ -5,7 +5,7 @@ import luxe.States;
 class FightState extends State
 {
 
-	public function new(_name:String)
+	public function new (_name:String)
 	{
 		super({ name:_name });
 	}//new
