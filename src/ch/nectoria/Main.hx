@@ -12,6 +12,7 @@ import luxe.States;
 import luxe.Parcel;
 import luxe.ParcelProgress;
 import luxe.Color;
+import phoenix.Camera;
 import phoenix.Batcher;
 
 #if windows
@@ -120,10 +121,13 @@ class Main extends luxe.Game
 		Luxe.input.bind_key('left', Key.left);
 		Luxe.input.bind_key('right', Key.key_d);
 		Luxe.input.bind_key('right', Key.right);
+		Luxe.input.bind_key('interact', Key.key_x);
+
 		machine = new States({name:'statemachine'});
 		machine.add(new SplashState('splash_state'));
 		machine.add(new GameState('game_state'));
 		//machine.add(new FightState('fight_state'));
+		
 		Luxe.camera.zoom = 1;
 		fade = Luxe.camera.add(new Fader({ name:'fade' }));
 		fade.out(0.5, function()

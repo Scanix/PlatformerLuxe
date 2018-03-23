@@ -46,7 +46,7 @@ class NPC extends Physics
 	{
 		if (is_player)
 		{
-			if (Luxe.input.inputpressed('jump'))
+			if (Luxe.input.inputpressed('interact'))
 			{
 				var game:GameState = cast(Main.machine.current_state, GameState);
 				var e:MessageBox = cast(game.messageBox, MessageBox);
