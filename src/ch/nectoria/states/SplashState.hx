@@ -34,7 +34,7 @@ class SplashState extends State
 		});
 		versionText = new Text(
 		{
-			text : "Version Alpha 0.6.0\nNectoProject on Luxe Engine",
+			text : "Version Alpha 0.6.0\nNectoProject on Luxe Engine\nServer version",
 			point_size : 18,
 			pos : new Vector(0, 0),
 			sdf : true,

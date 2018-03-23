@@ -120,6 +120,7 @@ class Main extends luxe.Game
 		Luxe.input.bind_key('left', Key.left);
 		Luxe.input.bind_key('right', Key.key_d);
 		Luxe.input.bind_key('right', Key.right);
+		Luxe.input.bind_key('interact', Key.key_x);
 		machine = new States({name:'statemachine'});
 		machine.add(new SplashState('splash_state'));
 		machine.add(new GameState('game_state'));

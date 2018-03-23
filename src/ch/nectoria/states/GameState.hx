@@ -9,12 +9,17 @@ import ch.nectoria.components.LazyCameraFollow;
 import ch.nectoria.entities.Player;
 import ch.nectoria.entities.Door;
 import ch.nectoria.entities.Sign;
+import ch.nectoria.entities.PlayerClient;
+import ch.nectoria.client.Client;
 
 import luxe.Entity;
 import luxe.States;
 import luxe.Scene;
 import luxe.Sprite;
 import luxe.Vector;
+import luxe.Color;
+import luxe.tween.Actuate;
+import luxe.tween.easing.Linear;
 import luxe.importers.tiled.TiledMap;
 import luxe.collision.shapes.Polygon;
 import luxe.collision.data.ShapeCollision;
@@ -25,10 +30,11 @@ class GameState extends State
 {
 
 	private var gameScene:Scene;
+	var clients: Map<String, PlayerClient>;
 	private var player:Player;
 	private var tilemap:TiledMap;
 	private var tilemapFront:TiledMap;
-	private var map_scale: Int = 1;
+	private var map_scale:Int = 1;
 	private var backgroundManager:BackgroundManager;
 	private var particlesManager:ParticlesManager;
 
@@ -38,12 +44,18 @@ class GameState extends State
 
 	var anim : SpriteAnimation;
 
+	//Test for webSocket
+	var socket : js.html.WebSocket;
+	var open: Bool = false;
+
 	public function new (_name:String)
 	{
 
 		super({ name:_name });
 		gameScene = new Scene('game');
 
+		clients = new Map<String, PlayerClient>();
+      	trace("5- world created");
 	}//new
 
 	private function getLevelData(id:String):String
@@ -67,8 +79,29 @@ class GameState extends State
 
 		messageBox = new MessageBox();
 
+		var port = 3456;
+		socket = new js.html.WebSocket("ws://test.nectoria.com:"+port);
+
+		// start updating only AFTER we know there is a connection
+		socket.onopen = function(event:Dynamic) {
+			trace("6 - worldSocket open");
+			open = true;
+		}
+
+		socket.onmessage = function(event:Dynamic) {
+			addClient(event.data);
+		}
+
 		loadLevel(currentLvl);
 	}//onenter
+
+	public function send(data:Dynamic) {
+		socket.send(data);
+	}
+
+	override function onremoved() {
+		socket.close();
+	}
 
 	function levelColision()
 	{
@@ -178,6 +211,8 @@ class GameState extends State
 
 		//And create the visual
 		player = new Player(NP.posPlayer.clone());
+		player.add(new Client({ name: "client" }));
+
 		NP.player = player;
 
 		if (tilemap.total_width > Luxe.screen.h) {
@@ -219,11 +254,45 @@ class GameState extends State
 
 	} //ontrigger
 
+	public function addClient(cIdPos:String) {
+		var arr = cIdPos.split("///");
+		var pId = NP.player.get("client").cId;
+
+		// id///pos///alive
+		if (arr[2]=="true" && NP.player != null) 
+		{
+			if (pId!= "" && arr[0] != pId  &&  clients.get(arr[0]) == null) 
+			{
+				trace("new client");
+				var sprite:PlayerClient = new PlayerClient(new Vector(0,0), arr[0]);
+				clients.set(arr[0], sprite);
+			} 
+			else 
+			{
+				if (clients.get(arr[0])!=null) 
+				{
+					clients.get(arr[0]).vx = Utilities.vectorFromString(arr[1]).x - clients.get(arr[0]).pos.x;
+					clients.get(arr[0]).vy = Utilities.vectorFromString(arr[1]).y - clients.get(arr[0]).pos.y;
+					Actuate.tween(clients.get(arr[0]).pos, .1, {x: Utilities.vectorFromString(arr[1]).x, y: Utilities.vectorFromString(arr[1]).y}).ease(Linear.easeNone);
+				}
+			}
+		} 
+		else //Sprite is dead 
+		{ 
+			if (clients.get(arr[0])!=null) 
+			{
+				clients.get(arr[0]).destroy();
+				clients.remove(arr[0]);
+			}
+		}
+	}
+
 	override function update(dt:Float)
 	{
 #if debug
 		NP.drawDebug();
 #end
+		if (open) send("WORLDUPDATE");
 		backgroundManager.update();
 	} //update
 
