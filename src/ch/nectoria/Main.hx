@@ -20,10 +20,10 @@ class Main extends luxe.Game
 
 	public static var machine : States;
 	public static var fade:Fader;
-	private static var debugBatcher:Batcher;
-#if windows
-	private var capture: LuxeGifCapture;
-#end
+	/** The 'screenSize' batcher for text */
+	public static var debugBatcher:Batcher;
+	/** The 'gameSize' batcher for debug box */
+	public static var debugBoxBatcher:Batcher;
 
 	override function config(config:luxe.GameConfig)
 	{
@@ -48,10 +48,17 @@ class Main extends luxe.Game
 #end
 		//Create DebugBatcher
 #if debug
+		//Create DebugBatcher
 		debugBatcher = new Batcher(Luxe.renderer, 'debug_batcher');
 		debugBatcher.view = new Camera();
 		debugBatcher.layer = 11;
+		
+		//Create DebugBoxBatcher
+		debugBoxBatcher = new Batcher(Luxe.renderer, 'debug_box_batcher');
+		debugBoxBatcher.layer = 12;
+		
 		Luxe.renderer.add_batch(debugBatcher);
+		Luxe.renderer.add_batch(debugBoxBatcher);
 #end
 		// load the parcel
 		var parcel = new Parcel({
