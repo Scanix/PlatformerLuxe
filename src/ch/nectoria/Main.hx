@@ -38,15 +38,15 @@ class Main extends luxe.Game
 	override function ready()
 	{
 		//FIX FRAMERATE
-		Luxe.core.fixed_frame_time = 1 / 60;
-		Luxe.fixed_frame_time = 1 / 60;
+		Luxe.fixed_timestep = true;
 		Luxe.camera.size = new Vector(1280, 720);
 		Luxe.camera.size_mode = SizeMode.fit;
+		
 		//Debug Hxcpp
 #if (debug && windows)
 		new debugger.HaxeRemote(true, "localhost");
 #end
-		//Create DebugBatcher
+
 #if debug
 		//Create DebugBatcher
 		debugBatcher = new Batcher(Luxe.renderer, 'debug_batcher');
@@ -157,7 +157,7 @@ class Main extends luxe.Game
 			point_size: 14,
 			batcher: debugBatcher,
 			depth: 1,
-			text: 'FPS : ' + Math.round(1.0/Luxe.debug.dt_average),
+			text: 'FPS : ' + Math.round(1.0/Luxe.debug.dt_average) + ' dt : ' + Luxe.physics.step_delta,
 		});
 #end
 	}
