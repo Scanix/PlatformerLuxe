@@ -15,11 +15,6 @@ import luxe.Color;
 import phoenix.Camera;
 import phoenix.Batcher;
 
-#if windows
-import luxe.gifcapture.LuxeGifCapture;
-import dialogs.Dialogs;
-#end
-
 class Main extends luxe.Game
 {
 
@@ -92,22 +87,7 @@ class Main extends luxe.Game
 			background  : new Color(1, 1, 1, 0.85),
 			oncomplete  : assetsLoaded
 		});
-		//GifCapture
-#if windows
-		capture = new LuxeGifCapture({
-			width: Std.int(Luxe.screen.w),
-			height: Std.int(Luxe.screen.h),
-			fps: 30,
-			max_time: 5,
-			quality: GifQuality.High,
-			repeat: GifRepeat.Infinite,
-			oncomplete: function(_bytes:haxe.io.Bytes) {
-				var path = Dialogs.save('Save GIF');
 
-				if (path != '') sys.io.File.saveBytes(path, _bytes);
-			}
-		});
-#end
 		// start loading!
 		parcel.load();
 	}//ready
@@ -162,31 +142,6 @@ class Main extends luxe.Game
 #end
 	}
 
-	override public function onkeydown(event:KeyEvent) {
-#if windows
-
-		switch (event.keycode) {
-			case Key.key_0:
-				if (capture.state == CaptureState.Paused) {
-					capture.record();
-					trace('recording: active');
-				} else if (capture.state == CaptureState.Recording) {
-					capture.pause();
-					trace('recording: paused');
-				}
-
-			case Key.key_r:
-				capture.reset();
-				trace('recording: reset');
-
-			case Key.key_3:
-				trace('recording: committed');
-				capture.commit();
-		} //switch
-
-#end
-	} //onkeydown
-
 	override function onrender() {
 #if debug
 		Luxe.draw.text({
@@ -198,9 +153,5 @@ class Main extends luxe.Game
 			text: 'FPS : ' + Math.round(1.0/Luxe.debug.dt_average),
 		});
 #end
-	}
-
-	override function update(dt:Float)
-	{
 	}
 }
