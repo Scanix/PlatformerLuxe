@@ -47,7 +47,8 @@ class BackgroundManager
 			name: "background-" + backgroundsList.length,
 			texture: texture,
 			pos: _pos,
-			centered: false
+			centered: false,
+			immediate:true,
 		});
 
 		return sprite;
@@ -84,17 +85,8 @@ class BackgroundManager
 					w : background.size.x,
 					h : background.size.y,
 					immediate:true,
-					color:new Color(1, 1, 0, 1)
-				});
-				Luxe.draw.text(
-				{
-					depth:102,
-					color : new Color(1, 1, 1, 1),
-					pos : new Vector().copy_from(background.pos),
-					point_size : 10,
-					align : TextAlign.center,
-					immediate: true,
-					text : background.name
+					color:new Color(1, 1, 0, 1),
+					batcher:Main.debugBatcher
 				});
 #end
 			}

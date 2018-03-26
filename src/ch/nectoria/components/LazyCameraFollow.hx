@@ -44,7 +44,8 @@ class LazyCameraFollow extends Component
 		} else if (_state == "shake") {
 			Luxe.camera.shake(0.2);
 		}
-
-		Luxe.camera.focus(new Vector(camX, camY), dt);
+		
+		//Luxe.camera.focus(new Vector(camX, camY), 0);
+		Luxe.camera.pos.lerp_xy(camX - Luxe.screen.mid.x, camY - Luxe.screen.mid.y, 1);
 	}
 }

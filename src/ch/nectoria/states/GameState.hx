@@ -218,13 +218,12 @@ class GameState extends State
 	{
 
 	} //ontrigger
-
-	override function update(dt:Float)
-	{
+	
+	override function onrender() {
 #if debug
 		NP.drawDebug();
 #end
 		backgroundManager.update();
-	} //update
+	}//onrender
 
 }
