@@ -10,5 +10,6 @@
 	"haxe.displayPort": 6000,
 	"search.exclude": {
 		"bin/**/*.hx": true
-	}
+	},
+	"haxe.enableCodeLens": false
 }
