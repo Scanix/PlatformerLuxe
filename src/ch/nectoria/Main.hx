@@ -41,7 +41,7 @@ class Main extends luxe.Game
 		Luxe.fixed_timestep = true;
 		Luxe.camera.size = new Vector(1280, 720);
 		Luxe.camera.size_mode = SizeMode.fit;
-		
+
 		//Debug Hxcpp
 #if (debug && windows)
 		new debugger.HaxeRemote(true, "localhost");
@@ -63,28 +63,28 @@ class Main extends luxe.Game
 		// load the parcel
 		var parcel = new Parcel({
 			textures : [
-			{ id : "assets/graphics/entity/player32.png" },
-			{ id : "assets/graphics/entity/npc1.png" },
-			{ id : "assets/graphics/entity/enemy_shadow.png" },
-			{ id : "assets/graphics/splash/scanixgames.png" },
-			{ id : "assets/graphics/tilemap.png" },
-			{ id : "assets/tilemap.png" },
-			{ id : "assets/graphics/background/snow_1.png" },
-			{ id : "assets/graphics/object/door_0.png" },
-			{ id : "assets/graphics/props/house_0.png" },
-			{ id : "assets/graphics/entity/interactionSign.png" },
-			{ id : "assets/graphics/object/sign.png" },
-			{ id : "assets/graphics/ui/messagebox.png" },
+				{ id : "assets/graphics/entity/player32.png" },
+				{ id : "assets/graphics/entity/npc1.png" },
+				{ id : "assets/graphics/entity/enemy_shadow.png" },
+				{ id : "assets/graphics/splash/scanixgames.png" },
+				{ id : "assets/graphics/tilemap.png" },
+				{ id : "assets/tilemap.png" },
+				{ id : "assets/graphics/background/snow_1.png" },
+				{ id : "assets/graphics/object/door_0.png" },
+				{ id : "assets/graphics/props/house_0.png" },
+				{ id : "assets/graphics/entity/interactionSign.png" },
+				{ id : "assets/graphics/object/sign.png" },
+				{ id : "assets/graphics/ui/messagebox.png" }
 			],
 			texts : [
-			{ id : "assets/maps/corcelles/level.tmx" },
-			{ id : "assets/maps/house01/level.tmx" }
+				{ id : "assets/maps/corcelles/level.tmx" },
+				{ id : "assets/maps/house01/level.tmx" }
 			],
 			jsons:[
-			{ id:'assets/anim.json' },
-			{ id:'assets/graphics/object/chest.json' },
-			{ id:'assets/graphics/ui/messagebox.json' },
-			{ id:'assets/graphics/particles/smoke.json' }
+				{ id:'assets/anim.json' },
+				{ id:'assets/graphics/object/chest.json' },
+				{ id:'assets/graphics/ui/messagebox.json' },
+				{ id:'assets/graphics/particles/smoke.json' }
 			]
 		});
 		// show a loading bar
@@ -109,6 +109,8 @@ class Main extends luxe.Game
 		Luxe.input.bind_key('right', Key.key_d);
 		Luxe.input.bind_key('right', Key.right);
 		Luxe.input.bind_key('interact', Key.key_x);
+
+		Luxe.input.bind_key('tp', Key.key_o);
 
 		machine = new States({name:'statemachine'});
 		machine.add(new SplashState('splash_state'));
