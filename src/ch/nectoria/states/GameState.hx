@@ -23,7 +23,7 @@ import phoenix.Texture.FilterType;
 
 class GameState extends State
 {
-
+	
 	private var gameScene:Scene;
 	private var player:Player;
 	private var tilemap:TiledMap;
@@ -201,8 +201,8 @@ class GameState extends State
 
 	public function switchLevel(xTo:Int, yTo:Int, levelTo:String):Void {
 		if (currentLvl == levelTo) {
-			player.pos.x = xTo;
-			player.pos.y = yTo;
+			NP.posPlayer.x = xTo;
+			NP.posPlayer.y = yTo;
 		} else {
 			currentLvl = levelTo;
 			NP.posPlayer.x = xTo;
@@ -218,7 +218,19 @@ class GameState extends State
 	{
 
 	} //ontrigger
-	
+
+	override function update(dt:Float) {
+		#if debug
+		NP.drawDebug();
+#end
+		if (Luxe.input.inputdown('tp'))
+		{
+			NP.posPlayer.x = 100;
+			NP.posPlayer.y = 100;
+			NP.player.hitBoxPhys.position = NP.posPlayer.clone();
+		}
+	}
+
 	override function onrender() {
 #if debug
 		NP.drawDebug();
