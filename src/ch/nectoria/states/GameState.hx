@@ -23,7 +23,7 @@ import phoenix.Texture.FilterType;
 
 class GameState extends State
 {
-	
+
 	private var gameScene:Scene;
 	private var player:Player;
 	private var tilemap:TiledMap;
@@ -220,15 +220,14 @@ class GameState extends State
 	} //ontrigger
 
 	override function update(dt:Float) {
-		#if debug
-		NP.drawDebug();
-#end
+#if debug
 		if (Luxe.input.inputdown('tp'))
 		{
 			NP.posPlayer.x = 100;
 			NP.posPlayer.y = 100;
 			NP.player.hitBoxPhys.position = NP.posPlayer.clone();
 		}
+#end
 	}
 
 	override function onrender() {
