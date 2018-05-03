@@ -17,7 +17,7 @@ class Physics extends Sprite implements ICollidable
 	public var speed:Float = 1.0;
 	public var maxVx:Float = 10.0;
 	public var maxVy:Float = 10.0;
-	public var friction:Float = 0.70;
+	public var friction:Float = .7;
 	public var inAir:Bool = true;
 	public var collideLeft:Bool = false;
 	public var collideRight:Bool = false;
@@ -32,14 +32,13 @@ class Physics extends Sprite implements ICollidable
 
 	public function new (pos:Vector)
 	{
-		previousPosition_ = pos;
-		hitBox = Polygon.rectangle(pos.x, pos.y, 8, 23);
-		hitBoxPhys = Polygon.rectangle(pos.x, pos.y, 8, 23);
-
 		super(
 		{
 			pos: pos
 		});
+
+		hitBox = Polygon.rectangle(pos.x, pos.y, 8, 23);
+		hitBoxPhys = Polygon.rectangle(pos.x, pos.y, 8, 23);
 
 		texture = Luxe.resources.texture('assets/graphics/entity/player32.png');
 
@@ -100,7 +99,7 @@ class Physics extends Sprite implements ICollidable
 				offsetX = 0;
 			}
 
-			this.hitBoxPhys.position.x += offsetX;
+			hitBoxPhys.position.x += offsetX;
 			i ++;
 		}
 
@@ -123,7 +122,7 @@ class Physics extends Sprite implements ICollidable
 				offsetY = 0;
 			}
 
-			this.hitBoxPhys.position.y += offsetY;
+			hitBoxPhys.position.y += offsetY;
 			i2++;
 		}
 
@@ -132,7 +131,7 @@ class Physics extends Sprite implements ICollidable
 			vy += gravity;
 		}
 
-		var c_array = Collision.shapeWithShapes(this.hitBoxPhys, NP.level_shape_list);
+		var c_array = Collision.shapeWithShapes(hitBoxPhys, NP.level_shape_list);
 
 		if (c_array.length == 0)
 		{
@@ -151,7 +150,7 @@ class Physics extends Sprite implements ICollidable
 
 			if (c.unitVectorX < 0)
 			{
-				//vx = 0;
+				vx = 0;
 				collideLeft = false;
 				collideRight = true;
 				hasCollideRight = true;
@@ -160,7 +159,7 @@ class Physics extends Sprite implements ICollidable
 
 			if (c.unitVectorX > 0)
 			{
-				//vx = 0;
+				vx = 0;
 				collideLeft = true;
 				collideRight = false;
 				hasCollideRight = false;
@@ -181,18 +180,15 @@ class Physics extends Sprite implements ICollidable
 			{
 				inAir = true;
 			}
-
 		}
 
 		//Update position and show it
-		this.pos.x = this.hitBoxPhys.position.x;
-		this.pos.y = this.hitBoxPhys.position.y - 4;
-		this.hitBox.x = this.pos.x;
-		this.hitBox.y = this.pos.y;
+		pos.x = hitBoxPhys.position.x;
+		pos.y = hitBoxPhys.position.y - 4;
+		hitBox.x = pos.x;
+		hitBox.y = pos.y;
 	}
 
 	public function on_player_collision(is_pc:Bool):Void {
 	}
-
-	private var previousPosition_:Vector;
 }

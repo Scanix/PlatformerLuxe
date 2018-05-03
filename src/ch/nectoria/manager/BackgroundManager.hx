@@ -2,6 +2,7 @@ package ch.nectoria.manager;
 
 import luxe.Sprite;
 import luxe.Vector;
+import luxe.Color;
 import phoenix.Texture.FilterType;
 
 /**
