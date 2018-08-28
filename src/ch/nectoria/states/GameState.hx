@@ -150,7 +150,7 @@ class GameState extends State
 		{
 			for (_object in _group.objects)
 			{
-				switch (_object.)
+				switch (_object.gid)
 				{
 					case 254:
 
