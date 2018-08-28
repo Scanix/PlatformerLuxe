@@ -30,6 +30,8 @@ class MessageBox extends Entity
 	public var isShown:Bool = false;
 	private var paused:Bool = false;
 	private var textTick:UInt = 0;
+	private var _onComplete:Dynamic;
+	private var _onCompleteParams:Array <Dynamic>;
 	private static inline var TEXT_SPEED:UInt = 1;
 
 	public function new ()
@@ -47,7 +49,8 @@ class MessageBox extends Entity
 			size: new Vector(Luxe.screen.width, Luxe.screen.width * (48/256)),
 			texture: Luxe.resources.texture('assets/graphics/ui/messagebox.png'),
 			centered: false,
-			visible: false
+			visible: false,
+			parent: this
 		});
 
 		boxSprite.texture.filter_min = boxSprite.texture.filter_mag = FilterType.nearest;
@@ -65,7 +68,8 @@ class MessageBox extends Entity
 			sdf : true,
 			color : new Color(0, 0, 0, 1).rgb(0x000000),
 			batcher: batcher,
-			visible: false
+			visible: false,
+			parent: this
 		});
 
 		Luxe.renderer.add_batch(batcher);
@@ -76,7 +80,7 @@ class MessageBox extends Entity
 		isShown = true;
 
 		message = text;
-		lines = text.split('*');
+		lines = message.split('*');
 		textSprite.visible = true;
 		boxSprite.visible = true;
 
@@ -107,7 +111,6 @@ class MessageBox extends Entity
 		if (textTick == 0 && !paused && positionText < message.length)
 		{
 			textTick = TEXT_SPEED;
-			//trace(char);
 
 			if (char == '*')
 			{
@@ -180,7 +183,6 @@ class MessageBox extends Entity
 						{
 							typewriter += lines[i];
 							typewriter += '\n';
-							trace(lines[i]);
 						}
 					}
 				}
@@ -192,6 +194,26 @@ class MessageBox extends Entity
 			textTick = 0;
 		}
 	}
+
+	/**
+      Defines a function which will be called when the dialog finishes   
+      @param   handler     The function you would like to be called   
+      @param   parameters      Parameters you would like to pass to the handler function when it is called   
+     */
+    public function onComplete (handler:Dynamic, parameters:Array <Dynamic> = null) {
+
+        _onComplete = handler;
+
+        if (parameters == null) {
+
+            _onCompleteParams = [];
+
+        } else {
+
+            _onCompleteParams = parameters;
+
+        }
+    }
 
 	public function close():Void
 	{
@@ -209,7 +231,11 @@ class MessageBox extends Entity
 		boxSprite.visible = false;
 		paused = false;
 
+		if(_onComplete != null)
+		{
+			Reflect.callMethod(_onComplete, _onComplete, _onCompleteParams);
+		}
+
 		NP.frozenPlayer = false;
 	}
-
 }

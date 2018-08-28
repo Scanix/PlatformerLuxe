@@ -18,6 +18,7 @@ class NPC extends Physics
 	public var text:String;
 
 	private var anim:SpriteAnimation;
+	private var isFrozen:Bool = false;
 
 	public function new (object:TiledObject)
 	{
@@ -48,12 +49,7 @@ class NPC extends Physics
 		{
 			if (Luxe.input.inputpressed('interact'))
 			{
-				var game:GameState = cast(Main.machine.current_state, GameState);
-				var e:MessageBox = cast(game.messageBox, MessageBox);
-
-				if (!e.isShown) {
-					e.show(text);
-				}
+				showDialog();
 			}
 		}
 	}
@@ -61,15 +57,20 @@ class NPC extends Physics
 	public function showDialog():Void {
 		var game:GameState = cast(Main.machine.current_state, GameState);
 		var e:MessageBox = cast(game.messageBox, MessageBox);
+		e.onComplete(function() {
+			isFrozen = false;
+		});
 
 		if (!e.isShown) {
 			e.show(text);
+			isFrozen = true;
 		}
 	}
 
 	override function update(dt:Float)
 	{
-		if (!NP.frozenPlayer) {
+		if(!isFrozen)
+		{
 			if (!hasCollideRight) {
 				moveRight();
 			} else if (!hasCollideLeft) {
