@@ -65,30 +65,34 @@ class BackgroundManager
 	public function update()
 	{
 		if (backgroundsList.length > 0) {
-			if (Luxe.camera.world_point_to_screen(backgroundsList[1].pos).x < 0)
+			if (Luxe.camera.world_point_to_screen(backgroundsList[1].pos).x < backgroundsList[1].size.x * -1)
 			{
 				offset++;
-			} else if (Luxe.camera.world_point_to_screen(backgroundsList[2].pos).x > Luxe.screen.width) {
+			} else if (Luxe.camera.world_point_to_screen(backgroundsList[2].pos).x > Luxe.screen.width + backgroundsList[2].size.x + 150) {
 				offset--;
 			}
 
 			for (background in backgroundsList)
 			{
 				background.pos.x = (offset * (background.size.x)) + (backgroundsList.indexOf(background) * background.size.x) + (Luxe.camera.pos.x * 0.3);
-
-#if debug
-				Luxe.draw.rectangle(
-				{
-					depth:100,
-					x : background.pos.x, y : background.pos.y,
-					w : background.size.x,
-					h : background.size.y,
-					immediate:true,
-					color:new Color(1, 1, 0, 1),
-					batcher:Main.debugBatcher
-				});
-#end
 			}
+		}
+	}
+
+	public function debug()
+	{
+		for (background in backgroundsList)
+		{
+			Luxe.draw.rectangle(
+			{
+				depth:100,
+				x : background.pos.x, y : background.pos.y,
+				w : background.size.x,
+				h : background.size.y,
+				immediate:true,
+				color:new Color(1, 1, 0, 1),
+				batcher:Main.debugBatcher
+			});
 		}
 	}
 }

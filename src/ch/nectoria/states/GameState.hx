@@ -150,7 +150,7 @@ class GameState extends State
 		{
 			for (_object in _group.objects)
 			{
-				switch (_object.gid)
+				switch (_object.)
 				{
 					case 254:
 
@@ -167,7 +167,7 @@ class GameState extends State
 					case 240:
 						EntityManager.addEntity(gameScene, _object);
 
-					case 241:
+					case 0:
 						particlesManager.addParticlesByName(gameScene, _object);
 
 					default:
@@ -220,21 +220,28 @@ class GameState extends State
 	} //ontrigger
 
 	override function update(dt:Float) {
+		backgroundManager.update();
+	}
+
+	override function onrender() {
 #if debug
+		NP.drawDebug();
+		backgroundManager.debug();
 		if (Luxe.input.inputdown('tp'))
 		{
 			NP.posPlayer.x = 100;
 			NP.posPlayer.y = 100;
 			NP.player.hitBoxPhys.position = NP.posPlayer.clone();
 		}
+		Luxe.draw.text({
+			immediate: true,
+			pos: new luxe.Vector(10, 25),
+			point_size: 14,
+			batcher: Main.debugBatcher,
+			depth: 1,
+			text: ' vx : ' + NP.player.vx + ' vy : ' + NP.player.vy,
+		});
 #end
-	}
-
-	override function onrender() {
-#if debug
-		NP.drawDebug();
-#end
-		backgroundManager.update();
 	}//onrender
 
 }
