@@ -167,7 +167,7 @@ class GameState extends State
 					case 240:
 						EntityManager.addEntity(gameScene, _object);
 
-					case 241:
+					case 0:
 						particlesManager.addParticlesByName(gameScene, _object);
 
 					default:
@@ -201,8 +201,8 @@ class GameState extends State
 
 	public function switchLevel(xTo:Int, yTo:Int, levelTo:String):Void {
 		if (currentLvl == levelTo) {
-			player.pos.x = xTo;
-			player.pos.y = yTo;
+			NP.posPlayer.x = xTo;
+			NP.posPlayer.y = yTo;
 		} else {
 			currentLvl = levelTo;
 			NP.posPlayer.x = xTo;
@@ -219,12 +219,29 @@ class GameState extends State
 
 	} //ontrigger
 
-	override function update(dt:Float)
-	{
+	override function update(dt:Float) {
+		backgroundManager.update();
+	}
+
+	override function onrender() {
 #if debug
 		NP.drawDebug();
+		backgroundManager.debug();
+		if (Luxe.input.inputdown('tp'))
+		{
+			NP.posPlayer.x = 100;
+			NP.posPlayer.y = 100;
+			NP.player.hitBoxPhys.position = NP.posPlayer.clone();
+		}
+		Luxe.draw.text({
+			immediate: true,
+			pos: new luxe.Vector(10, 25),
+			point_size: 14,
+			batcher: Main.debugBatcher,
+			depth: 1,
+			text: ' vx : ' + NP.player.vx + ' vy : ' + NP.player.vy,
+		});
 #end
-		backgroundManager.update();
-	} //update
+	}//onrender
 
 }

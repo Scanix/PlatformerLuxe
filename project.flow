@@ -18,7 +18,7 @@
 
   project : {
     name : 'PlatformerLuxe',
-    version : 'Alpha 0.6.1',
+    version : 'Alpha 0.6.2',
     author : 'Alexandre (Scanix) Bianchi',
 
     app : {
@@ -30,10 +30,6 @@
     build : {
       dependencies : {
         luxe : '*',
-        gif : '*',
-        gifcapture : '*',
-        luxe_gifcapture : '*',
-        linc_dialogs : '*',
         "hxcpp-debugger" : '*',
       }
     },

@@ -34,7 +34,7 @@ class NP
 	public static var actor_list:Array<Physics> = [];
 	public static var level_shape_list:Array<luxe.collision.shapes.Shape> = [];
 	public static var entity_shape_list:Array<ICollidable> = [];
-
+	
 	public static function drawDebug():Void
 	{
 		for (shape in level_shape_list)   draw_collider_polygon(cast shape, new Color(0, 1, 0, 1));
@@ -46,16 +46,17 @@ class NP
 
 	public static function draw_collider_polygon(poly:Polygon, col:Color)
 	{
-		var geom = Luxe.draw.poly(
+		Luxe.draw.poly(
 		{
 			solid:false,
 			close:true,
 			depth:100,
 			points:poly.vertices,
 			immediate:true,
-			color:col
+			color:col,
+			batcher:Main.debugBoxBatcher,
+			pos: poly.position.clone()
 		});
-		geom.transform.pos.copy_from(poly.position);
 	}
 
 	//global access

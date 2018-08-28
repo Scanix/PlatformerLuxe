@@ -29,7 +29,7 @@ class Player extends Physics
 		depth = 3.0;
 		hitBox = Polygon.rectangle(pos.x, pos.y, 15, 24);
 		hitBoxPhys = Polygon.rectangle(pos.x, pos.y, 8, 24);
-
+		
 		var anim_object = Luxe.resources.json('assets/anim.json');
 		anim = this.add(new SpriteAnimation({ name: 'SpriteAnimation' }));
 		anim.add_from_json_object(anim_object.asset.json);
@@ -95,12 +95,12 @@ class Player extends Physics
 
 	function apply_input(dt:Float)
 	{
-		if (Luxe.input.inputdown('jump') && !inAir && !interactWith /*&& /*collideBelow*/)
+		if (Luxe.input.inputdown('jump') && !inAir)
 		{
 			this.jump();
 		}
 
-		if (Luxe.input.inputdown('left') && !collideLeft)
+		if (Luxe.input.inputdown('left') /*&& !collideLeft*/)
 		{
 			this.moveLeft();
 		}

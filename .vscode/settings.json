@@ -1,7 +1,7 @@
 {
     "astyle.cmd_options": [ "--mode=cs", "-f", "-U", "-Y", "-o", "-xg", "-xL", "-S", "-t", "-xt1", "-xW", "-z2", "-H" ],
     "haxe.displayConfigurations": [
-        ["bin/windows.build/build.hxml"], //windows build
+        //["bin/.build/build.hxml"], //windows build
         ["bin/web.build/build.hxml"]    //web target
     ],
 	"haxe.diagnosticsPathFilter": "${workspaceRoot}/src",
@@ -10,5 +10,6 @@
 	"haxe.displayPort": 6000,
 	"search.exclude": {
 		"bin/**/*.hx": true
-	}
+	},
+	"haxe.enableCodeLens": false
 }

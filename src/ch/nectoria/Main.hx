@@ -15,20 +15,15 @@ import luxe.Color;
 import phoenix.Camera;
 import phoenix.Batcher;
 
-#if windows
-import luxe.gifcapture.LuxeGifCapture;
-import dialogs.Dialogs;
-#end
-
 class Main extends luxe.Game
 {
 
 	public static var machine : States;
 	public static var fade:Fader;
-	private static var debugBatcher:Batcher;
-#if windows
-	private var capture: LuxeGifCapture;
-#end
+	/** The 'screenSize' batcher for text */
+	public static var debugBatcher:Batcher;
+	/** The 'gameSize' batcher for debug box */
+	public static var debugBoxBatcher:Batcher;
 
 	override function config(config:luxe.GameConfig)
 	{
@@ -43,46 +38,53 @@ class Main extends luxe.Game
 	override function ready()
 	{
 		//FIX FRAMERATE
-		Luxe.core.fixed_frame_time = 1 / 60;
-		Luxe.fixed_frame_time = 1 / 60;
+		Luxe.fixed_timestep = true;
 		Luxe.camera.size = new Vector(1280, 720);
 		Luxe.camera.size_mode = SizeMode.fit;
+
 		//Debug Hxcpp
 #if (debug && windows)
 		new debugger.HaxeRemote(true, "localhost");
 #end
-		//Create DebugBatcher
+
 #if debug
+		//Create DebugBatcher
 		debugBatcher = new Batcher(Luxe.renderer, 'debug_batcher');
 		debugBatcher.view = new Camera();
 		debugBatcher.layer = 11;
+		
+		//Create DebugBoxBatcher
+		debugBoxBatcher = new Batcher(Luxe.renderer, 'debug_box_batcher');
+		debugBoxBatcher.layer = 12;
+		
 		Luxe.renderer.add_batch(debugBatcher);
+		Luxe.renderer.add_batch(debugBoxBatcher);
 #end
 		// load the parcel
 		var parcel = new Parcel({
 			textures : [
-			{ id : "assets/graphics/entity/player32.png" },
-			{ id : "assets/graphics/entity/npc1.png" },
-			{ id : "assets/graphics/entity/enemy_shadow.png" },
-			{ id : "assets/graphics/splash/scanixgames.png" },
-			{ id : "assets/graphics/tilemap.png" },
-			{ id : "assets/tilemap.png" },
-			{ id : "assets/graphics/background/snow_1.png" },
-			{ id : "assets/graphics/object/door_0.png" },
-			{ id : "assets/graphics/props/house_0.png" },
-			{ id : "assets/graphics/entity/interactionSign.png" },
-			{ id : "assets/graphics/object/sign.png" },
-			{ id : "assets/graphics/ui/messagebox.png" },
+				{ id : "assets/graphics/entity/player32.png" },
+				{ id : "assets/graphics/entity/npc1.png" },
+				{ id : "assets/graphics/entity/enemy_shadow.png" },
+				{ id : "assets/graphics/splash/scanixgames.png" },
+				{ id : "assets/graphics/tilemap.png" },
+				{ id : "assets/tilemap.png" },
+				{ id : "assets/graphics/background/snow_1.png" },
+				{ id : "assets/graphics/object/door_0.png" },
+				{ id : "assets/graphics/props/house_0.png" },
+				{ id : "assets/graphics/entity/interactionSign.png" },
+				{ id : "assets/graphics/object/sign.png" },
+				{ id : "assets/graphics/ui/messagebox.png" }
 			],
 			texts : [
-			{ id : "assets/maps/corcelles/level.tmx" },
-			{ id : "assets/maps/house01/level.tmx" }
+				{ id : "assets/maps/corcelles/level.tmx" },
+				{ id : "assets/maps/house01/level.tmx" }
 			],
 			jsons:[
-			{ id:'assets/anim.json' },
-			{ id:'assets/graphics/object/chest.json' },
-			{ id:'assets/graphics/ui/messagebox.json' },
-			{ id:'assets/graphics/particles/smoke.json' }
+				{ id:'assets/anim.json' },
+				{ id:'assets/graphics/object/chest.json' },
+				{ id:'assets/graphics/ui/messagebox.json' },
+				{ id:'assets/graphics/particles/smoke.json' }
 			]
 		});
 		// show a loading bar
@@ -92,22 +94,7 @@ class Main extends luxe.Game
 			background  : new Color(1, 1, 1, 0.85),
 			oncomplete  : assetsLoaded
 		});
-		//GifCapture
-#if windows
-		capture = new LuxeGifCapture({
-			width: Std.int(Luxe.screen.w),
-			height: Std.int(Luxe.screen.h),
-			fps: 30,
-			max_time: 5,
-			quality: GifQuality.High,
-			repeat: GifRepeat.Infinite,
-			oncomplete: function(_bytes:haxe.io.Bytes) {
-				var path = Dialogs.save('Save GIF');
 
-				if (path != '') sys.io.File.saveBytes(path, _bytes);
-			}
-		});
-#end
 		// start loading!
 		parcel.load();
 	}//ready
@@ -122,6 +109,8 @@ class Main extends luxe.Game
 		Luxe.input.bind_key('right', Key.key_d);
 		Luxe.input.bind_key('right', Key.right);
 		Luxe.input.bind_key('interact', Key.key_x);
+
+		Luxe.input.bind_key('tp', Key.key_o);
 
 		machine = new States({name:'statemachine'});
 		machine.add(new SplashState('splash_state'));
@@ -162,31 +151,6 @@ class Main extends luxe.Game
 #end
 	}
 
-	override public function onkeydown(event:KeyEvent) {
-#if windows
-
-		switch (event.keycode) {
-			case Key.key_0:
-				if (capture.state == CaptureState.Paused) {
-					capture.record();
-					trace('recording: active');
-				} else if (capture.state == CaptureState.Recording) {
-					capture.pause();
-					trace('recording: paused');
-				}
-
-			case Key.key_r:
-				capture.reset();
-				trace('recording: reset');
-
-			case Key.key_3:
-				trace('recording: committed');
-				capture.commit();
-		} //switch
-
-#end
-	} //onkeydown
-
 	override function onrender() {
 #if debug
 		Luxe.draw.text({
@@ -195,12 +159,8 @@ class Main extends luxe.Game
 			point_size: 14,
 			batcher: debugBatcher,
 			depth: 1,
-			text: 'FPS : ' + Math.round(1.0/Luxe.debug.dt_average),
+			text: 'FPS : ' + Math.round(1.0/Luxe.debug.dt_average) + ' dt : ' + Luxe.physics.step_delta,
 		});
 #end
-	}
-
-	override function update(dt:Float)
-	{
 	}
 }
