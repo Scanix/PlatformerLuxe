@@ -855,8 +855,7 @@ ch_nectoria_Main.prototype = $extend(luxe_Game.prototype,{
 		return config;
 	}
 	,ready: function() {
-		Luxe.core.fixed_frame_time = 0.0166666666666666664;
-		Luxe.core.fixed_frame_time = 0.0166666666666666664;
+		Luxe.core.fixed_timestep = true;
 		Luxe.camera.set_size(new phoenix_Vector(1280,720));
 		Luxe.camera.set_size_mode(luxe_SizeMode.fit);
 		var parcel = new luxe_Parcel({ textures : [{ id : "assets/graphics/entity/player32.png"},{ id : "assets/graphics/entity/npc1.png"},{ id : "assets/graphics/entity/enemy_shadow.png"},{ id : "assets/graphics/splash/scanixgames.png"},{ id : "assets/graphics/tilemap.png"},{ id : "assets/tilemap.png"},{ id : "assets/graphics/background/snow_1.png"},{ id : "assets/graphics/object/door_0.png"},{ id : "assets/graphics/props/house_0.png"},{ id : "assets/graphics/entity/interactionSign.png"},{ id : "assets/graphics/object/sign.png"},{ id : "assets/graphics/ui/messagebox.png"}], texts : [{ id : "assets/maps/corcelles/level.tmx"},{ id : "assets/maps/house01/level.tmx"}], jsons : [{ id : "assets/anim.json"},{ id : "assets/graphics/object/chest.json"},{ id : "assets/graphics/ui/messagebox.json"},{ id : "assets/graphics/particles/smoke.json"}]});
@@ -872,6 +871,7 @@ ch_nectoria_Main.prototype = $extend(luxe_Game.prototype,{
 		Luxe.input.bind_key("right",100);
 		Luxe.input.bind_key("right",1073741903);
 		Luxe.input.bind_key("interact",120);
+		Luxe.input.bind_key("tp",111);
 		ch_nectoria_Main.machine = new luxe_States({ name : "statemachine"});
 		ch_nectoria_Main.machine.add(new ch_nectoria_states_SplashState("splash_state"));
 		ch_nectoria_Main.machine.add(new ch_nectoria_states_GameState("game_state"));
@@ -903,11 +903,7 @@ ch_nectoria_Main.prototype = $extend(luxe_Game.prototype,{
 			}
 		}
 	}
-	,onkeydown: function(event) {
-	}
 	,onrender: function() {
-	}
-	,update: function(dt) {
 	}
 	,__class__: ch_nectoria_Main
 });
@@ -1045,44 +1041,10 @@ ch_nectoria_NP.drawDebug = function() {
 	}
 };
 ch_nectoria_NP.draw_collider_polygon = function(poly,col) {
-	var geom = Luxe.draw.poly({ solid : false, close : true, depth : 100, points : poly.get_vertices(), immediate : true, color : col});
-	var _this = geom.transform.local.pos;
-	var _other = poly._position;
-	var _x = _other.x;
-	var _y = _other.y;
-	var _z = _other.z;
-	var _w = _other.w;
-	var prev = _this.ignore_listeners;
-	_this.ignore_listeners = true;
-	_this.x = _x;
-	if(!_this._construct) {
-		if(_this.listen_x != null && !_this.ignore_listeners) {
-			_this.listen_x(_x);
-		}
-	}
-	_this.y = _y;
-	if(!_this._construct) {
-		if(_this.listen_y != null && !_this.ignore_listeners) {
-			_this.listen_y(_y);
-		}
-	}
-	_this.z = _z;
-	if(!_this._construct) {
-		if(_this.listen_z != null && !_this.ignore_listeners) {
-			_this.listen_z(_z);
-		}
-	}
-	_this.w = _w;
-	_this.ignore_listeners = prev;
-	if(_this.listen_x != null && !_this.ignore_listeners) {
-		_this.listen_x(_this.x);
-	}
-	if(_this.listen_y != null && !_this.ignore_listeners) {
-		_this.listen_y(_this.y);
-	}
-	if(_this.listen_z != null && !_this.ignore_listeners) {
-		_this.listen_z(_this.z);
-	}
+	var tmp = Luxe.draw;
+	var tmp1 = poly.get_vertices();
+	var _this = poly._position;
+	tmp.poly({ solid : false, close : true, depth : 100, points : tmp1, immediate : true, color : col, batcher : ch_nectoria_Main.debugBoxBatcher, pos : new phoenix_Vector(_this.x,_this.y,_this.z,_this.w)});
 };
 var luxe_ID = function(_name,_id) {
 	if(_id == null) {
@@ -1504,7 +1466,50 @@ ch_nectoria_components_LazyCameraFollow.prototype = $extend(luxe_Component.proto
 		} else if(this._state == "shake") {
 			Luxe.camera.shake(0.2);
 		}
-		Luxe.camera.focus(new phoenix_Vector(camX,camY),dt);
+		var _this2 = Luxe.camera.get_pos();
+		var _dest_x = camX - Luxe.core.screen.get_mid().x;
+		var _dest_y = camY - Luxe.core.screen.get_mid().y;
+		var value = _this2.x;
+		var t = 1;
+		if(t < 0) {
+			t = 0;
+		} else if(t > 1) {
+			t = 1;
+		} else {
+			t = t;
+		}
+		var _x1 = value + t * (_dest_x - value);
+		var value1 = _this2.y;
+		var t1 = 1;
+		if(t1 < 0) {
+			t1 = 0;
+		} else if(t1 > 1) {
+			t1 = 1;
+		} else {
+			t1 = t1;
+		}
+		var _y1 = value1 + t1 * (_dest_y - value1);
+		var prev1 = _this2.ignore_listeners;
+		_this2.ignore_listeners = true;
+		_this2.x = _x1;
+		if(!_this2._construct) {
+			if(_this2.listen_x != null && !_this2.ignore_listeners) {
+				_this2.listen_x(_x1);
+			}
+		}
+		_this2.y = _y1;
+		if(!_this2._construct) {
+			if(_this2.listen_y != null && !_this2.ignore_listeners) {
+				_this2.listen_y(_y1);
+			}
+		}
+		_this2.ignore_listeners = prev1;
+		if(_this2.listen_x != null && !_this2.ignore_listeners) {
+			_this2.listen_x(_this2.x);
+		}
+		if(_this2.listen_y != null && !_this2.ignore_listeners) {
+			_this2.listen_y(_this2.y);
+		}
 	}
 	,init: function() {
 		luxe_Component.prototype.init.call(this);
@@ -3567,16 +3572,15 @@ var ch_nectoria_entities_Physics = function(pos) {
 	this.collideRight = false;
 	this.collideLeft = false;
 	this.inAir = true;
-	this.friction = 0.70;
+	this.friction = .7;
 	this.maxVy = 10.0;
 	this.maxVx = 10.0;
 	this.speed = 1.0;
 	this.vy = 0.0;
 	this.vx = 0.0;
-	this.previousPosition_ = pos;
+	luxe_Sprite.call(this,{ pos : pos});
 	this.hitBox = luxe_collision_shapes_Polygon.rectangle(pos.x,pos.y,8,23);
 	this.hitBoxPhys = luxe_collision_shapes_Polygon.rectangle(pos.x,pos.y,8,23);
-	luxe_Sprite.call(this,{ pos : pos});
 	this.set_texture(Luxe.resources.cache.get("assets/graphics/entity/player32.png"));
 	ch_nectoria_NP.actor_list.push(this);
 	ch_nectoria_NP.entity_shape_list.push(this);
@@ -3679,12 +3683,14 @@ ch_nectoria_entities_Physics.prototype = $extend(luxe_Sprite.prototype,{
 				}
 			}
 			if(c.unitVectorX < 0) {
+				this.vx = 0;
 				this.collideLeft = false;
 				this.collideRight = true;
 				this.hasCollideRight = true;
 				this.hasCollideLeft = false;
 			}
 			if(c.unitVectorX > 0) {
+				this.vx = 0;
 				this.collideLeft = true;
 				this.collideRight = false;
 				this.hasCollideRight = false;
@@ -3752,6 +3758,7 @@ ch_nectoria_entities_Physics.prototype = $extend(luxe_Sprite.prototype,{
 	,__class__: ch_nectoria_entities_Physics
 });
 var ch_nectoria_entities_NPC = function(object) {
+	this.isFrozen = false;
 	ch_nectoria_entities_Physics.call(this,new phoenix_Vector(object.pos.x + 16,object.pos.y - 32));
 	this.set_texture(Luxe.resources.cache.get("assets/graphics/entity/npc1.png"));
 	this.texture.set_filter_min(this.texture.set_filter_mag(9728));
@@ -3777,23 +3784,24 @@ ch_nectoria_entities_NPC.prototype = $extend(ch_nectoria_entities_Physics.protot
 	on_player_collision: function(is_player) {
 		if(is_player) {
 			if(Luxe.input.inputpressed("interact")) {
-				var game = js_Boot.__cast(ch_nectoria_Main.machine.current_state , ch_nectoria_states_GameState);
-				var e = js_Boot.__cast(game.messageBox , ch_nectoria_ui_MessageBox);
-				if(!e.isShown) {
-					e.show(this.text);
-				}
+				this.showDialog();
 			}
 		}
 	}
 	,showDialog: function() {
+		var _gthis = this;
 		var game = js_Boot.__cast(ch_nectoria_Main.machine.current_state , ch_nectoria_states_GameState);
 		var e = js_Boot.__cast(game.messageBox , ch_nectoria_ui_MessageBox);
+		e.onComplete(function() {
+			_gthis.isFrozen = false;
+		});
 		if(!e.isShown) {
 			e.show(this.text);
+			this.isFrozen = true;
 		}
 	}
 	,update: function(dt) {
-		if(!ch_nectoria_NP.frozenPlayer) {
+		if(!this.isFrozen) {
 			if(!this.hasCollideRight) {
 				this.moveRight();
 			} else if(!this.hasCollideLeft) {
@@ -3905,10 +3913,10 @@ ch_nectoria_entities_Player.prototype = $extend(ch_nectoria_entities_Physics.pro
 		}
 	}
 	,apply_input: function(dt) {
-		if(Luxe.input.inputdown("jump") && !this.inAir && !this.interactWith) {
+		if(Luxe.input.inputdown("jump") && !this.inAir) {
 			this.jump();
 		}
-		if(Luxe.input.inputdown("left") && !this.collideLeft) {
+		if(Luxe.input.inputdown("left")) {
 			this.moveLeft();
 		}
 		if(Luxe.input.inputdown("right")) {
@@ -4114,7 +4122,7 @@ ch_nectoria_manager_BackgroundManager.prototype = {
 		}
 		var texture = Luxe.resources.cache.get("assets/graphics/background/" + this.backgroundImage + ".png");
 		texture.set_filter_mag(texture.set_filter_min(9728));
-		var sprite = new luxe_Sprite({ name : "background-" + this.backgroundsList.length, texture : texture, pos : _pos, centered : false});
+		var sprite = new luxe_Sprite({ name : "background-" + this.backgroundsList.length, texture : texture, pos : _pos, centered : false, immediate : true});
 		return sprite;
 	}
 	,destroy: function() {
@@ -4129,9 +4137,9 @@ ch_nectoria_manager_BackgroundManager.prototype = {
 	}
 	,update: function() {
 		if(this.backgroundsList.length > 0) {
-			if(Luxe.camera.world_point_to_screen(this.backgroundsList[1].get_pos()).x < 0) {
+			if(Luxe.camera.world_point_to_screen(this.backgroundsList[1].get_pos()).x < this.backgroundsList[1].size.x * -1) {
 				this.offset++;
-			} else if(Luxe.camera.world_point_to_screen(this.backgroundsList[2].get_pos()).x > Luxe.core.screen.width) {
+			} else if(Luxe.camera.world_point_to_screen(this.backgroundsList[2].get_pos()).x > Luxe.core.screen.width + this.backgroundsList[2].size.x + 150) {
 				this.offset--;
 			}
 			var _g = 0;
@@ -4148,6 +4156,15 @@ ch_nectoria_manager_BackgroundManager.prototype = {
 					}
 				}
 			}
+		}
+	}
+	,debug: function() {
+		var _g = 0;
+		var _g1 = this.backgroundsList;
+		while(_g < _g1.length) {
+			var background = _g1[_g];
+			++_g;
+			Luxe.draw.rectangle({ depth : 100, x : background.get_pos().x, y : background.get_pos().y, w : background.size.x, h : background.size.y, immediate : true, color : new phoenix_Color(1,1,0,1), batcher : ch_nectoria_Main.debugBatcher});
 		}
 	}
 	,__class__: ch_nectoria_manager_BackgroundManager
@@ -4442,6 +4459,9 @@ ch_nectoria_states_GameState.prototype = $extend(luxe_State.prototype,{
 				++_g21;
 				var _g4 = _object.gid;
 				switch(_g4) {
+				case 0:
+					this.particlesManager.addParticlesByName(this.gameScene,_object);
+					break;
 				case 35:
 					break;
 				case 39:
@@ -4452,9 +4472,6 @@ ch_nectoria_states_GameState.prototype = $extend(luxe_State.prototype,{
 					break;
 				case 240:
 					ch_nectoria_manager_EntityManager.addEntity(this.gameScene,_object);
-					break;
-				case 241:
-					this.particlesManager.addParticlesByName(this.gameScene,_object);
 					break;
 				case 254:
 					break;
@@ -4490,14 +4507,14 @@ ch_nectoria_states_GameState.prototype = $extend(luxe_State.prototype,{
 	,switchLevel: function(xTo,yTo,levelTo) {
 		var _gthis = this;
 		if(this.currentLvl == levelTo) {
-			var _this = this.player.get_pos();
+			var _this = ch_nectoria_NP.posPlayer;
 			_this.x = xTo;
 			if(!_this._construct) {
 				if(_this.listen_x != null && !_this.ignore_listeners) {
 					_this.listen_x(xTo);
 				}
 			}
-			var _this1 = this.player.get_pos();
+			var _this1 = ch_nectoria_NP.posPlayer;
 			_this1.y = yTo;
 			if(!_this1._construct) {
 				if(_this1.listen_y != null && !_this1.ignore_listeners) {
@@ -4531,6 +4548,8 @@ ch_nectoria_states_GameState.prototype = $extend(luxe_State.prototype,{
 	,update: function(dt) {
 		this.backgroundManager.update();
 	}
+	,onrender: function() {
+	}
 	,__class__: ch_nectoria_states_GameState
 });
 var ch_nectoria_states_SplashState = function(_name) {
@@ -4546,7 +4565,7 @@ ch_nectoria_states_SplashState.prototype = $extend(luxe_State.prototype,{
 		var _gthis = this;
 		var image = Luxe.resources.cache.get("assets/graphics/splash/scanixgames.png");
 		this.background = new luxe_Sprite({ name : "background", centered : false, size : Luxe.core.screen.get_size(), color : new phoenix_Color(1,1,1,1)});
-		this.versionText = new luxe_Text({ text : "Version Alpha 0.6.1\nNectoProject on Luxe Engine", point_size : 18, pos : new phoenix_Vector(0,0), sdf : true, color : new phoenix_Color(0,0,0,1).rgb(0)});
+		this.versionText = new luxe_Text({ text : "Version Alpha 0.6.2\nNectoProject on Luxe Engine", point_size : 18, pos : new phoenix_Vector(0,0), sdf : true, color : new phoenix_Color(0,0,0,1).rgb(0)});
 		this.splashImage = new luxe_Sprite({ name : "splashImage", texture : image, pos : new phoenix_Vector(Luxe.core.screen.get_mid().x,Luxe.core.screen.get_mid().y), color : new phoenix_Color(1,1,1,1)});
 		ch_nectoria_Main.fade.up(2.5,function() {
 			ch_nectoria_Main.fade.out(1,function() {
@@ -4578,7 +4597,7 @@ var ch_nectoria_ui_MessageBox = function() {
 	_this.renderer.batchers.sort(($_=_this.renderer,$bind($_,$_.sort_batchers)));
 	this.boxAnim = new luxe_components_sprite_SpriteAnimation({ name : "anim"});
 	var anim_data = Luxe.resources.cache.get("assets/graphics/ui/messagebox.json");
-	this.boxSprite = new luxe_Sprite({ batcher : this.batcher, size : new phoenix_Vector(Luxe.core.screen.width,Luxe.core.screen.width * 0.1875), texture : Luxe.resources.cache.get("assets/graphics/ui/messagebox.png"), centered : false, visible : false});
+	this.boxSprite = new luxe_Sprite({ batcher : this.batcher, size : new phoenix_Vector(Luxe.core.screen.width,Luxe.core.screen.width * 0.1875), texture : Luxe.resources.cache.get("assets/graphics/ui/messagebox.png"), centered : false, visible : false, parent : this});
 	this.boxSprite.texture.set_filter_min(this.boxSprite.texture.set_filter_mag(9728));
 	var _this1 = this.boxSprite;
 	_this1.component_count++;
@@ -4586,7 +4605,7 @@ var ch_nectoria_ui_MessageBox = function() {
 	this.boxAnim.add_from_json_object(anim_data.asset.json);
 	this.boxAnim.set_animation("callToAction");
 	this.boxAnim.play();
-	this.textSprite = new luxe_Text({ text : "No Text", point_size : 24, pos : new phoenix_Vector(25,25), sdf : true, color : new phoenix_Color(0,0,0,1).rgb(0), batcher : this.batcher, visible : false});
+	this.textSprite = new luxe_Text({ text : "No Text", point_size : 24, pos : new phoenix_Vector(25,25), sdf : true, color : new phoenix_Color(0,0,0,1).rgb(0), batcher : this.batcher, visible : false, parent : this});
 	Luxe.renderer.add_batch(this.batcher);
 };
 $hxClasses["ch.nectoria.ui.MessageBox"] = ch_nectoria_ui_MessageBox;
@@ -4596,7 +4615,7 @@ ch_nectoria_ui_MessageBox.prototype = $extend(luxe_Entity.prototype,{
 	show: function(text) {
 		this.isShown = true;
 		this.message = text;
-		this.lines = text.split("*");
+		this.lines = this.message.split("*");
 		this.textSprite.set_visible(true);
 		this.boxSprite.set_visible(true);
 		ch_nectoria_NP.frozenPlayer = true;
@@ -4662,7 +4681,6 @@ ch_nectoria_ui_MessageBox.prototype = $extend(luxe_Entity.prototype,{
 						if(_$UInt_UInt_$Impl_$.gte(i,0 + 4 * this.page)) {
 							this.typewriter += this.lines[i];
 							this.typewriter += "\n";
-							haxe_Log.trace(this.lines[i],{ fileName : "MessageBox.hx", lineNumber : 183, className : "ch.nectoria.ui.MessageBox", methodName : "resume"});
 						}
 					}
 				}
@@ -4671,6 +4689,14 @@ ch_nectoria_ui_MessageBox.prototype = $extend(luxe_Entity.prototype,{
 			this.numberLine = 0;
 			this.paused = true;
 			this.textTick = 0;
+		}
+	}
+	,onComplete: function(handler,parameters) {
+		this._onComplete = handler;
+		if(parameters == null) {
+			this._onCompleteParams = [];
+		} else {
+			this._onCompleteParams = parameters;
 		}
 	}
 	,close: function() {
@@ -4687,6 +4713,9 @@ ch_nectoria_ui_MessageBox.prototype = $extend(luxe_Entity.prototype,{
 		this.textSprite.set_visible(false);
 		this.boxSprite.set_visible(false);
 		this.paused = false;
+		if(this._onComplete != null) {
+			this._onComplete.apply(this._onComplete,this._onCompleteParams);
+		}
 		ch_nectoria_NP.frozenPlayer = false;
 	}
 	,init: function() {
