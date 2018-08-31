@@ -221,12 +221,6 @@ class GameState extends State
 			particlesManager.destroy();
 		}
 	}
-
-	public function goOnCombat():Void 
-	{
-		machine.set('fight_state');
-	}
-
 	function ontrigger(collisions:Array<ShapeCollision>)
 	{
 
@@ -246,10 +240,6 @@ class GameState extends State
 			NP.posPlayer.y = 100;
 			NP.player.hitBoxPhys.position = NP.posPlayer.clone();
 		}
-		if (Luxe.input.inputdown('state'))
-		{
-			goOnCombat();
-		}
 		Luxe.draw.text({
 			immediate: true,
 			pos: new luxe.Vector(10, 25),
@@ -260,10 +250,5 @@ class GameState extends State
 		});
 #end
 	}//onrender
-
-	override function onleave<T>(_value:T)
-	{
-		cleanUp();
-	} //onleave
 
 }
