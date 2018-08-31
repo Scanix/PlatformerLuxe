@@ -145,40 +145,43 @@ class Physics extends Sprite implements ICollidable
 		//Check collision
 		for (c in c_array)
 		{
-			hitBoxPhys.position.x += c.separationX;
-			hitBoxPhys.position.y += c.separationY;
-
-			if (c.unitVectorX < 0)
+			if(c.shape1 != c.shape2)
 			{
-				vx = 0;
-				collideLeft = false;
-				collideRight = true;
-				hasCollideRight = true;
-				hasCollideLeft = false;
-			}
+				hitBoxPhys.position.x += c.separationX;
+				hitBoxPhys.position.y += c.separationY;
 
-			if (c.unitVectorX > 0)
-			{
-				vx = 0;
-				collideLeft = true;
-				collideRight = false;
-				hasCollideRight = false;
-				hasCollideLeft = true;
-			}
-
-			if (c.unitVectorY != 0 && Maths.sign(c.unitVectorY) != Maths.sign(vy))
-			{
-				vy = 0;
-
-				if (c.unitVectorY < 0)
+				if (c.unitVectorX < 0)
 				{
-					inAir = false;
-					collideBelow = true;
+					vx = 0;
+					collideLeft = false;
+					collideRight = true;
+					hasCollideRight = true;
+					hasCollideLeft = false;
 				}
-			}
-			else
-			{
-				inAir = true;
+
+				if (c.unitVectorX > 0)
+				{
+					vx = 0;
+					collideLeft = true;
+					collideRight = false;
+					hasCollideRight = false;
+					hasCollideLeft = true;
+				}
+
+				if (c.unitVectorY != 0 && Maths.sign(c.unitVectorY) != Maths.sign(vy))
+				{
+					vy = 0;
+
+					if (c.unitVectorY < 0)
+					{
+						inAir = false;
+						collideBelow = true;
+					}
+				}
+				else
+				{
+					inAir = true;
+				}
 			}
 		}
 
