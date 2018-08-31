@@ -1,9 +1,11 @@
+
 package ch.nectoria.states;
 
 import luxe.States;
 
 class FightState extends State
 {
+	private var isPlayerTurn = true;
 
 	public function new (_name:String)
 	{
@@ -17,6 +19,9 @@ class FightState extends State
 	override function onenter<T>(_value:T)
 	{
 	}
+
+	override function onrender() {
+	}//onrender
 
 	override function onleave<T>(_value:T)
 	{
