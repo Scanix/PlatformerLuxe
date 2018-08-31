@@ -40,7 +40,7 @@ class NPC extends Physics
 
 		text = object.properties["text"];
 
-		speed = .3;
+		speed = .6;
 	}
 
 	override public function on_player_collision(is_player:Bool):Void
@@ -93,9 +93,12 @@ class NPC extends Physics
 		{
 			anim.animation = 'jump';
 		}
-		else
+		else if(isFrozen)
 		{
-			anim.animation = 'talk';
+			if (anim.animation != 'talk')
+			{
+				anim.animation = 'talk';
+			}
 		}
 
 		super.update(dt);
