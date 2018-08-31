@@ -9,6 +9,7 @@ import ch.nectoria.components.LazyCameraFollow;
 import ch.nectoria.entities.Player;
 import ch.nectoria.entities.Door;
 import ch.nectoria.entities.Sign;
+import ch.nectoria.collectibles.items.Item;
 
 import luxe.Entity;
 import luxe.States;
@@ -36,7 +37,9 @@ class GameState extends State
 
 	public var messageBox:Entity;
 
-	var anim : SpriteAnimation;
+	private var anim:SpriteAnimation;
+
+	private var itemTest:Item;
 
 	public function new (_name:String)
 	{
@@ -104,26 +107,7 @@ class GameState extends State
 
 	private function loadLevel(id:String):Void
 	{
-		//for (a in NP.actor_list) a.destroy();
-		for (a in NP.entity_shape_list) cast(a, Sprite).destroy();
-
-		NP.actor_list = [];
-		NP.entity_shape_list = [];
-		NP.level_shape_list = [];
-
-		//Destroy Manager
-		if (tilemap != null) {
-			tilemap.destroy();
-			tilemapFront.destroy();
-		}
-
-		if (backgroundManager != null) {
-			backgroundManager.destroy();
-		}
-
-		if (particlesManager != null) {
-			particlesManager.destroy();
-		}
+		cleanUp();
 
 		var level:String = getLevelData(id);
 		trace("Loading level: " + level);
@@ -199,7 +183,8 @@ class GameState extends State
 		});
 	}//loadLevel
 
-	public function switchLevel(xTo:Int, yTo:Int, levelTo:String):Void {
+	public function switchLevel(xTo:Int, yTo:Int, levelTo:String):Void 
+	{
 		if (currentLvl == levelTo) {
 			NP.posPlayer.x = xTo;
 			NP.posPlayer.y = yTo;
@@ -214,6 +199,28 @@ class GameState extends State
 		}
 	}
 
+	private function cleanUp():Void
+	{
+		for (a in NP.entity_shape_list) cast(a, Sprite).destroy();
+
+		NP.actor_list = [];
+		NP.entity_shape_list = [];
+		NP.level_shape_list = [];
+
+		//Destroy Manager
+		if (tilemap != null) {
+			tilemap.destroy();
+			tilemapFront.destroy();
+		}
+
+		if (backgroundManager != null) {
+			backgroundManager.destroy();
+		}
+
+		if (particlesManager != null) {
+			particlesManager.destroy();
+		}
+	}
 	function ontrigger(collisions:Array<ShapeCollision>)
 	{
 
