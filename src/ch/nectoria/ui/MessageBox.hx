@@ -196,13 +196,13 @@ class MessageBox extends Entity
 	}
 
 	/**
-      Defines a function which will be called when the dialog finishes   
-      @param   handler     The function you would like to be called   
-      @param   parameters      Parameters you would like to pass to the handler function when it is called   
+     * Defines a function which will be called when the dialog finishes   
+     * @param   handler     The function you would like to be called   
+     * @param   parameters      Parameters you would like to pass to the handler function when it is called   
      */
-    public function onComplete (handler:Dynamic, parameters:Array <Dynamic> = null) {
-
-        _onComplete = handler;
+    public function onComplete(handler:Dynamic, parameters:Array <Dynamic> = null):Void
+	{
+		_onComplete = handler;
 
         if (parameters == null) {
 
