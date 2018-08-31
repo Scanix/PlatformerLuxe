@@ -1,7 +1,6 @@
 package ch.nectoria;
 
-import ch.nectoria.states.SplashState;
-import ch.nectoria.states.GameState;
+import ch.nectoria.states.*;
 import ch.nectoria.components.Fader;
 
 import luxe.Camera.SizeMode;
@@ -111,11 +110,12 @@ class Main extends luxe.Game
 		Luxe.input.bind_key('interact', Key.key_x);
 
 		Luxe.input.bind_key('tp', Key.key_o);
+		Luxe.input.bind_key('state', Key.key_i);
 
 		machine = new States({name:'statemachine'});
 		machine.add(new SplashState('splash_state'));
 		machine.add(new GameState('game_state'));
-		//machine.add(new FightState('fight_state'));
+		machine.add(new FightState('fight_state'));
 		
 		Luxe.camera.zoom = 1;
 		fade = Luxe.camera.add(new Fader({ name:'fade' }));

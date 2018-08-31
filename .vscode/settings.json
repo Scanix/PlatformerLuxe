@@ -1,15 +1,17 @@
 {
     "astyle.cmd_options": [ "--mode=cs", "-f", "-U", "-Y", "-o", "-xg", "-xL", "-S", "-t", "-xt1", "-xW", "-z2", "-H" ],
     "haxe.displayConfigurations": [
-        //["bin/.build/build.hxml"], //windows build
-        ["bin/web.build/build.hxml"]    //web target
+		["bin/windows.build/build.hxml"], //windows build
+		["bin/web.build/build.hxml"]    //web target
     ],
 	"haxe.diagnosticsPathFilter": "${workspaceRoot}/src",
 	"haxe.displayServer": {
+		"arguments": ["-v"]
 	},
 	"haxe.displayPort": 6000,
 	"search.exclude": {
 		"bin/**/*.hx": true
 	},
-	"haxe.enableCodeLens": false
+	"haxe.enableCodeLens": false,
+	"editor.insertSpaces": false
 }

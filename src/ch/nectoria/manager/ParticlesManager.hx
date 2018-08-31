@@ -44,7 +44,7 @@ class ParticlesManager
 		particlesSys.add_emitter(particles);
 		emitter = particlesSys.get('prototyping');
 		emitter.init();
-		emitter.pos.copy_from(pos);
+		emitter.pos.copy_from(pos.add(new Vector(2,14)));
 	}
 
 	public function loadFromJSON(obj:TiledObject, json:Dynamic) {
