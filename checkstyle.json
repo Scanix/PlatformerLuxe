@@ -167,6 +167,23 @@
             "props": {
                 "severity": "ERROR"
             }
+        },
+        {
+            "type": "CyclomaticComplexity",
+            "props": {
+                "thresholds": [{
+                        "complexity": 20,
+                        "severity": "WARNING"
+                    },
+                    {
+                        "complexity": 25,
+                        "severity": "ERROR"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "DocCommentStyle"
         }
     ]
 }
