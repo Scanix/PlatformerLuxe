@@ -2,7 +2,9 @@ package ch.nectoria.entities;
 
 import ch.nectoria.states.GameState;
 import ch.nectoria.ui.MessageBox;
+import ch.nectoria.interfaces.ICollidable;
 
+import luxe.Sprite;
 import luxe.Vector;
 import luxe.importers.tiled.TiledObjectGroup.TiledObject;
 import luxe.collision.shapes.Polygon;
@@ -13,12 +15,26 @@ import phoenix.Texture.FilterType;
  * ...
  * @author Alexandre Bianchi, Scanix
  */
+
+/**
+ * The types of Move a NPC perform.
+ */
+@:enum abstract NPCMoveTypes(Int) from Int to Int
+{
+    var Idle = value(0);
+    var Walking = value(1);
+    var Running = value(2);
+
+    static inline function value(index:Int) return 1 << index; 
+} 
+
 class NPC extends Physics
 {
 	public var text:String;
 
 	private var anim:SpriteAnimation;
 	private var isFrozen:Bool = false;
+	private var speechBubble:Sprite;
 
 	public function new (object:TiledObject)
 	{
@@ -40,17 +56,27 @@ class NPC extends Physics
 
 		text = object.properties["text"];
 
-		speed = .6;
+		speed = .3;
+
+		//speechBubble
+		var image = Luxe.resources.texture('assets/graphics/entity/speechBubble.png');
+		image.filter_min = image.filter_mag = FilterType.nearest;
+
+		_add_child(speechBubble = new Sprite({
+			name: 'speechBubble',
+			texture: image,
+			pos: new Vector(this.pos.x, this.pos.y),
+			size: new Vector(16, 16),
+			depth: 5,
+			visible: false
+		}));
 	}
 
 	override public function on_player_collision(is_player:Bool):Void
 	{
-		if (is_player)
+		if (Luxe.input.inputpressed('interact'))
 		{
-			if (Luxe.input.inputpressed('interact'))
-			{
-				showDialog();
-			}
+			showDialog();
 		}
 	}
 
@@ -99,6 +125,15 @@ class NPC extends Physics
 			{
 				anim.animation = 'talk';
 			}
+		}
+
+		speechBubble.pos.x = this.pos.x;
+		speechBubble.pos.y = this.pos.y - 16;
+
+		if (interactWithPlayer && !isFrozen) {
+			speechBubble.visible = true;
+		} else {
+			speechBubble.visible = false;
 		}
 
 		super.update(dt);

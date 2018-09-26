@@ -73,7 +73,8 @@ class Main extends luxe.Game
 				{ id : "assets/graphics/props/house_0.png" },
 				{ id : "assets/graphics/entity/interactionSign.png" },
 				{ id : "assets/graphics/object/sign.png" },
-				{ id : "assets/graphics/ui/messagebox.png" }
+				{ id : "assets/graphics/ui/messagebox.png" },
+				{ id : "assets/graphics/entity/speechBubble.png"}
 			],
 			texts : [
 				{ id : "assets/maps/corcelles/level.tmx" },
