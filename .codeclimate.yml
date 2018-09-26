@@ -1,6 +1,3 @@
-engines:
+plugins:
  haxe-checkstyle:
     enabled: true
-ratings:
-  paths:
-    - "src/**.hx"
