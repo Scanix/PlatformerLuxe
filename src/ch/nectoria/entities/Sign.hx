@@ -19,6 +19,7 @@ class Sign extends Sprite implements ICollidable
 {
 	public var hitBox:Shape;
 	public var text:String;
+	public var interactWithPlayer:Bool;
 
 	public function new (object:TiledObject)
 	{

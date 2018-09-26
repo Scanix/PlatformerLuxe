@@ -26,6 +26,7 @@ class Physics extends Sprite implements ICollidable
 	public var hasCollideRight:Bool = false;
 	public var hasCollideLeft:Bool = false;
 	public var gravity:Float = 0.5;
+	public var interactWithPlayer:Bool;
 
 	public var hitBox:Shape;
 	public var hitBoxPhys:Shape;

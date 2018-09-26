@@ -28,13 +28,13 @@ class ColliderComp extends Component
 			if (c != null)
 			{
 				if (entity == NP.player) {
-					NP.player.interactWith = true;
+					col_entity.interactWithPlayer = true;
 					col_entity.on_player_collision(entity == NP.player);
 				}
 
 				break;
 			} else {
-				NP.player.interactWith = false;
+				col_entity.interactWithPlayer = false;
 			}
 
 		}

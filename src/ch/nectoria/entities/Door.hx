@@ -23,6 +23,7 @@ class Door extends Sprite implements ICollidable
 	public var levelTo(default, null):String;
 	public var xTo(default, null):Int;
 	public var yTo(default, null):Int;
+	public var interactWithPlayer:Bool;
 
 	public function new (object:TiledObject)
 	{
